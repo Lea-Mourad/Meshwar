@@ -16,7 +16,7 @@ const HomePage = () => {
           muted 
           playsInline
         >
-          <source src="/videos/lebanon.mp4" type="video/mp4" />
+          <source src="/lebanon.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
