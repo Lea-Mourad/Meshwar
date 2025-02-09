@@ -28,7 +28,7 @@ const HomePage = () => {
         
         
         <div className="flex space-x-6">
-          <Link to="/login" className="px-10 py-5 text-white bg-[#984949] text-xl font-bold rounded-lg hover:bg-[#7c3b3b] transition duration-300">
+          <Link to="/loginpage" className="px-10 py-5 text-white bg-[#984949] text-xl font-bold rounded-lg hover:bg-[#7c3b3b] transition duration-300">
             Log In
           </Link>
           <Link to="/signup" className="px-10 py-5 text-white bg-[#984949] text-xl font-bold rounded-lg hover:bg-[#7c3b3b] transition duration-300">
