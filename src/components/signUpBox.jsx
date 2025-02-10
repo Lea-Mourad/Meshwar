@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const SignInBox = () => {
+const SignUpBox = () => {
     const [text, setText] = useState("Ahla w Sahla!");
     const [fadeClass, setFadeClass] = useState("fade-in");
+    const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(""); // State for error message
@@ -15,7 +16,7 @@ const SignInBox = () => {
 
             setTimeout(() => {
                 setText((prevText) =>
-                    prevText === "Ahla w Sahla!" ? "Welcome Back!" : "Ahla w Sahla!"
+                    prevText === "Ahla w Sahla!" ? "Welcome!" : "Ahla w Sahla!"
                 );
                 setFadeClass("fade-in");
             }, 1000);
@@ -24,13 +25,13 @@ const SignInBox = () => {
         return () => clearInterval(interval);
     }, []);
 
-    const handleSignIn = () => {
-        // Check if both fields are filled
-        if (!username || !password) {
-            setError("Please enter both username and password.");
+    const handleSignUp = () => {
+        // Check if all fields are filled
+        if (!email || !username || !password) {
+            setError("Please enter all fields.");
         } else {
-            setError(""); // Clear error if both fields are filled
-            navigate("/"); // Redirect if both fields are filled
+            setError(""); // Clear error if all fields are filled
+            navigate("/"); // Redirect if all fields are filled (e.g., to homepage)
         }
     };
 
@@ -48,7 +49,7 @@ const SignInBox = () => {
                 </span>
             </div>
 
-            {/* Error Message Above Inputs */}
+            {/* Error Message Above Email Field */}
             {error && (
                 <div className="text-[#B24F4F] text-center mb-4">
                     <span>{error}</span>
@@ -56,6 +57,13 @@ const SignInBox = () => {
             )}
 
             <div className="mt-36">
+                <input
+                    type="email"
+                    placeholder="Email"
+                    className="w-full border-b-2 border-[#B24F4F] py-2 mb-10 text-xl font-abel bg-transparent"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
                 <input
                     type="text"
                     placeholder="Username"
@@ -72,28 +80,25 @@ const SignInBox = () => {
                 />
             </div>
 
-            <div className="absolute right-10 top-1/5 transform -translate-y-1/2 text-sm text-[#B24F4F] font-abel">
-                <a href="/forgot-password" className="hover:underline">Forgot Password?</a>
-            </div>
-
-            {/* Sign In Button */}
+            {/* Sign Up Button */}
             <button
-                onClick={handleSignIn}
-                className={`absolute top-[400px] left-1/2 transform -translate-x-1/2 w-1/4 bg-[#984949] text-white text-xl font-abel font-semibold rounded-lg py-2 opacity-100 z-20 ${
-                    !username || !password ? "cursor-not-allowed" : "hover:bg-[#B24F4F]"
+                onClick={handleSignUp}
+                className={`absolute top-[438px] left-1/2 transform -translate-x-1/2 w-1/4 bg-[#984949] text-white text-xl font-abel font-semibold rounded-lg py-2 opacity-100 z-20 ${
+                    !email || !username || !password ? "cursor-not-allowed" : "hover:bg-[#B24F4F]"
                 }`}
+               
             >
-                Log In
+                Sign Up
             </button>
 
-            <div className="absolute top-[470px] left-1/2 transform -translate-x-1/2 text-lg font-abel text-[#B24F4F] text-center z-30">
-                <span>Don't have an Account? </span>
-                <a href="/signuppage" className="text-[#B24F4F] font-semibold hover:underline">
-                    Sign Up
+            <div className="absolute top-[500px] left-1/2 transform -translate-x-1/2 text-lg font-abel text-[#B24F4F] text-center z-30">
+                <span>Already have an Account? </span>
+                <a href="/loginpage" className="text-[#B24F4F] font-semibold hover:underline">
+                    Log In
                 </a>
             </div>
         </div>
     );
 };
 
-export default SignInBox;
+export default SignUpBox;
