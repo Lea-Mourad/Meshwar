@@ -5,6 +5,8 @@ import Login from "./pages/loginpage"
 import ForgotPsswordPage from './pages/forgotpasswordpage'
 import SignUp from './pages/signuppage'
 import ExploreLebanon from "./components/abouLeb";
+import ChangePasswordPage from "./pages/changepasswordpage";
+
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPsswordPage />} />
         <Route path="/signuppage" element={<SignUp />} />
         <Route path="/aboutLebanon" element={<ExploreLebanon />} />
+        <Route path="/change-password" element={<ChangePasswordPage />} />
       </Routes>
     </Router>
   );
