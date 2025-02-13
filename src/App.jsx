@@ -4,6 +4,7 @@ import HomePage from "./pages/homepage";
 import Login from "./pages/loginpage"
 import ForgotPsswordPage from './pages/forgotpasswordpage'
 import SignUp from './pages/signuppage'
+import ExploreLebanon from "./components/abouLeb";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/loginpage" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPsswordPage />} />
         <Route path="/signuppage" element={<SignUp />} />
+        <Route path="/aboutLebanon" element={<ExploreLebanon />} />
       </Routes>
     </Router>
   );
