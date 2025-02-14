@@ -155,11 +155,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = 'authenticate.User'
 
 
-# Verification email related settings
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.postmarkapp.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "810dd24e-bb2f-47de-b880-f7ef125bb525" 
-EMAIL_HOST_PASSWORD = "810dd24e-bb2f-47de-b880-f7ef125bb525" 
-DEFAULT_FROM_EMAIL = "ln_tebbal@esi.dz" 
+# Verification email related settings, deprecated, we will be using postman API for now
+    # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    # EMAIL_HOST = "smtp.postmarkapp.com"
+    # EMAIL_PORT = 587
+    # EMAIL_USE_TLS = True
+    # EMAIL_HOST_USER = "810dd24e-bb2f-47de-b880-f7ef125bb525" 
+    # EMAIL_HOST_PASSWORD = "810dd24e-bb2f-47de-b880-f7ef125bb525" 
+    # DEFAULT_FROM_EMAIL = "ln_tebbal@esi.dz" 
+
+# Postman API settings 
+POSTMARK_API_KEY = '810dd24e-bb2f-47de-b880-f7ef125bb525'
+DEFAULT_FROM_EMAIL = 'nst11@mail.aub.edu'
