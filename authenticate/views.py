@@ -51,3 +51,20 @@ class EmailVerificationView(generics.GenericAPIView):
         user.save()
         verification.delete()  # Delete the verification code after use
         return Response({"message": "Email verified successfully!"}, status=status.HTTP_200_OK)
+
+
+class LoginView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+
+        # Generate JWT tokens
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            "message": "Login successful!",
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        }, status=status.HTTP_200_OK)

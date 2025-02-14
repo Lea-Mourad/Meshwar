@@ -5,6 +5,7 @@ import uuid
 from datetime import timedelta
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth import authenticate
 
 
 User = get_user_model()
@@ -45,7 +46,6 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, data):
         email = data.get('email')
         password = data.get('password')
-
         if email and password:
             # Authenticate the user
             user = authenticate(request=self.context.get('request'), email=email, password=password)

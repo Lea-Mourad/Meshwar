@@ -41,11 +41,19 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     "drf_yasg", # Swagger testing tool
     'rest_framework', #Django rest framework
+    'rest_framework_simplejwt', # tokenization framework for login api
     "api",  #testing api
     "authenticate", #Authentication and user related api
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
