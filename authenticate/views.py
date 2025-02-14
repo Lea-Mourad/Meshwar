@@ -4,6 +4,8 @@ from django.shortcuts import render
 
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 from datetime import timedelta
 from django.utils import timezone
 from .serializers import UserRegistrationSerializer, EmailVerificationSerializer,LoginSerializer
@@ -68,3 +70,24 @@ class LoginView(generics.GenericAPIView):
             "refresh": str(refresh),
             "access": str(refresh.access_token),
         }, status=status.HTTP_200_OK)
+
+
+# Logout view
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()  # Blacklist the refresh token
+            return Response({"message": "Logout successful!"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+# Example of using authenticated permission to protect access, useful later on
+class ProtectedView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response({"message": "This is a protected view!"})

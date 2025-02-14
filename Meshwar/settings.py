@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     "drf_yasg", # Swagger testing tool
     'rest_framework', #Django rest framework
     'rest_framework_simplejwt', # tokenization framework for login api
+    'rest_framework_simplejwt.token_blacklist', # for logout purposes
+
     "api",  #testing api
     "authenticate", #Authentication and user related api
 ]
@@ -175,3 +177,14 @@ AUTH_USER_MODEL = 'authenticate.User'
 # Postman API settings 
 POSTMARK_API_KEY = '810dd24e-bb2f-47de-b880-f7ef125bb525'
 DEFAULT_FROM_EMAIL = 'nst11@mail.aub.edu'
+
+
+#Tokenization settings
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Access token validity
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Refresh token validity
+    'ROTATE_REFRESH_TOKENS': True,                  # Rotate refresh tokens
+    'BLACKLIST_AFTER_ROTATION': True,               # Blacklist old refresh tokens
+}
