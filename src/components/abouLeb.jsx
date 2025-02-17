@@ -29,13 +29,14 @@ const ExploreLebanon = () => {
     ],
     history: {
       title: "History",
-      text: "Lebanon’s history spans thousands of years, making it one of the most historically rich destinations in the world. As the homeland of the ancient Phoenicians, Lebanon played a crucial role in the development of the first alphabet. The country has been shaped by Roman, Byzantine, Ottoman, and French influences, each leaving behind remarkable landmarks such as the colossal Roman temples of Baalbek, the ancient city of Byblos—one of the world’s oldest continuously inhabited cities—and the majestic ruins of Anjar.",
+      text: "Lebanon's history spans thousands of years and is rich in ancient influences. As the homeland of the Phoenicians, it contributed to the development of the first alphabet. The country has been shaped by Roman, Byzantine, Ottoman, and French legacies, seen in landmarks like the Roman temples of Baalbek, the ancient city of Byblos, and the ruins of Anjar",
       image: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Temple_of_Bacchus%2C_Baalbek%2C_Lebanon_%2849890013476%29.jpg",
     },
     cuisine: {
       title: "Lebanese Cuisine",
-      text: "Famous dishes like hummus, tabbouleh, and kibbeh make Lebanese food beloved worldwide.",
-     
+      text: "Lebanese cuisine is a tasty mix of fresh ingredients and bold flavors! From the famous man’ousheh to refreshing tabbouleh and creamy hummus, each dish is a delight. Kibbeh, a savory blend of meat, bulgur, and spices, is a crowd favorite—whether fried or raw! It's all about balance—spices, herbs, and warm hospitality in every bite. A true taste of Lebanon’s food culture!",
+     image:"https://media.istockphoto.com/id/1271870386/photo/arabic-traditional-cuisine-middle-eastern-meze-with-pita-olives-colorful-hummus-falafel.webp?a=1&b=1&s=612x612&w=0&k=20&c=tVtQp8Rrx0IoHc_NG5KuWUDbno4QQFxrH7uhPPgsLec="
+
     },
     culture: {
       title: "Culture and Traditions",
@@ -125,11 +126,8 @@ const ExploreLebanon = () => {
             <p className="mt-4 text-lg text-gray-700">{content[activeSection].text}</p>
           </div>
           {/* Right Image for History */}
-          {activeSection === "history" && (
-            <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-[30%] hidden lg:block">
-             
-            </div>
-          )}
+       
+
         </div>
       )}
     </div>
