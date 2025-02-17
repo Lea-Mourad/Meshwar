@@ -6,6 +6,8 @@ import ForgotPsswordPage from './pages/forgotpasswordpage'
 import SignUp from './pages/signuppage'
 import ExploreLebanon from "./components/abouLeb";
 import ChangePasswordPage from "./pages/changepasswordpage";
+import EventsPage from "./pages/EventsPage";
+
 
 
 function App() {
@@ -18,6 +20,7 @@ function App() {
         <Route path="/signuppage" element={<SignUp />} />
         <Route path="/aboutLebanon" element={<ExploreLebanon />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
+        <Route path="/events" element={<EventsPage />} />
       </Routes>
     </Router>
   );

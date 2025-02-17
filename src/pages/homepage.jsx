@@ -3,25 +3,16 @@ import Header from "../components/header";
 import Footer from "../components/footer";
 import { Link } from "react-router-dom";
 import ExploreLebanon from "../components/abouLeb";
+import Slideshow from "../components/Slideshow";
+import PopularDestination from "../components/popularDestinations"
+
 const HomePage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-       {/* Video Section - No longer full screen height */}
-       <div className="relative w-full h-[80vh]">
-        <video 
-          className="absolute top-0 left-0 w-full h-full object-cover"
-          autoPlay 
-          loop 
-          muted 
-          playsInline
-        >
-          <source src="/lebanon.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
-
-
+       {/* Full-Width Slideshow */}
+       <Slideshow />
+      
       {/* Login & Sign Up Section */}
       <div className="flex flex-col items-center justify-center py-20 bg-white">
         <h2 className="text-5xl font-bold mb-6">Explore Lebanon</h2>
@@ -51,7 +42,9 @@ const HomePage = () => {
           </button>
           </div>
       </div>
-     <ExploreLebanon/>
+      <PopularDestination/>
+      
+      <ExploreLebanon />
       <Footer />
     </div>
   );
