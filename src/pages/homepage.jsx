@@ -10,9 +10,23 @@ const HomePage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-       {/* Full-Width Slideshow */}
-       <Slideshow />
-      
+   {/* Full-Width Background Video */}
+<div className="relative w-screen h-[500px] overflow-hidden mt-20">
+  <video
+    className="w-full h-full object-cover"
+    autoPlay
+    loop
+    muted
+    playsInline
+  >
+    <source src="/lebanon.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  {/* Credits Text */}
+  <p className="absolute bottom-4 right-6 text-white bg-black bg-opacity-50 px-3 py-1 text-sm rounded-md italic">
+    "Rise Above Lebanon" <span className="font-semibold">-@Two Wheels Across</span>
+  </p>
+</div>
       {/* Login & Sign Up Section */}
       <div className="flex flex-col items-center justify-center py-20 bg-white">
         <h2 className="text-5xl font-bold mb-6">Explore Lebanon</h2>

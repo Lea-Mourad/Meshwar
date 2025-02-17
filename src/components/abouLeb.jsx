@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import TravelTips from "./Traveltips";
 
 const ExploreLebanon = () => {
   const [activeSection, setActiveSection] = useState("funfacts");
