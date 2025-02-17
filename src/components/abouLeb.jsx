@@ -29,24 +29,32 @@ const ExploreLebanon = () => {
     ],
     history: {
       title: "History",
-      text: "Lebanon's history spans thousands of years and is rich in ancient influences. As the homeland of the Phoenicians, it contributed to the development of the first alphabet. The country has been shaped by Roman, Byzantine, Ottoman, and French legacies, seen in landmarks like the Roman temples of Baalbek, the ancient city of Byblos, and the ruins of Anjar",
+      text: "Lebanon's history spans thousands of years and is rich in ancient influences. As the homeland of the Phoenicians, it contributed to the development of the first alphabet. The country has been shaped by Roman, Byzantine, Ottoman, and French legacies, seen in landmarks like the Roman temples of Baalbek, the ancient city of Byblos, and the ruins of Anjar.",
       image: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Temple_of_Bacchus%2C_Baalbek%2C_Lebanon_%2849890013476%29.jpg",
     },
     cuisine: {
       title: "Lebanese Cuisine",
       text: "Lebanese cuisine is a tasty mix of fresh ingredients and bold flavors! From the famous man’ousheh to refreshing tabbouleh and creamy hummus, each dish is a delight. Kibbeh, a savory blend of meat, bulgur, and spices, is a crowd favorite—whether fried or raw! It's all about balance—spices, herbs, and warm hospitality in every bite. A true taste of Lebanon’s food culture!",
-     image:"https://media.istockphoto.com/id/1271870386/photo/arabic-traditional-cuisine-middle-eastern-meze-with-pita-olives-colorful-hummus-falafel.webp?a=1&b=1&s=612x612&w=0&k=20&c=tVtQp8Rrx0IoHc_NG5KuWUDbno4QQFxrH7uhPPgsLec="
-
+      image: "https://media.istockphoto.com/id/1271870386/photo/arabic-traditional-cuisine-middle-eastern-meze-with-pita-olives-colorful-hummus-falafel.webp?a=1&b=1&s=612x612&w=0&k=20&c=tVtQp8Rrx0IoHc_NG5KuWUDbno4QQFxrH7uhPPgsLec=",
     },
     culture: {
       title: "Culture and Traditions",
-      text: "Lebanese culture blends ancient traditions with modern influences, from music to fashion.",
-    
+      text: "Lebanese culture is shaped by its rich traditions, diverse religions, and strong sense of hospitality. The dabke dance embodies the community spirit, while family and tradition remain at the heart of daily life. In Lebanon, guests are welcomed with open arms, where sharing food and offering small gifts are simple yet meaningful gestures that show respect and appreciation. So Don’t hesitate to interact with the locals or ask for guidance — they’re always happy to help and share their culture.",
+      image:"https://kaleela.com/Content/BlogImages/small/lebanese-clothing-why-its-a-reflection-of-lebanese-traditions.png"
     },
     traveltips: {
       title: "Travel Tips",
-      text: "Discover the best places to visit, eat, and stay in Lebanon.",
-    
+      text: (
+        <>
+          <p>Planning a trip to Lebanon? Familiarize yourself with the currency situation. The exchange rate fluctuates a lot, originally 1500 pounds to the dollar, now around 88,000. Keep a converter app on hand for the latest rates. Having both dollars and Lebanese pounds is recommended.Some phrases to know: </p>
+          <ul className="list-disc ml-6 mt-4">
+            <li>Marhaba: Hi</li>
+            <li>Kifak: How are you?</li>
+            <li>Sahtain: Enjoy your meal</li>
+          </ul>
+        </>
+      ),
+      image: "https://media.istockphoto.com/id/1326101931/photo/lebanese-lira-currency-with-100-usd.jpg?s=612x612&w=0&k=20&c=FO-qnsro4mY7ya-5QW3mpX8f_JqCmVmApEbNYxh9Xxg=",
     },
   };
 
@@ -59,7 +67,7 @@ const ExploreLebanon = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center py-20 bg-white relative">
+    <div className="flex flex-col items-center justify-center py-20 bg-white relative pb-20">
       {/* Background Image */}
       <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: `url(https://i0.wp.com/tayaramuse.com/wp-content/uploads/2020/10/Beirut_Lebanon-70.jpg?resize=1300%2C650&ssl=1)` }}></div>
 
@@ -106,7 +114,7 @@ const ExploreLebanon = () => {
               ▶
             </button>
           </div>
-          <p className="mt-4 ont-abel font-extrabold text-center">
+          <p className="mt-4 font-abel font-extrabold text-center">
             {content.funfacts[currentSlide].text}
           </p>
         </div>
@@ -125,11 +133,10 @@ const ExploreLebanon = () => {
             <h3 className="text-3xl font-semibold text-[#984949]">{content[activeSection].title}</h3>
             <p className="mt-4 text-lg text-gray-700">{content[activeSection].text}</p>
           </div>
-          {/* Right Image for History */}
-       
-
         </div>
       )}
+      
+      
     </div>
   );
 };
