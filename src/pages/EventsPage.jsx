@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Header from "../components/header";
 
 const eventsData = [
   { 
@@ -56,9 +57,9 @@ const EventsPage = () => {
 
   return (
     <div className="flex min-h-screen">
-      
+      <Header/>
       {/* Sidebar - Full Height */}
-      <aside className="w-1/4 min-h-screen bg-[#984949] text-white p-8 flex flex-col items-center">
+      <aside className="w-1/4 min-h-screen bg-[#984949] text-white p-8 flex flex-col items-center mt-20">
         <h3 className="text-3xl font-bold mb-8">Filter by Category</h3>
         <ul className="space-y-4 w-full">
           {["All", "Music", "Food", "Sports", "Culture"].map(category => (
@@ -77,7 +78,7 @@ const EventsPage = () => {
       </aside>
 
       {/* Events List - Enlarged */}
-      <div className="w-3/4 px-12 py-12">
+      <div className="w-3/4 px-12 py-12 mt-20">
         <h2 className="text-5xl font-bold text-center mb-10 text-[#984949]">Upcoming Events & Festivals</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">

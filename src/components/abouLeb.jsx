@@ -70,14 +70,14 @@ const ExploreLebanon = () => {
   return (
     <div className="flex flex-col items-center justify-center py-20 bg-white relative pb-20">
       {/* Background Image */}
-      <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: `url(https://i0.wp.com/tayaramuse.com/wp-content/uploads/2020/10/Beirut_Lebanon-70.jpg?resize=1300%2C650&ssl=1)` }}></div>
-
-      <h2 className="text-4xl font-abel font-extrabold mb-6 text-[#984949] relative z-10">
+      <div className="absolute inset-0 bg-cover bg-center opacity-30 z-6" style={{ backgroundImage: `url(https://i0.wp.com/tayaramuse.com/wp-content/uploads/2020/10/Beirut_Lebanon-70.jpg?resize=1300%2C650&ssl=1)` }}></div>
+    
+      <h2 className="text-4xl font-abel font-extrabold mb-6 text-[#984949] relative z-5">
         More About Lebanon
       </h2>
-
+    
       {/* Tabs */}
-      <div className="flex space-x-8 bg-[#F3F4F6] p-3 rounded-full mb-10 w-[80%] justify-center relative z-10">
+      <div className="flex flex-wrap justify-center gap-4 mb-20 w-full relative z-5 ">
         {["funfacts", "history", "cuisine", "culture", "traveltips"].map((section) => (
           <button
             key={section}
@@ -92,10 +92,11 @@ const ExploreLebanon = () => {
           </button>
         ))}
       </div>
-
-      {/* Fun Facts Section */}
+    
+      {/* Content Sections */}
+      
       {activeSection === "funfacts" ? (
-        <div className="relative max-w-2xl mx-auto z-10">
+        <div className="relative max-w-2xl mx-auto z-5">
           <div className="relative flex items-center justify-center">
             <button
               onClick={prevSlide}
@@ -120,7 +121,7 @@ const ExploreLebanon = () => {
           </p>
         </div>
       ) : (
-        <div className="max-w-4xl mx-auto relative flex flex-col lg:flex-row items-center lg:items-start p-6 bg-white rounded-lg shadow-lg z-10">
+        <div className="max-w-4xl mx-auto relative flex flex-col lg:flex-row items-center lg:items-start p-6 bg-white rounded-lg shadow-lg z-5">
           {/* Left Image */}
           <div className="lg:w-2/3 w-full">
             <img
@@ -136,8 +137,6 @@ const ExploreLebanon = () => {
           </div>
         </div>
       )}
-      
-      
     </div>
   );
 };

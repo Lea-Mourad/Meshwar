@@ -58,7 +58,7 @@ const HomePage = () => {
       </div>
       <PopularDestination/>
       
-      <ExploreLebanon />
+      <ExploreLebanon/>
       <Footer />
     </div>
   );

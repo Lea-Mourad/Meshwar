@@ -86,6 +86,7 @@ const SignInBox = () => {
                 Log In
             </button>
 
+            {/* Sentence under the button */}
             <div className="absolute top-[470px] left-1/2 transform -translate-x-1/2 text-lg font-abel text-[#B24F4F] text-center z-30">
                 <span>Don't have an Account? </span>
                 <a href="/signuppage" className="text-[#B24F4F] font-semibold hover:underline">
