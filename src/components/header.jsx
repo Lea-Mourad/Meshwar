@@ -31,6 +31,8 @@ const Header = () => {
           <Link to="/" className="text-[#B24F4F] hover:text-gray-500">Home</Link>
           <Link to="/events" className="text-[#B24F4F] hover:text-gray-500">Events</Link>
           <Link to="/account" className="text-[#B24F4F] hover:text-gray-500">Account Page</Link>
+          
+          {/* Dropdown for Places */}
           <div className="relative">
             <button
               className="text-[#B24F4F] hover:text-gray-500"
@@ -38,13 +40,14 @@ const Header = () => {
             >
               Where To Go
             </button>
+            
             {/* Conditional Dropdown for Larger Screens */}
             {isPlacesOpen && (
               <div className="absolute bg-white shadow-md mt-2 w-48 py-2 rounded-md">
                 {places.map((place) => (
                   <Link
                     key={place}
-                    to={`/places/${place}`}
+                    to={place === "Beirut" ? "/beirut" : `/places/${place.toLowerCase()}`} // Separate Beirut page
                     className="block px-4 py-2 text-[#B24F4F] hover:bg-gray-200"
                   >
                     {place}
@@ -101,7 +104,7 @@ const Header = () => {
                 {places.map((place) => (
                   <Link
                     key={place}
-                    to={`/places/${place}`}
+                    to={place === "Beirut" ? "/beirut" : `/places/${place.toLowerCase()}`} // Separate Beirut
                     className="block px-4 py-2 text-[#B24F4F] hover:bg-gray-200 text-xl"
                     onClick={() => setIsMenuOpen(false)}
                   >

@@ -7,7 +7,7 @@ import SignUp from './pages/signuppage'
 import ExploreLebanon from "./components/abouLeb";
 import ChangePasswordPage from "./pages/changepasswordpage";
 import EventsPage from "./pages/EventsPage";
-
+import Beirut from "./pages/beirut";
 
 
 function App() {
@@ -21,6 +21,7 @@ function App() {
         <Route path="/aboutLebanon" element={<ExploreLebanon />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/events" element={<EventsPage />} />
+        <Route path="/beirut" element={<Beirut />} />
       </Routes>
     </Router>
   );
