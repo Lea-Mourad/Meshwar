@@ -8,10 +8,12 @@ import ExploreLebanon from "./components/abouLeb";
 import ChangePasswordPage from "./pages/changepasswordpage";
 import EventsPage from "./pages/EventsPage";
 import Beirut from "./pages/beirut";
+import Favorites from "./pages/favoritepage";
 
 
 function App() {
   return (
+   
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -22,8 +24,10 @@ function App() {
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/beirut" element={<Beirut />} />
+        <Route path="/favorites" element={<Favorites />} />
       </Routes>
     </Router>
+   
   );
 }
 
