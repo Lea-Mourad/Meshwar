@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/header";
 
+
+
 const eventsData = [
   { 
     id: 1, 
@@ -48,9 +50,10 @@ const EventsPage = () => {
   const [events, setEvents] = useState([]);
   const [filter, setFilter] = useState("All");
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
-    setEvents(eventsData);
+   setEvents(eventsData);
   }, []);
 
   const filteredEvents = filter === "All" ? events : events.filter(event => event.category === filter);

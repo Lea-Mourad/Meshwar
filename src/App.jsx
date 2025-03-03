@@ -17,6 +17,8 @@ import FavoritesPage from "./pages/favoritepage";
 import { AuthProvider } from "./context/authContext";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./context/authContext";
+import AdminLogin from './pages/AdminLogIn';
+
 
 
 function App() {
@@ -42,6 +44,8 @@ function App() {
            element={<FavoritesPage />}
           //  element={<PrivateRoute><FavoritesPage /></PrivateRoute>}
           />
+          <Route path="/admin-login" element={<AdminLogin />} />
+
         </Routes>
       </Router>
     </AuthProvider>
