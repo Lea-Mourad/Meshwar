@@ -7,27 +7,27 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Header from "../components/header";
 
-const Beirut = () => {
+const Byblos = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const categories = ["Museums", "Restaurants", "Beaches", "Coffee Shops", "Hotels", "Arcades", "Night Life"];
+  const categories = ["Historical Sites", "Restaurants", "Beaches", "Coffee Shops", "Hotels", "Night Life"];
 
   const categoryImages = {
-    Museums: "url('https://www.wilmotte.com/wp-content/uploads/2023/03/hr_museebeyrouth_marwanharmouche_04-scaled.jpg')",
-    Restaurants: "url('https://i.pinimg.com/736x/a2/de/5d/a2de5d984e8cd466a119858cf407b622.jpg')",
-    Beaches: "url('https://libshop.fr/wp-content/uploads/2020/04/beyrouth-beach-lebanon-scaled-1.jpg')",
-    "Coffee Shops": "url('https://georgerishan.wordpress.com/wp-content/uploads/2021/04/img_4408.jpg?w=936')",
-    Hotels: "url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/48/bb/91/kempinski-summerland.jpg?w=1200&h=-1&s=1')",
-    Arcades: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYcNyC7YD23auPAqFpEjtEKOrDmlFqg5ASLg&s')",
-    "Night Life": "url('https://248am.com/images/2015/04/grandfactory.jpg')",
+    "Historical Sites": "url('https://live.staticflickr.com/65535/51111865973_758b50d3c0_b.jpg')",
+    Restaurants: "url('https://i.pinimg.com/736x/36/85/40/368540556d16c7be2f2771230cf95ee7.jpg')",
+    Beaches: "url('https://lh5.googleusercontent.com/proxy/nrtfMqLzhNcunUY2znuFaBs0HC4YZ5olfRE_friYQD0ssR0bbyR_SnmuiDCPW1FeAWGdmt92997VDsAiv6xZO9lmIx55vzQnP11UfAc7dvv9yN5xqbr1wsAq8I5xfikzuFsxHj3u8d8iSJDHdebqLYBbzlwPzcvPGvcVI1pdejam1J5EAA3pwd4mrRWK8j7963LkFpGissbRF58TP4Qb_ZoDUgCwpOR3sg')",
+    "Coffee Shops": "url('https://bunny-wp-pullzone-eqa83h6t2a.b-cdn.net/wp-content/uploads/2023/10/74398641-51756703.jpg')",
+    Hotels: "url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/150346751.webp?k=1363992a56d1130b40e1d80960ebfa0260ecb9e5b829467e92b9f0b1448b85b1&o=')",
+    "Night Life": "url('https://www.plus961.com/wp-content/uploads/2010/06/E-Cafe-Jbeil.jpg')",
   };
 
+
   const images = [
-    "https://lp-cms-production.imgix.net/2020-12/shutterstockRF_756972694.jpg",
-    "https://img.travelnaut.com/web/db/photose/location/as/lb/beirut/a8f769f130642d7a50f738c3dc965492.jpeg?format=webp&width=3840&quality=75",
-    "https://www.hospitalitynewsmag.com/wp-content/uploads/2020/01/Zaytouna-Bay-at-Sunset-Beirut-Downtown.jpg",
-    "https://images.ajar.casa/wp-content/uploads/2022/05/16015058/Ruins-in-Beirut-Downtown-near-Martyrs-Square.jpg",
+    "https://medcities.org/wp-content/uploads/2021/05/capcalera-jbeil.jpg",
+    "https://www.sophiesworld.net/wp-content/uploads/2018/07/IMG_E3094.jpg",
+    "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/09/4e/6d/44/caption.jpg?w=1200&h=1200&s=1",
+    "https://libshop.fr/wp-content/uploads/2020/01/byblosliban.jpg",
   ];
 
   return (
@@ -54,18 +54,20 @@ const Beirut = () => {
       <div className="flex flex-col items-center justify-start">
           {/* Title */}
           <h1 className="text-6xl font-extrabold text-[#B24F4F] mt-6 tracking-wide" style={{ fontFamily: "'Pathway', sans-serif" }}>
-            BEIRUT
+            BYBLOS
           </h1>
 
       {/* Description */}
       <div className="w-full bg-[#F5E3C1] bg-opacity-30 px-8 py-10 mt-6 text-center shadow-md ">
           <p className="text-gray-800 font-semibold text-lg sm:text-xl md:text-2xl leading-relaxed max-w-4xl mx-auto" style={{ fontFamily: "'Abel', sans-serif" }}>
-        Beirut, the vibrant capital of Lebanon, is a city rich in history, culture, and breathtaking views. From its bustling
-          souks to the serene Mediterranean coastline, Beirut offers a unique blend of tradition and modernity. The city stands
-          as a testament to resilience, having withstood centuries of change and transformation. Whether exploring the lively
-          streets of Gemmayze, admiring the Roman ruins of downtown, or enjoying the coastal beauty of Raouché, Beirut captivates
-          visitors with its charm and diversity. It is a city where past and future intertwine, creating a unique and
-          unforgettable experience for all who walk its streets.
+       
+
+Byblos, one of the oldest continuously inhabited cities in the world, is the cradle of the Phoenician civilization and the 
+birthplace of the alphabet. Steeped in history, this coastal gem tells the story of ancient seafarers who shaped trade and 
+communication across the Mediterranean. Its charming harbor, medieval citadel, and well-preserved ruins offer a glimpse into
+ a glorious past, while its vibrant souks and seaside cafés showcase a lively present. From the grand temples of antiquity to 
+ the whispers of the Phoenician script, Byblos stands as a timeless bridge between history and modernity, inviting visitors to
+  explore its legendary heritage.
 
         </p>
       </div>
@@ -89,4 +91,4 @@ const Beirut = () => {
   );
 };
 
-export default Beirut;
+export default Byblos;

@@ -8,6 +8,11 @@ import ExploreLebanon from "./components/abouLeb";
 import ChangePasswordPage from "./pages/changepasswordpage";
 import EventsPage from "./pages/EventsPage";
 import Beirut from "./pages/beirut";
+ import Sidon from "./pages/sidon";
+ import Byblos from "./pages/byblos";
+ import Sour from "./pages/sour";
+ import Baalbak from "./pages/baalbak";
+ import Batroun from "./pages/batroun";
 import FavoritesPage from "./pages/favoritepage";
 import { AuthProvider } from "./context/authContext";
 import { Navigate } from "react-router-dom";
@@ -27,6 +32,11 @@ function App() {
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/beirut" element={<Beirut />} />
+          <Route path="/sidon" element={<Sidon />} />
+          <Route path="/byblos" element={<Byblos />}/>
+          <Route path="/sour" element={<Sour />}/>
+          <Route path="/baalbak" element={<Baalbak />}/>
+          <Route path="/batroun" element={<Batroun />}/>
           <Route
            path="/favorites"
            element={<FavoritesPage />}

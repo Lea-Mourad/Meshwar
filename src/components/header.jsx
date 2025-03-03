@@ -5,10 +5,10 @@ import { useAuth } from '../context/authContext';
 
 const Header = () => {
   const { isAuthenticated } = useAuth();
-  console.log(isAuthenticated); 
+  console.log(isAuthenticated);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Sidebar menu toggle
   const [isPlacesOpen, setIsPlacesOpen] = useState(false); // "Where To Go" dropdown toggle
-  const places = ["Beirut", "Sidon", "Batroun", "Jounieh", "Byblos"];
+  const places = ["Beirut", "Sidon", "Sour", "Baalbak", "Byblos", "Batroun"];
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -35,8 +35,8 @@ const Header = () => {
           <Link to="/events" className="text-[#B24F4F] hover:text-gray-500">Events</Link>
           <Link to="/account" className="text-[#B24F4F] hover:text-gray-500">Account Page</Link>
           <Link to="/favorites" className="text-[#B24F4F] hover:text-gray-500">
-  Favorites
-</Link>
+            Favorites
+          </Link>
 
           {/* Favorites Link (Now in Header) */}
           {/* <Link 
@@ -53,27 +53,29 @@ const Header = () => {
             >
               Where To Go
             </button>
-            
+
             {/* Dropdown Menu for Places */}
             {isPlacesOpen && (
               <div className="absolute bg-white shadow-md mt-2 w-48 py-2 rounded-md">
                 {places.map((place) => (
-                  <Link
-                    key={place}
-                    to={place === "Beirut" ? "/beirut" : `/places/${place.toLowerCase()}`}
-                    className="block px-4 py-2 text-[#B24F4F] hover:bg-gray-200"
-                  >
-                    {place}
-                  </Link>
-                ))}
+  <Link
+    key={place}
+    to={`/${place.toLowerCase()}`} // This ensures consistent URL generation
+    className="block px-4 py-2 text-[#B24F4F] hover:bg-gray-200"
+  >
+    {place}
+  </Link>
+))}
+
+
               </div>
             )}
           </div>
         </nav>
 
         {/* Mobile Menu Button */}
-        <div 
-          className="sm:hidden flex items-center cursor-pointer hamburger ml-auto" 
+        <div
+          className="sm:hidden flex items-center cursor-pointer hamburger ml-auto"
           onClick={() => setIsMenuOpen(!isMenuOpen)} // Toggle Sidebar
         >
           <Bars3Icon className="h-6 w-6 text-black" />
@@ -82,9 +84,8 @@ const Header = () => {
 
       {/* Sidebar Menu for Mobile */}
       <div
-        className={`fixed top-20 left-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-10 ${
-          isMenuOpen ? "translate-x-0" : "-translate-x-full"
-        } sidebar sm:hidden`} // Sidebar visibility toggle
+        className={`fixed top-20 left-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-10 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } sidebar sm:hidden`} // Sidebar visibility toggle
       >
         <div className="flex flex-col items-center mt-10 space-y-6" style={{ fontFamily: "'Abel', sans-serif" }}>
           <Link to="/" className="text-[#B24F4F] hover:text-gray-500 text-xl" onClick={() => setIsMenuOpen(false)}>
@@ -96,7 +97,7 @@ const Header = () => {
           <Link to="/account" className="text-[#B24F4F] hover:text-gray-500 text-xl" onClick={() => setIsMenuOpen(false)}>
             Account Page
           </Link>
-          
+
           {/* Favorites Link (Now in Mobile Sidebar Too) */}
           {/* <Link 
             to={isAuthenticated ? "/favorites" : "/loginpage"} 
@@ -105,12 +106,12 @@ const Header = () => {
           >
             Favorites
           </Link> */}
-          <Link 
-  to="/favorites" 
-  className="text-[#B24F4F] hover:text-gray-500"
->
-  Favorites
-</Link>
+          <Link
+            to="/favorites"
+            className="text-[#B24F4F] hover:text-gray-500 text-xl"
+          >
+            Favorites
+          </Link>
 
           {/* "Where To Go" Dropdown */}
           <div className="relative">
@@ -124,16 +125,18 @@ const Header = () => {
             {/* Dropdown Menu */}
             {isPlacesOpen && (
               <div className="mt-2">
-                {places.map((place) => (
-                  <Link
-                    key={place}
-                    to={place === "Beirut" ? "/beirut" : `/places/${place.toLowerCase()}`}
-                    className="block px-4 py-2 text-[#B24F4F] hover:bg-gray-200 text-xl"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {place}
-                  </Link>
-                ))}
+
+{places.map((place) => (
+  <Link
+    key={place}
+    to={`/${place.toLowerCase()}`} // This ensures consistent URL generation
+    className="block px-4 py-2 text-[#B24F4F] hover:bg-gray-200 text-xl"
+  >
+    {place}
+  </Link>
+))}
+
+
               </div>
             )}
           </div>

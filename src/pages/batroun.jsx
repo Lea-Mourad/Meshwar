@@ -7,27 +7,28 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Header from "../components/header";
 
-const Beirut = () => {
+const Batroun = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const categories = ["Museums", "Restaurants", "Beaches", "Coffee Shops", "Hotels", "Arcades", "Night Life"];
+  const categories = ["Historical Sites", "Restaurants", "Beaches", "Coffee Shops", "Hotels", "Night Life"];
 
   const categoryImages = {
-    Museums: "url('https://www.wilmotte.com/wp-content/uploads/2023/03/hr_museebeyrouth_marwanharmouche_04-scaled.jpg')",
-    Restaurants: "url('https://i.pinimg.com/736x/a2/de/5d/a2de5d984e8cd466a119858cf407b622.jpg')",
-    Beaches: "url('https://libshop.fr/wp-content/uploads/2020/04/beyrouth-beach-lebanon-scaled-1.jpg')",
-    "Coffee Shops": "url('https://georgerishan.wordpress.com/wp-content/uploads/2021/04/img_4408.jpg?w=936')",
-    Hotels: "url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/48/bb/91/kempinski-summerland.jpg?w=1200&h=-1&s=1')",
-    Arcades: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYcNyC7YD23auPAqFpEjtEKOrDmlFqg5ASLg&s')",
-    "Night Life": "url('https://248am.com/images/2015/04/grandfactory.jpg')",
+    "Historical Sites": "url('https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/11/88/9b/60.jpg')",
+    Restaurants: "url('https://www.tasteandflavors.com/wp-content/uploads/2024/06/IAB-1-scaled.jpeg')",
+    Beaches: "url('https://ucarecdn.com/41a32e20-5957-4027-a666-3c7b4dd9e1df/-/crop/1000x525/0,138/-/resize/1200x630/-/resize/x400/')",
+    "Coffee Shops": "url('https://www.tasteandflavors.com/wp-content/uploads/2023/07/DSC_6773_00129-1024x1024.jpg')",
+    Hotels: "url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/568355222.webp?k=4d3c60931b03d0a97355e5669b243a0fe7f005e89916ab4956ffff3d0b8cdf25&o=')",
+
+    "Night Life": "url('https://www.lebanoninapicture.com/pages/batroun-%D8%A7%D9%84%D8%A8%D8%AA%D8%B1%D9%88%D9%86_%D8%B3%D9%81%D8%B1%D8%A9-oddrooftop-rooftop-nightlife-music/batroun-%D8%A7%D9%84%D8%A8%D8%AA%D8%B1%D9%88%D9%86_%D8%B3%D9%81%D8%B1%D8%A9-oddrooftop-rooftop-nightli-7-6-2018-9-23-59-pm-m.jpg')",
   };
 
   const images = [
-    "https://lp-cms-production.imgix.net/2020-12/shutterstockRF_756972694.jpg",
-    "https://img.travelnaut.com/web/db/photose/location/as/lb/beirut/a8f769f130642d7a50f738c3dc965492.jpeg?format=webp&width=3840&quality=75",
-    "https://www.hospitalitynewsmag.com/wp-content/uploads/2020/01/Zaytouna-Bay-at-Sunset-Beirut-Downtown.jpg",
-    "https://images.ajar.casa/wp-content/uploads/2022/05/16015058/Ruins-in-Beirut-Downtown-near-Martyrs-Square.jpg",
+    "https://us.images.westend61.de/0001873362pw/aerial-view-of-batroun-batroun-lebanon-AAEF20916.jpg",
+    "https://www.felventura.com/wp-content/uploads/2024/04/Batroun-Phoenecian-wall-Felventura.webp",
+    "https://owlovertheworld.com/wp-content/uploads/2024/02/batroun-lebanon-attractions.jpg",
+    "https://www.travel-tramp.com/wp-content/uploads/2023/08/Things-to-do-in-Batroun-2.jpg.webp",
+
   ];
 
   return (
@@ -54,18 +55,17 @@ const Beirut = () => {
       <div className="flex flex-col items-center justify-start">
           {/* Title */}
           <h1 className="text-6xl font-extrabold text-[#B24F4F] mt-6 tracking-wide" style={{ fontFamily: "'Pathway', sans-serif" }}>
-            BEIRUT
+            BATROUN
           </h1>
 
       {/* Description */}
       <div className="w-full bg-[#F5E3C1] bg-opacity-30 px-8 py-10 mt-6 text-center shadow-md ">
           <p className="text-gray-800 font-semibold text-lg sm:text-xl md:text-2xl leading-relaxed max-w-4xl mx-auto" style={{ fontFamily: "'Abel', sans-serif" }}>
-        Beirut, the vibrant capital of Lebanon, is a city rich in history, culture, and breathtaking views. From its bustling
-          souks to the serene Mediterranean coastline, Beirut offers a unique blend of tradition and modernity. The city stands
-          as a testament to resilience, having withstood centuries of change and transformation. Whether exploring the lively
-          streets of Gemmayze, admiring the Roman ruins of downtown, or enjoying the coastal beauty of Raouché, Beirut captivates
-          visitors with its charm and diversity. It is a city where past and future intertwine, creating a unique and
-          unforgettable experience for all who walk its streets.
+          Batroun, a picturesque coastal town, is a hidden gem of Lebanon, where history, nature, and vibrant culture blend seamlessly. One of the oldest continuously inhabited cities in the world, Batroun boasts ancient Phoenician walls
+           that have withstood the test of time, charming stone-paved streets, and historic churches that whisper tales of the past. Known for its crystal-clear Mediterranean waters and lively beach scene, the town is also
+            famous for its fresh seafood and locally produced lemonade.
+            Whether exploring its historic souks, enjoying its bustling nightlife, or simply relaxing by the sea, Batroun offers a perfect mix of heritage, serenity, and adventure.
+
 
         </p>
       </div>
@@ -89,4 +89,4 @@ const Beirut = () => {
   );
 };
 
-export default Beirut;
+export default Batroun;
