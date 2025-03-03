@@ -1,30 +1,54 @@
-
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { useAuth } from "../context/authContext";
+import { Navigate } from "react-router-dom";
 
 export default function FavoritesPage() {
-
+  const { isAuthenticated } = useAuth();
   const [selectedCity, setSelectedCity] = useState("Beirut");
+  const [favorites, setFavorites] = useState({});
+
+  // Fetch favorite places from localStorage
+  useEffect(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || {};
+    setFavorites(storedFavorites);
+  }, []);
+
+  // if (!isAuthenticated) {
+  //   return <Navigate to="/loginpage" />;
+  // }
 
   const cities = ["Beirut", "Batroun", "Byblos", "Sidon", "Tyre", "Jounieh"];
-   const handleGoBack=()=>{
-  window.location.href="/";
-   };
+
+  // Handle go back button click
+  const handleGoBack = () => {
+    window.location.href = "/";
+  };
+
+  // Handle remove favorite
+  const handleRemoveFavorite = (place) => {
+    const updatedFavorites = { ...favorites };
+
+    updatedFavorites[selectedCity] = updatedFavorites[selectedCity].filter(
+      (favorite) => favorite !== place
+    );
+
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    setFavorites(updatedFavorites);
+  };
+
   return (
-    <div className=" relative h-screen"> 
-    <button
-     onClick={handleGoBack}
-     className="absolute top-8 left-6 p-3 bg whilte rounded-full shadow-md hover:bg-gray-200 transition-all"
-   
-   >
-       <ArrowLeftIcon className="h-6 w-6 text-gray-700" />
-   </button>
- 
+    <div className="relative h-screen">
+      <button
+        onClick={handleGoBack}
+        className="absolute top-8 left-6 p-3 bg-white rounded-full shadow-md hover:bg-gray-200 transition-all"
+      >
+        <ArrowLeftIcon className="h-6 w-6 text-gray-700" />
+      </button>
+
       <div className="absolute top-16 left-6 p-6">
         <h2 className="text-3xl font-extrabold text-[#984942] mb-6">Favorites</h2>
 
-       
         <div className="flex space-x-4 mb-4 overflow-x-auto">
           {cities.map((city) => (
             <button
@@ -41,9 +65,26 @@ export default function FavoritesPage() {
           ))}
         </div>
 
-       
         <div className="p-4 bg-gray-100 rounded-lg shadow-sm">
           <p className="text-gray-500">Favorite places in {selectedCity} will appear here.</p>
+
+          <ul className="mt-4">
+            {favorites[selectedCity] && favorites[selectedCity].length > 0 ? (
+              favorites[selectedCity].map((place) => (
+                <li key={place} className="flex justify-between items-center py-2">
+                  <span>{place}</span>
+                  <button
+                    onClick={() => handleRemoveFavorite(place)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    Remove
+                  </button>
+                </li>
+              ))
+            ) : (
+              <p className="text-gray-400">No favorite places added yet.</p>
+            )}
+          </ul>
         </div>
       </div>
     </div>
