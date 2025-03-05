@@ -1,8 +1,8 @@
+
+
 import React, { useState, useEffect } from "react";
 import Header from "../components/header";
-
-
-
+import { useLocation } from "react-router-dom";
 const eventsData = [
   { 
     id: 1, 
@@ -45,45 +45,41 @@ const eventsData = [
     description: "Celebrate the festive season at Beirut’s magical Christmas market."
   },
 ];
-
 const EventsPage = () => {
   const [events, setEvents] = useState([]);
   const [filter, setFilter] = useState("All");
   const [selectedEvent, setSelectedEvent] = useState(null);
   const location = useLocation();
-
   useEffect(() => {
-   setEvents(eventsData);
+    setEvents(eventsData);
   }, []);
-
   const filteredEvents = filter === "All" ? events : events.filter(event => event.category === filter);
-
   return (
     <div className="flex min-h-screen">
-      <Header/>
-      {/* Sidebar - Full Height */}
-      <aside className="w-1/4 min-h-screen bg-[#984949] text-white p-8 flex flex-col items-center mt-20">
-        <h3 className="text-3xl font-bold mb-8">Filter by Category</h3>
-        <ul className="space-y-4 w-full">
-          {["All", "Music", "Food", "Sports", "Culture"].map(category => (
-            <li key={category} className="w-full">
-              <button 
-                onClick={() => setFilter(category)}
-                className={`w-full text-left px-6 py-4 rounded-lg text-2xl font-semibold transition duration-300 ${
-                  filter === category ? "bg-white text-[#984949]" : "bg-transparent hover:bg-[#7c3b3b]"
-                }`}
-              >
-                {category}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </aside>
+      <Header />
+      {/* Sidebar - Full Height on larger screens, Shorter on smaller screens */}
+      <aside className="w-full sm:w-1/4 min-h-screen bg-[#984949] text-white p-8 flex flex-col items-center mt-20">
+  {/* Ensure there's enough space for the content */}
+  <h3 className="text-3xl font-bold mb-8">Filter by Category</h3>
+  <ul className="space-y-4 w-full">
+    {["All", "Music", "Food", "Sports", "Culture"].map(category => (
+      <li key={category} className="w-full">
+        <button 
+          onClick={() => setFilter(category)}
+          className={`w-full text-left px-6 py-4 rounded-lg text-2xl font-semibold transition duration-300 ${
+            filter === category ? "bg-white text-[#984949]" : "bg-transparent hover:bg-[#7c3b3b]"
+          }`}
+        >
+          {category}
+        </button>
+      </li>
+    ))}
+  </ul>
+</aside>
 
       {/* Events List - Enlarged */}
-      <div className="w-3/4 px-12 py-12 mt-20">
+      <div className="w-full sm:w-3/4 px-12 py-12 mt-20">
         <h2 className="text-5xl font-bold text-center mb-10 text-[#984949]">Upcoming Events & Festivals</h2>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
           {filteredEvents.map((event) => (
             <div 
@@ -96,7 +92,6 @@ const EventsPage = () => {
                 <h3 className="text-3xl font-bold">{event.name}</h3>
                 <p className="text-xl text-gray-600">{event.location} • {new Date(event.date).toDateString()}</p>
               </div>
-
               {/* Hover Effect */}
               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                 <p className="text-white font-semibold text-xl">Click for More Info</p>
@@ -105,7 +100,6 @@ const EventsPage = () => {
           ))}
         </div>
       </div>
-
       {/* Event Popup Modal */}
       {selectedEvent && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -124,5 +118,4 @@ const EventsPage = () => {
     </div>
   );
 };
-
 export default EventsPage;
