@@ -27,12 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-=nk2hm3sss=ky*j(p+_pw&_bm6y98+f0*!oja!-7_j2=ogrht^"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["https://meshwar-backend.onrender.com/"]
+ALLOWED_HOSTS = ['*']
 
 # DEPRECATE LATER, REPLACE BY WHITENOISE MIDDLEWARE AND SECURITY
-SECURE_SSL_REDIRECT = False
+#SECURE_SSL_REDIRECT = False
 # REMEMBER TO DEPRECATE
 
 # Application definition
@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt', # tokenization framework for login api
     'rest_framework_simplejwt.token_blacklist', # for logout purposes
 
+    
+
     "api",  #testing api
     "authenticate", #Authentication and user related api
 ]
@@ -61,7 +63,9 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+
     "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Addeed for whitenoise
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -157,6 +161,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
