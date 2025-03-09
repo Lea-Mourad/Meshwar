@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework', #Django rest framework
     'rest_framework_simplejwt', # tokenization framework for login api
     'rest_framework_simplejwt.token_blacklist', # for logout purposes
+    'corsheaders', # Cors headers
 
     
 
@@ -66,6 +67,7 @@ MIDDLEWARE = [
 
     "django.middleware.security.SecurityMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware', # Addeed for whitenoise
+    'corsheaders.middleware.CorsMiddleware', # For cors 
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -198,3 +200,13 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,                  # Rotate refresh tokens
     'BLACKLIST_AFTER_ROTATION': True,               # Blacklist old refresh tokens
 }
+
+
+#### CORS RELATED ALLOWED HOSTS ####
+CORS_ALLOW_ALL_ORIGINS = True
+
+#Configure later
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",  # React development server
+#     "https://your-react-app-url.com",  # Your production React app URL
+# ]
