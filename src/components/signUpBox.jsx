@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const SignUpBox = () => {
@@ -7,7 +8,8 @@ const SignUpBox = () => {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(""); // State for error message
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false); // Added loading state
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,13 +27,34 @@ const SignUpBox = () => {
         return () => clearInterval(interval);
     }, []);
 
-    const handleSignUp = () => {
+    const handleSignUp = async (e) => {
+        e.preventDefault(); // Prevent default form submission
+        setError("");
+
         // Check if all fields are filled
         if (!email || !username || !password) {
             setError("Please enter all fields.");
-        } else {
-            setError(""); // Clear error if all fields are filled
-            navigate("/"); // Redirect if all fields are filled (e.g., to homepage)
+            return;
+        }
+
+        setLoading(true); // Set loading state to true
+        try {
+            const response = await axios.post(
+                "https://meshwar-backend.onrender.com/auth/register/",
+                {
+                    email,
+                    username,
+                    password,
+                }
+            );
+            console.log("Sign Up Successful:", response.data);
+            alert("Sign Up Successful!");
+            navigate("/"); // Redirect on success
+        } catch (error) {
+            console.error("Sign Up Failed:", error.response?.data || error.message);
+            setError(error.response?.data?.message || "Sign Up Failed. Please try again.");
+        } finally {
+            setLoading(false); // Set loading state back to false
         }
     };
 
@@ -49,7 +72,7 @@ const SignUpBox = () => {
                 </span>
             </div>
 
-            {/* Error Message Above Email Field */}
+            {/* Error Message */}
             {error && (
                 <div className="text-[#B24F4F] text-center mb-4">
                     <span>{error}</span>
@@ -63,6 +86,7 @@ const SignUpBox = () => {
                     className="w-full border-b-2 border-[#B24F4F] py-2 mb-10 text-xl font-abel bg-transparent"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    required
                 />
                 <input
                     type="text"
@@ -70,6 +94,7 @@ const SignUpBox = () => {
                     className="w-full border-b-2 border-[#B24F4F] py-2 mb-10 text-xl font-abel bg-transparent"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    required
                 />
                 <input
                     type="password"
@@ -77,18 +102,18 @@ const SignUpBox = () => {
                     className="w-full border-b-2 border-[#B24F4F] py-2 mb-8 text-xl font-abel bg-transparent"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    required
                 />
             </div>
 
-            {/* Sign Up Button */}
             <button
                 onClick={handleSignUp}
+                disabled={loading}
                 className={`absolute top-[438px] left-1/2 transform -translate-x-1/2 w-1/4 bg-[#984949] text-white text-xl font-abel font-semibold rounded-lg py-2 opacity-100 z-20 ${
-                    !email || !username || !password ? "cursor-not-allowed" : "hover:bg-[#B24F4F]"
+                    loading ? "cursor-not-allowed bg-[#B24F4F]" : "hover:bg-[#B24F4F]"
                 }`}
-               
             >
-                Sign Up
+                {loading ? "Signing Up..." : "Sign Up"}
             </button>
 
             <div className="absolute top-[500px] left-1/2 transform -translate-x-1/2 text-lg font-abel text-[#B24F4F] text-center z-30">
