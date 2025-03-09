@@ -91,10 +91,10 @@ WSGI_APPLICATION = "Meshwar.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-
+# Recreated new database because free trial on old database expired
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://meshwar_user:LIIOTK7o0bSLI02vUETrEmW05OZWWwei@dpg-cuhktkbtq21c73bbltj0-a.frankfurt-postgres.render.com/meshwar"
+    "postgresql://meshwar_db_user:HCGgFUKuiDrfWSGBJGlx0n0VEwP94e8h@dpg-cv6tok3qf0us73f6dhh0-a.frankfurt-postgres.render.com/meshwar_db"
 )
 
 db_info = urlparse(DATABASE_URL)
