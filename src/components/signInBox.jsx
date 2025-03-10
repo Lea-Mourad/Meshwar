@@ -50,23 +50,33 @@ const SignInBox = () => {
                 }
             );
 
-            console.log("API Response:", response);
+            console.log("Full API Response:", JSON.stringify(response.data, null, 2));
 
-            if (response.status === 200) {
-                const { token, user } = response.data;
+            if (response?.status === 200 && response?.data) {
+                const { access, refresh, message } = response.data;
 
-                localStorage.setItem("authToken", token);
-                localStorage.setItem("email", user.email);
+                // Check if access token is present
+                if (!access) {
+                    setError("Login failed. Access token not received.");
+                    console.error("Access token is missing from response:", response.data);
+                    return;
+                }
 
+                // Store tokens in localStorage
+                localStorage.setItem("authToken", access);
+                localStorage.setItem("refreshToken", refresh);
+
+                console.log("Login successful:", message);
+                
                 setError("");
-                navigate("/account"); 
+                navigate("/");
             } else {
-                setError("Login failed. Please try again.");
+                setError("Login failed. Unexpected response from server.");
+                console.error("Unexpected API response status:", response.status);
             }
         } catch (error) {
             console.error("Login Error:", error);
 
-            // Check if the error response exists and has data
             if (error.response) {
                 console.log("Error Response Data:", error.response.data);
                 setError(
@@ -132,8 +142,8 @@ const SignInBox = () => {
             <button
                 onClick={handleSignIn}
                 className={`absolute top-[400px] left-1/2 transform -translate-x-1/2 w-1/4 bg-[#984949] text-white text-xl font-abel font-semibold rounded-lg py-2 opacity-100 z-20 ${
-                    loading ? "opacity-50 cursor-not-allowed" : "hover:bg-[#B24F4F]"
-                }`}
+                    loading ? "opacity-50 cursor-not-allowed" : "hover:bg-[#B24F4F]"}`
+                }
                 disabled={loading}
             >
                 {loading ? "Logging In..." : "Log In"}
@@ -150,4 +160,3 @@ const SignInBox = () => {
 };
 
 export default SignInBox;
-
