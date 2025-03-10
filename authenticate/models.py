@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-from django.contrib.auth.models import AbstractUser , BaseUserManager
+from django.contrib.auth.models import AbstractUser , BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
 import uuid
 
@@ -28,14 +28,14 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 class User(AbstractUser):
-    username = None  
+    username = None  # Remove the username field
     email = models.EmailField(unique=True)
     is_verified = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'  
-    REQUIRED_FIELDS = []  
+    USERNAME_FIELD = 'email'  # Use email as the username field
+    REQUIRED_FIELDS = []  # No additional required fields
 
-    objects = UserManager() 
+    objects = UserManager()
 
     def __str__(self):
         return self.email

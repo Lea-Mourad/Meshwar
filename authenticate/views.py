@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from datetime import timedelta
 from django.utils import timezone
+from django.contrib.auth import authenticate
 from .serializers import UserRegistrationSerializer, EmailVerificationSerializer,LoginSerializer
 from authenticate.models import EmailVerification
 from .utils import send_email
@@ -91,3 +92,20 @@ class ProtectedView(APIView):
 
     def get(self, request):
         return Response({"message": "This is a protected view!"})
+
+
+# Admin login view
+class AdminLoginView(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        user = authenticate(email=email, password=password)
+        if user and user.is_staff:  # Check if the user is an admin
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
