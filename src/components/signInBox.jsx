@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignInBox = () => {
     const [text, setText] = useState("Ahla w Sahla!");
     const [fadeClass, setFadeClass] = useState("fade-in");
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(""); // State for error message
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    const API_BASE_URL = "https://meshwar-backend.onrender.com";
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -24,13 +28,61 @@ const SignInBox = () => {
         return () => clearInterval(interval);
     }, []);
 
-    const handleSignIn = () => {
-        // Check if both fields are filled
-        if (!username || !password) {
-            setError("Please enter both username and password.");
-        } else {
-            setError(""); // Clear error if both fields are filled
-            navigate("/"); // Redirect if both fields are filled
+    const handleSignIn = async () => {
+        if (!email.trim() || !password.trim()) {
+            setError("Please enter both email and password.");
+            return;
+        }
+
+        setError("");
+        setLoading(true);
+
+        console.log("Attempting login with:", { email, password });
+
+        try {
+            const response = await axios.post(
+                `${API_BASE_URL}/auth/login/`,
+                { email, password },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            console.log("API Response:", response);
+
+            if (response.status === 200) {
+                const { token, user } = response.data;
+
+                localStorage.setItem("authToken", token);
+                localStorage.setItem("email", user.email);
+
+                setError("");
+                navigate("/account"); 
+            } else {
+                setError("Login failed. Please try again.");
+            }
+        } catch (error) {
+            console.error("Login Error:", error);
+
+            // Check if the error response exists and has data
+            if (error.response) {
+                console.log("Error Response Data:", error.response.data);
+                setError(
+                    error.response.data.message ||
+                    error.response.data.detail ||
+                    "Login failed. Please check your credentials."
+                );
+            } else if (error.request) {
+                console.log("No response received from the server:", error.request);
+                setError("No response from the server. Please try again later.");
+            } else {
+                console.log("Request setup error:", error.message);
+                setError("An unexpected error occurred. Please try again.");
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -48,7 +100,6 @@ const SignInBox = () => {
                 </span>
             </div>
 
-            {/* Error Message Above Inputs */}
             {error && (
                 <div className="text-[#B24F4F] text-center mb-4">
                     <span>{error}</span>
@@ -57,11 +108,12 @@ const SignInBox = () => {
 
             <div className="mt-36">
                 <input
-                    type="text"
-                    placeholder="Username"
+                    type="email"
+                    placeholder="Email"
                     className="w-full border-b-2 border-[#B24F4F] py-2 mb-10 text-xl font-abel bg-transparent"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                 />
                 <input
                     type="password"
@@ -69,6 +121,7 @@ const SignInBox = () => {
                     className="w-full border-b-2 border-[#B24F4F] py-2 mb-8 text-xl font-abel bg-transparent"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    required
                 />
             </div>
 
@@ -76,17 +129,16 @@ const SignInBox = () => {
                 <a href="/forgot-password" className="hover:underline">Forgot Password?</a>
             </div>
 
-            {/* Sign In Button */}
             <button
                 onClick={handleSignIn}
                 className={`absolute top-[400px] left-1/2 transform -translate-x-1/2 w-1/4 bg-[#984949] text-white text-xl font-abel font-semibold rounded-lg py-2 opacity-100 z-20 ${
-                    !username || !password ? "cursor-not-allowed" : "hover:bg-[#B24F4F]"
+                    loading ? "opacity-50 cursor-not-allowed" : "hover:bg-[#B24F4F]"
                 }`}
+                disabled={loading}
             >
-                Log In
+                {loading ? "Logging In..." : "Log In"}
             </button>
 
-            {/* Sentence under the button */}
             <div className="absolute top-[470px] left-1/2 transform -translate-x-1/2 text-lg font-abel text-[#B24F4F] text-center z-30">
                 <span>Don't have an Account? </span>
                 <a href="/signuppage" className="text-[#B24F4F] font-semibold hover:underline">
@@ -98,3 +150,4 @@ const SignInBox = () => {
 };
 
 export default SignInBox;
+

@@ -19,6 +19,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "./context/authContext";
 import AdminLogin from './pages/AdminLogIn';
 import Accountpage from "./pages/accountpage";
+import EmailVerificationPage from "./components/EmailVerificationPage";
 
 
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="/loginpage" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/signuppage" element={<SignUp />} />
+          <Route path="/verify-email" element={<EmailVerificationPage />} />
           <Route path="/aboutLebanon" element={<ExploreLebanon />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/events" element={<EventsPage />} />

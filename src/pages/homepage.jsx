@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import ExploreLebanon from "../components/abouLeb";
 import Slideshow from "../components/Slideshow";
 import PopularDestination from "../components/popularDestinations"
+import CurrencyConverter from "../components/CurrencyConverter";
 
 const HomePage = () => {
   return (
@@ -55,6 +56,11 @@ const HomePage = () => {
             Search
           </button>
           </div>
+      </div>
+       {/* Currency Converter */}
+       <div className="flex flex-col items-center justify-center py-20 bg-white">
+       
+        <CurrencyConverter />
       </div>
       <PopularDestination/>
       

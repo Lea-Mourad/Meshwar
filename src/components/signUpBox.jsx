@@ -49,7 +49,7 @@ const SignUpBox = () => {
             );
             console.log("Sign Up Successful:", response.data);
             alert("Sign Up Successful!");
-            navigate("/"); // Redirect on success
+            navigate("/verify-email");
         } catch (error) {
             console.error("Sign Up Failed:", error.response?.data || error.message);
             setError(error.response?.data?.message || "Sign Up Failed. Please try again.");
