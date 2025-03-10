@@ -18,6 +18,9 @@ import { AuthProvider } from "./context/authContext";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./context/authContext";
 import AdminLogin from './pages/AdminLogIn';
+import Accountpage from "./pages/accountpage";
+
+
 
 
 
@@ -39,6 +42,7 @@ function App() {
           <Route path="/sour" element={<Sour />}/>
           <Route path="/baalbak" element={<Baalbak />}/>
           <Route path="/batroun" element={<Batroun />}/>
+          <Route path="/account" element={<Accountpage />}/>
           <Route
            path="/favorites"
            element={<FavoritesPage />}

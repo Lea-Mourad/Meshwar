@@ -1,25 +1,25 @@
-// AdminLogin.js
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const AdminLogin = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+const AdminLogin = ({ setIsAdmin }) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         // Example admin credentials (replace with secure authentication in production)
-        const adminEmail = 'admin@example.com';
-        const adminPassword = 'admin123';
+        const adminEmail = "admin@example.com";
+        const adminPassword = "admin123";
 
         if (email === adminEmail && password === adminPassword) {
-            localStorage.setItem('isAdmin', 'true'); // Storing admin authentication
-            navigate('/admin-dashboard'); // Redirect to admin dashboard
+            localStorage.setItem("isAdmin", "true"); // Storing admin authentication
+            setIsAdmin(true); // Update the state in App component
+            navigate("/admin-dashboard"); // Redirect to admin dashboard
         } else {
-            setError('Invalid email or password');
+            setError("Invalid email or password");
         }
     };
 
