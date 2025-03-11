@@ -22,7 +22,7 @@ const AdminLogin = () => {
             localStorage.setItem('isAdmin', 'true');
 
             // Redirect to admin dashboard
-            navigate('/admin-dashboard');
+            navigate('/accountpage');
         } catch (error) {
             setError('Invalid email or password');
         }
