@@ -20,6 +20,7 @@ import { useAuth } from "./context/authContext";
 import AdminLogin from './pages/AdminLogIn';
 import Accountpage from "./pages/accountpage";
 import EmailVerificationPage from "./components/EmailVerificationPage";
+import AdminDashboard from "./pages/AdminDashboard";
 
 
 
@@ -51,7 +52,7 @@ function App() {
           //  element={<PrivateRoute><FavoritesPage /></PrivateRoute>}
           />
           <Route path="/admin-login" element={<AdminLogin />} />
-
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
         </Routes>
       </Router>
     </AuthProvider>
