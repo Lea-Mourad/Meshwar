@@ -14,7 +14,7 @@ const AdminLogin = () => {
 
         try {
             const response = await axios.post(
-                'https://meshwar-backend.onrender.com/admin/login/',
+                'https://meshwar-backend.onrender.com/auth/admin-login/',
                 { email, password }
             );
 
