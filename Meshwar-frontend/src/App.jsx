@@ -24,7 +24,6 @@ import AdminDashboard from "./pages/AdminDashboard";
 
 
 
-
 function App() {
   return (
     <AuthProvider>
@@ -39,25 +38,21 @@ function App() {
           <Route path="/events" element={<EventsPage />} />
           <Route path="/beirut" element={<Beirut />} />
           <Route path="/sidon" element={<Sidon />} />
-          <Route path="/byblos" element={<Byblos />}/>
-          <Route path="/sour" element={<Sour />}/>
-          <Route path="/baalbak" element={<Baalbak />}/>
-          <Route path="/batroun" element={<Batroun />}/>
-          <Route path="/account" element={<Accountpage />}/>
+          <Route path="/byblos" element={<Byblos />} />
+          <Route path="/sour" element={<Sour />} />
+          <Route path="/baalbak" element={<Baalbak />} />
+          <Route path="/batroun" element={<Batroun />} />
+          <Route path="/account" element={<Accountpage />} />
           <Route
-              path="/admin-dashboard"
-              element={
-                  <ProtectedRoute>
-        
-                  </ProtectedRoute>
-              } />
-          <Route
-           path="/favorites"
-           element={<FavoritesPage />}
-          //  element={<PrivateRoute><FavoritesPage /></PrivateRoute>}
+            path="/admin-dashboard"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
           />
+          <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/admin-login" element={<AdminLogin />} />
-
         </Routes>
       </Router>
     </AuthProvider>
