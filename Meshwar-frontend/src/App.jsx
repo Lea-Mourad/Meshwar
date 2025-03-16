@@ -17,8 +17,10 @@ import FavoritesPage from "./pages/favoritepage";
 import { AuthProvider } from "./context/authContext";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./context/authContext";
+import ProtectedRoute from "./context/protectedRoute"; 
 import AdminLogin from './pages/AdminLogIn';
 import Accountpage from "./pages/accountpage";
+import AdminDashboard from "./pages/AdminDashboard";
 
 
 
@@ -43,6 +45,13 @@ function App() {
           <Route path="/batroun" element={<Batroun />}/>
           <Route path="/account" element={<Accountpage />}/>
           <Route
+              path="/admin-dashboard"
+              element={
+                  <ProtectedRoute>
+        
+                  </ProtectedRoute>
+              } />
+          <Route
            path="/favorites"
            element={<FavoritesPage />}
           //  element={<PrivateRoute><FavoritesPage /></PrivateRoute>}
@@ -54,6 +63,9 @@ function App() {
     </AuthProvider>
   );
 }
+
+
+
 // const PrivateRoute = ({ children }) => {
 //   const { isAuthenticated } = useAuth();
 //   if (!isAuthenticated) {

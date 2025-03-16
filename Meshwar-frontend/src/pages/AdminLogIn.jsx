@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AdminDashboard from './AdminDashboard';
 import axios from 'axios';
 
 const AdminLogin = () => {
@@ -22,7 +23,7 @@ const AdminLogin = () => {
             localStorage.setItem('isAdmin', 'true');
 
             // Redirect to admin dashboard
-            navigate('/accountpage');
+            navigate('/AdminDashboard');
         } catch (error) {
             setError('Invalid email or password');
         }
