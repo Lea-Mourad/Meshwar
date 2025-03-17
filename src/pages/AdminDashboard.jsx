@@ -2,6 +2,8 @@ import React from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import AddEvent from "../components/AddEvent";
 import ViewEvents from "../components/ViewEvents";
+import AddListing from "../components/AddListing";
+
 
 const AdminDashboard = () => {
   return (
@@ -14,7 +16,7 @@ const AdminDashboard = () => {
             <Link to="/admin/add-event">Add Event</Link>
           </li>
           <li className="cursor-pointer p-2 rounded hover:bg-[#B24F4F]">
-            <Link to="/admin/view-events">View Events</Link>
+            <Link to="/admin/add-listing">Add Listing</Link>
           </li>
         </ul>
       </div>
@@ -23,7 +25,7 @@ const AdminDashboard = () => {
       <div className="flex-1 p-10">
         <Routes>
           <Route path="add-event" element={<AddEvent />} />
-          <Route path="view-events" element={<ViewEvents />} />
+          <Route path="add-listing" element={<AddListing />} />
         </Routes>
       </div>
     </div>

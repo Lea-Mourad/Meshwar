@@ -23,7 +23,7 @@ import Accountpage from "./pages/accountpage";
 import EmailVerificationPage from "./components/EmailVerificationPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import AddEvent from "./components/AddEvent";
-import ViewEvents from "./components/ViewEvents";
+import AddListing from "./components/AddListing";
 
 
 
@@ -58,6 +58,7 @@ function App() {
           <Route path="/admin-login" element={<AdminLogin setIsAdmin={setIsAdmin} />} />
           <Route path="/admin-dashboard/*" element={<AdminDashboard />} />
           <Route path="/admin/add-event" element={<AddEvent />} />
+          <Route path="/admin/add-listing" element={<AddListing />} />
         </Routes>
       </Router>
     </AuthProvider>
