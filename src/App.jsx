@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState } from "react"; 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/homepage";
 import Login from "./pages/loginpage";
@@ -21,12 +22,15 @@ import AdminLogin from './pages/AdminLogIn';
 import Accountpage from "./pages/accountpage";
 import EmailVerificationPage from "./components/EmailVerificationPage";
 import AdminDashboard from "./pages/AdminDashboard";
+import AddEvent from "./components/AddEvent";
+import ViewEvents from "./components/ViewEvents";
 
 
 
 
 
 function App() {
+  const [isAdmin, setIsAdmin] = useState(false);
   return (
     <AuthProvider>
       <Router>
@@ -51,8 +55,9 @@ function App() {
            element={<FavoritesPage />}
           //  element={<PrivateRoute><FavoritesPage /></PrivateRoute>}
           />
-          <Route path="/admin-login" element={<AdminLogin />} />
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/admin-login" element={<AdminLogin setIsAdmin={setIsAdmin} />} />
+          <Route path="/admin-dashboard/*" element={<AdminDashboard />} />
+          <Route path="/admin/add-event" element={<AddEvent />} />
         </Routes>
       </Router>
     </AuthProvider>

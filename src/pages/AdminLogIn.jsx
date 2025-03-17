@@ -10,12 +10,16 @@ const AdminLogin = ({ setIsAdmin }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Login form submitted");
         setError("");
         setLoading(true);
+        console.log("Submitting login request...");  
+    console.log("Email:", email);  
+    console.log("Password:", password);
 
         try {
-            // Replace with your actual API endpoint
-            const response = await fetch("https://meshwar-backend.onrender.com/auth/admin/login/", {
+
+            const response = await fetch("https://meshwar-backend.onrender.com/auth/admin-login/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -24,6 +28,7 @@ const AdminLogin = ({ setIsAdmin }) => {
             });
 
             const data = await response.json();
+            console.log("Response received:", data); 
 
             if (response.ok) {
                 localStorage.setItem("adminToken", data.token);  // Save auth token
@@ -34,6 +39,7 @@ const AdminLogin = ({ setIsAdmin }) => {
                 setError(data.message || "Invalid email or password");  // Show error from API
             }
         } catch (error) {
+            console.error("Fetch error:", error);
             setError("An error occurred. Please try again.");
         } finally {
             setLoading(false);
