@@ -18,13 +18,13 @@ import FavoritesPage from "./pages/favoritepage";
 import { AuthProvider } from "./context/authContext";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./context/authContext";
-import AdminLogin from './pages/AdminLogIn';
+import AdminLogin from './pages/AdminLogin';
 import Accountpage from "./pages/accountpage";
 import EmailVerificationPage from "./components/EmailVerificationPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import AddEvent from "./components/AddEvent";
 import AddListing from "./components/AddListing";
-
+import CityCategory from "./components/CityCategory";  // Import your CityCategory component
 
 
 
@@ -50,6 +50,7 @@ function App() {
           <Route path="/baalbak" element={<Baalbak />}/>
           <Route path="/batroun" element={<Batroun />}/>
           <Route path="/account" element={<Accountpage />}/>
+          <Route path="/:city/:category" element={<CityCategory />} />
           <Route
            path="/favorites"
            element={<FavoritesPage />}
