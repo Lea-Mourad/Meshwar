@@ -48,3 +48,22 @@ class EmailVerification(models.Model):
 
     def is_expired(self):
         return timezone.now() > self.expires_at
+    
+class Place(models.Model):
+    name=models.CharField(max_length=255)
+    description=models.TextField()
+    image=models.ImageField(upload_to='places/',null=False,blank=True)
+    city=models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
+class Favorite(models.Model):
+      user=models.ForeignKey(User,on_delete=models.CASCADE)
+      place=models.ForeignKey(Place,on_delete=models.CASCADE)
+
+      class Meta:
+           unique_together=('user','place') 
+      
+      def __str__(self):
+           return f"{self.user.email}-{self.place.name}"
+
+

@@ -14,10 +14,14 @@ from pathlib import Path
 import os
 from urllib.parse import urlparse
 
+\
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+MEDIA_URL = '/media/'  # URL path for media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory where uploaded files are stored
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -210,3 +214,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 #     "http://localhost:3000",  # React development server
 #     "https://your-react-app-url.com",  # Your production React app URL
 # ]
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",  # Backend URL
+    "http://localhost:3000",  # React frontend URL (if needed)
+]
