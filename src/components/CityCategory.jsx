@@ -11,20 +11,19 @@ const CityCategory = () => {
   const filteredPlaces = placesData.filter(place => place.category.toLowerCase() === category.toLowerCase());
 
   return (
-    <div className="w-full bg-[#F5E3C1] min-h-screen">
+    <div className="w-full min-h-screen bg-[#F5E3C1]"> {/* Set the background color on the outer div */}
       <Header />
 
       {/* Category Title */}
       <h2 className="text-4xl font-bold text-center mt-20 pt-8"
       style={{ fontFamily: "'Pathway', sans-serif", color: "#B24F4F" }}>
-  {filteredPlaces.length > 0 ? `${category.charAt(0).toUpperCase() + category.slice(1)}` : `No ${category} Found`}
-</h2>
-
+        {filteredPlaces.length > 0 ? `${category.charAt(0).toUpperCase() + category.slice(1)}` : `No ${category} Found`}
+      </h2>
 
       {/* Grid of Place Cards */}
-      <div className="w-full max-w-6xl mt-12 mx-auto">
+      <div className="w-full mt-12 mx-auto px-6 sm:px-10 md:px-20">
         {/* Grid Container */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6 justify-center">
           {filteredPlaces.length > 0 ? (
             filteredPlaces.map((place) => (
               <PlaceCard key={place.id} place={place} />
