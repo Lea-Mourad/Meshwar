@@ -1,6 +1,4 @@
-// src/data/placesData.js
-
-const placesData = [
+const beirutPlacesData = [
   {
     id: 1,
     name: "National Museum",
@@ -8,7 +6,7 @@ const placesData = [
     description: "A rich collection of artifacts from Lebanon's history.",
     image: "https://www.wilmotte.com/wp-content/uploads/2023/03/hr_museebeyrouth_marwanharmouche_06-scaled.jpg",
     url: "https://www.nationalmuseumlebanon.com", // One URL field
-    priceRange: "$$"
+    priceRange: "$"
   },
   {
     id: 2,
@@ -17,6 +15,15 @@ const placesData = [
     description: "Traditional Lebanese cuisine in a cozy atmosphere.",
     image: "https://www.caterermiddleeast.com/cloud/2022/04/22/sVcWanyk-CAM23620-1200x752.jpg",
     url: "https://emsherifrestaurant.com/", // One URL field
+    priceRange: "$$$$"
+  },
+  {
+    id: 3,
+    name: "Falamnki",
+    category: "Restaurants",
+    description: "Traditional Lebanese cuisine in a cozy atmosphere.",
+    image: "https://bunny-wp-pullzone-eqa83h6t2a.b-cdn.net/wp-content/uploads/2023/10/74313293-51700665.jpg",
+    url: "http://www.alfalamanki.com/", // One URL field
     priceRange: "$$$"
   },
   {
@@ -39,5 +46,4 @@ const placesData = [
   },
   // Add more mock places if needed
 ];
-
-export default placesData;
+export default beirutPlacesData;

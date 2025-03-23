@@ -1,14 +1,42 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";  // Ensure to import useParams
 import PlaceCard from "../components/placeCard";
-import placesData from "../data/placesData"; // Importing sample data
+import beirutPlacesData from "../data/beirutPlacesData";
+import sidonPlacesData from "../data/sidonPlacesData";
+import baalbekPlacesData from "../data/baalbakPlacesData";
+import batrounPlacesData from "../data/batrounPlacesData";
+import byblosPlacesData from "../data/byblosPlacesData";
+import sourPlacesData from "../data/sourPlacesData";
 import Header from "./header";
 
+// Define a static mapping for city data
+const cityDataMap = {
+  beirut: beirutPlacesData,
+  sidon: sidonPlacesData,
+  batroun: batrounPlacesData,
+  byblos:byblosPlacesData,
+  sour: sourPlacesData,
+  baalbek: baalbekPlacesData
+};
+
 const CityCategory = () => {
-  const { category } = useParams(); // Get the category from the URL (e.g., 'museums')
-  
-  // Filter placesData by category (make both category and place category lowercase to match)
-  const filteredPlaces = placesData.filter(place => place.category.toLowerCase() === category.toLowerCase());
+  const { city, category } = useParams();  // Get both city and category from the URL
+
+  const [cityPlacesData, setCityPlacesData] = useState([]);
+
+  useEffect(() => {
+    if (cityDataMap[city]) {
+      setCityPlacesData(cityDataMap[city]);  // Set the city-specific data from the map
+    } else {
+      console.error("City data not found:", city);
+      setCityPlacesData([]);  // Empty array if city data is not found
+    }
+  }, [city]);
+
+  // Filter places by category, making sure both are compared in lowercase to avoid case sensitivity issues
+  const filteredPlaces = cityPlacesData.filter(
+    (place) => place.category && place.category.toLowerCase() === category.toLowerCase()
+  );
 
   return (
     <div className="w-full min-h-screen bg-[#F5E3C1]"> {/* Set the background color on the outer div */}

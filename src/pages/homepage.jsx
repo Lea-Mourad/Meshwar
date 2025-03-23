@@ -11,6 +11,7 @@ const HomePage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
+ 
    {/* Full-Width Background Video */}
 <div className="relative w-screen h-[500px] overflow-hidden mt-20">
   <video

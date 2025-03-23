@@ -6,7 +6,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Header from "../components/header";
-import placesData from "../data/placesData";  // Import mock data
 
 const Beirut = () => {
   const navigate = useNavigate();
@@ -32,8 +31,8 @@ const Beirut = () => {
 
   // Handle navigation for category selection
   const handleCategoryClick = (category) => {
-    navigate(`/category/${category.toLowerCase()}`);
-    setSelectedCategory(category); // Set selected category to filter places
+    const cityName = "beirut";  // Hardcoded city name for the Beirut page
+    navigate(`/${cityName}/${category}`);  // Navigate to the city/category path
   };
 
   return (
@@ -62,6 +61,7 @@ const Beirut = () => {
           <h1 className="text-6xl font-extrabold text-[#B24F4F] mt-6 tracking-wide" style={{ fontFamily: "'Pathway', sans-serif" }}>
             BEIRUT
           </h1>
+          
 
           {/* Description */}
           <div className="w-full bg-[#F5E3C1] bg-opacity-30 px-8 py-10 mt-6 text-center shadow-md ">
@@ -75,9 +75,9 @@ const Beirut = () => {
             </p>
           </div>
 
-
+         
         {/* Categories */}
-        <div className="w-full flex flex-wrap justify-center gap-8 mt-10">
+        <div className="w-full max-w-5xl mt-10 p-6 flex flex-wrap justify-center gap-8">
           {categories.map((category) => (
             <button
               key={category}

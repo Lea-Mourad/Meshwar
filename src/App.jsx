@@ -27,8 +27,6 @@ import AddListing from "./components/AddListing";
 import CityCategory from "./components/CityCategory";  // Import your CityCategory component
 
 
-
-
 function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   return (
@@ -43,14 +41,20 @@ function App() {
           <Route path="/aboutLebanon" element={<ExploreLebanon />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/events" element={<EventsPage />} />
+         
+          {/* City Routes */}
           <Route path="/beirut" element={<Beirut />} />
           <Route path="/sidon" element={<Sidon />} />
-          <Route path="/byblos" element={<Byblos />}/>
-          <Route path="/sour" element={<Sour />}/>
-          <Route path="/baalbak" element={<Baalbak />}/>
-          <Route path="/batroun" element={<Batroun />}/>
-          <Route path="/account" element={<Accountpage />}/>
+          <Route path="/byblos" element={<Byblos />} />
+          <Route path="/sour" element={<Sour />} />
+          <Route path="/baalbak" element={<Baalbak />} />
+          <Route path="/batroun" element={<Batroun />} />
+
+          {/* City Category Route */}
           <Route path="/:city/:category" element={<CityCategory />} />
+         
+          <Route path="/account" element={<Accountpage />}/>
+         
           <Route
            path="/favorites"
            element={<FavoritesPage />}
