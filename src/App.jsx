@@ -25,7 +25,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AddEvent from "./components/AddEvent";
 import AddListing from "./components/AddListing";
 import CityCategory from "./components/CityCategory";  // Import your CityCategory component
-
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -41,7 +41,7 @@ function App() {
           <Route path="/aboutLebanon" element={<ExploreLebanon />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/events" element={<EventsPage />} />
-         
+          <Route path="/about-us" element={<AboutUs />} />
           {/* City Routes */}
           <Route path="/beirut" element={<Beirut />} />
           <Route path="/sidon" element={<Sidon />} />
