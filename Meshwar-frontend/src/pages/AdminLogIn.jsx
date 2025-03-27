@@ -13,16 +13,16 @@ const AdminLogin = () => {
 
         try {
             const response = await axios.post(
-                'https://meshwar-backend.onrender.com/admin/login/',
+                'https://meshwar-backend.onrender.com/auth/admin-login/',
                 { email, password }
             );
 
-            // Store the access token in localStorage
+            // Store the access token and admin status in localStorage
             localStorage.setItem('access_token', response.data.access);
             localStorage.setItem('isAdmin', 'true');
 
             // Redirect to admin dashboard
-            navigate('/accountpage');
+            navigate('/admin-dashboard');
         } catch (error) {
             setError('Invalid email or password');
         }

@@ -72,11 +72,12 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt', # tokenization framework for login api
     'rest_framework_simplejwt.token_blacklist', # for logout purposes
     'corsheaders', # Cors headers
-
-    
+    'django_filters', # For filtering in DRF
 
     "api",  #testing api
     "authenticate", #Authentication and user related api
+    "locations", # Locations app for tourism spots
+    "events", # Events app for managing events
 ]
 
 REST_FRAMEWORK = {
