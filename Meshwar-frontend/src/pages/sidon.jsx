@@ -9,6 +9,8 @@ import Header from "../components/header";
 
 const Sidon = () => {
     const navigate = useNavigate();
+    const [selectedCategory, setSelectedCategory] = useState("");
+  
     const categories = ["Historical Sites", "Restaurants", "Beaches", "Coffee Shops", "Hotels", "Activities"];
   
     const categoryImages = {
@@ -28,6 +30,10 @@ const Sidon = () => {
       "https://visitsaida.com/wp-content/uploads/2021/07/SAIDA-PUBLIC-BEACH.jpg",
     ];
   
+    const handleCategoryClick = (category) => {
+      const cityName = "sidon";  // Hardcoded city name for the Beirut page
+      navigate(`/${cityName}/${category}`);  // Navigate to the city/category path
+    };
     return (
     
         <div className="w-full overflow-auto bg-[#F5E3C1] bg-opacity-60">
@@ -70,18 +76,18 @@ const Sidon = () => {
   
           {/* Categories */}
           <div className="w-full max-w-5xl mt-10 p-6 flex flex-wrap justify-center gap-8">
-                    {categories.map((category) => (
-                        <button
-                            key={category}
-                            className="w-72 h-48 relative flex items-center justify-center rounded-lg text-2xl font-semibold transition-all shadow-lg bg-cover bg-center text-white hover:scale-105 hover:shadow-2xl"
-                            style={{ backgroundImage: categoryImages[category] }}
-                            onClick={() => navigate(`/${category.toLowerCase().replace(/\s/g, "-")}`)}
-                        >
-                            <div className="absolute inset-0 bg-black opacity-40 rounded-lg"></div>
-                            <span className="relative z-10">{category}</span>
-                        </button>
-                    ))}
-                </div>
+          {categories.map((category) => (
+            <button
+              key={category}
+              className="w-72 h-48 relative flex items-center justify-center rounded-lg text-2xl font-semibold transition-all shadow-lg bg-cover bg-center text-white hover:scale-105 hover:shadow-2xl"
+              style={{ backgroundImage: categoryImages[category] }}
+              onClick={() => handleCategoryClick(category)}
+            >
+              <div className="absolute inset-0 bg-black opacity-40 rounded-lg"></div>
+              <span className="relative z-10">{category}</span>
+            </button>
+          ))}
+        </div>
         </div>
       </div>
     );

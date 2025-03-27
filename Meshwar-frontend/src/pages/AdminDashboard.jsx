@@ -1,124 +1,130 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link, Route, Routes } from "react-router-dom";
+import AddEvent from "../components/AddEvent";
+import AddListing from "../components/AddListing";
+import Chart from "react-apexcharts";
 
 const AdminDashboard = () => {
-  const [eventName, setEventName] = useState("");
-  const [eventDate, setEventDate] = useState("");
-  const [eventLocation, setEventLocation] = useState("");
-  const [eventCategory, setEventCategory] = useState("");
-  const [eventImage, setEventImage] = useState("");
-  const [eventTicketLink, setEventTicketLink] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  // Dummy Data for Statistics
+  const [totalListings, setTotalListings] = useState(25);
+  const [totalEvents, setTotalEvents] = useState(10);
+  const [popularCategories, setPopularCategories] = useState([
+    { category: "Food", count: 8 },
+    { category: "Beaches", count: 6 },
+    { category: "Historical", count: 5 },
+    { category: "Nightlife", count: 4 },
+    { category: "Cultural", count: 2 },
+  ]);
+  const [listingsPerCity, setListingsPerCity] = useState([
+    { city: "Beirut", count: 12 },
+    { city: "Batroun", count: 5 },
+    { city: "Byblos", count: 3 },
+    { city: "Sidon", count: 2 },
+    { city: "Baalbek", count: 3 },
+  ]);
 
-  const handleAddEvent = (e) => {
-    e.preventDefault();
-
-    if (!eventName || !eventDate || !eventLocation || !eventCategory || !eventImage) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-
-    const newEvent = {
-      id: Date.now(),
-      name: eventName,
-      date: eventDate,
-      location: eventLocation,
-      category: eventCategory,
-      image: eventImage,
-      ticketLink: eventTicketLink,
-      description: eventDescription,
-    };
-
-    // Retrieve existing events or create new storage
-    const storedEvents = JSON.parse(localStorage.getItem("events")) || [];
-    localStorage.setItem("events", JSON.stringify([...storedEvents, newEvent]));
-
-    setSuccessMessage("Event added successfully!");
-
-    // Clear input fields
-    setEventName("");
-    setEventDate("");
-    setEventLocation("");
-    setEventCategory("");
-    setEventImage("");
-    setEventTicketLink("");
-    setEventDescription("");
-  };
+  // Dummy Data for Recent Listings Table
+  const recentListings = [
+    { id: 1, name: "Zaitunay Bay", city: "Beirut", category: "Beaches", date: "2025-03-15" },
+    { id: 2, name: "Pierre & Friends", city: "Batroun", category: "Nightlife", date: "2025-03-10" },
+    { id: 3, name: "Byblos Citadel", city: "Byblos", category: "Historical", date: "2025-03-05" },
+  ];
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[url('https://www.lebanontours.co/uploads/1/0/3/7/10373098/arches-pigeon-rocks-beirut_orig.jpg')] bg-cover bg-center relative">
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#984949] to-[#F5E3C1] opacity-70"></div>
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <div className="w-64 bg-[#984949] text-white p-5 space-y-4">
+        <h2 className="text-xl font-bold">Admin Dashboard</h2>
+        <ul className="space-y-2">
+          <li className="cursor-pointer p-2 rounded hover:bg-[#B24F4F]">
+            <Link to="/admin/add-event">Add Event</Link>
+          </li>
+          <li className="cursor-pointer p-2 rounded hover:bg-[#B24F4F]">
+            <Link to="/admin/add-listing">Add Listing</Link>
+          </li>
+        </ul>
+      </div>
 
-      {/* Admin Form */}
-      <div className="relative z-10 p-10 bg-white bg-opacity-90 rounded-2xl shadow-xl max-w-lg w-full">
-        <h2 className="text-3xl font-bold text-[#984949] mb-6 text-center">Add New Event</h2>
-        {successMessage && <p className="text-green-600 mb-4">{successMessage}</p>}
+      {/* Main Content */}
+      <div className="flex-1 p-10">
+        <h1 className="text-4xl font-bold text-[#984949] mb-6">Dashboard Overview</h1>
 
-        <form onSubmit={handleAddEvent} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Event Name"
-            value={eventName}
-            onChange={(e) => setEventName(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-            required
+        {/* Stats Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold">Total Listings</h2>
+            <p className="text-4xl font-bold">{totalListings}</p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold">Total Events</h2>
+            <p className="text-4xl font-bold">{totalEvents}</p>
+          </div>
+        </div>
+
+        {/* Popular Categories Pie Chart */}
+        <div className="bg-white mt-10 p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-semibold mb-4">Most Popular Categories</h2>
+          <Chart
+            options={{
+              labels: popularCategories.map((cat) => cat.category),
+            }}
+            series={popularCategories.map((cat) => cat.count)}
+            type="pie"
+            width="400"
           />
-          <input
-            type="date"
-            value={eventDate}
-            onChange={(e) => setEventDate(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-            required
+        </div>
+
+        {/* Listings Per City Bar Chart */}
+        <div className="bg-white mt-10 p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-semibold mb-4">Listings Per City</h2>
+          <Chart
+            options={{
+              chart: { id: "listings-per-city" },
+              xaxis: {
+                categories: listingsPerCity.map((city) => city.city),
+              },
+            }}
+            series={[
+              {
+                name: "Listings",
+                data: listingsPerCity.map((city) => city.count),
+              },
+            ]}
+            type="bar"
+            height="300"
           />
-          <input
-            type="text"
-            placeholder="Location"
-            value={eventLocation}
-            onChange={(e) => setEventLocation(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-            required
-          />
-          <select
-            value={eventCategory}
-            onChange={(e) => setEventCategory(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-            required
-          >
-            <option value="">Select Category</option>
-            <option value="Music">Music</option>
-            <option value="Food">Food</option>
-            <option value="Sports">Sports</option>
-            <option value="Culture">Culture</option>
-          </select>
-          <input
-            type="url"
-            placeholder="Event Image URL"
-            value={eventImage}
-            onChange={(e) => setEventImage(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-            required
-          />
-          <input
-            type="url"
-            placeholder="Ticket Link (optional)"
-            value={eventTicketLink}
-            onChange={(e) => setEventTicketLink(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-          />
-          <textarea
-            placeholder="Event Description (optional)"
-            value={eventDescription}
-            onChange={(e) => setEventDescription(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-          ></textarea>
-          <button
-            type="submit"
-            className="w-full bg-[#984949] text-white py-3 rounded-lg hover:bg-[#B24F4F] transition"
-          >
-            Add Event
-          </button>
-        </form>
+        </div>
+
+        {/* Recent Listings Table */}
+        <div className="bg-white mt-10 p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-semibold mb-4">Recent Listings</h2>
+          <table className="w-full border-collapse border border-gray-200">
+            <thead>
+              <tr className="bg-[#984949] text-white">
+                <th className="p-3 border">Name</th>
+                <th className="p-3 border">City</th>
+                <th className="p-3 border">Category</th>
+                <th className="p-3 border">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recentListings.map((listing) => (
+                <tr key={listing.id} className="text-center">
+                  <td className="p-3 border">{listing.name}</td>
+                  <td className="p-3 border">{listing.city}</td>
+                  <td className="p-3 border">{listing.category}</td>
+                  <td className="p-3 border">{listing.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Routes for Adding Events & Listings */}
+        <Routes>
+          <Route path="add-event" element={<AddEvent />} />
+          <Route path="add-listing" element={<AddListing />} />
+        </Routes>
       </div>
     </div>
   );

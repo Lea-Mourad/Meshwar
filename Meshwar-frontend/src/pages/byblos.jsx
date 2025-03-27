@@ -29,6 +29,10 @@ const Byblos = () => {
     "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/09/4e/6d/44/caption.jpg?w=1200&h=1200&s=1",
     "https://libshop.fr/wp-content/uploads/2020/01/byblosliban.jpg",
   ];
+  const handleCategoryClick = (category) => {
+    const cityName = "byblos";  // Hardcoded city name for the Beirut page
+    navigate(`/${cityName}/${category}`);  // Navigate to the city/category path
+  };
 
   return (
     <div className="w-full overflow-auto bg-[#F5E3C1] bg-opacity-60">
@@ -74,18 +78,18 @@ communication across the Mediterranean. Its charming harbor, medieval citadel, a
 
       {/* Categories */}
       <div className="w-full max-w-5xl mt-10 p-6 flex flex-wrap justify-center gap-8">
-                    {categories.map((category) => (
-                        <button
-                            key={category}
-                            className="w-72 h-48 relative flex items-center justify-center rounded-lg text-2xl font-semibold transition-all shadow-lg bg-cover bg-center text-white hover:scale-105 hover:shadow-2xl"
-                            style={{ backgroundImage: categoryImages[category] }}
-                            onClick={() => navigate(`/${category.toLowerCase().replace(/\s/g, "-")}`)}
-                        >
-                            <div className="absolute inset-0 bg-black opacity-40 rounded-lg"></div>
-                            <span className="relative z-10">{category}</span>
-                        </button>
-                    ))}
-                </div>
+          {categories.map((category) => (
+            <button
+              key={category}
+              className="w-72 h-48 relative flex items-center justify-center rounded-lg text-2xl font-semibold transition-all shadow-lg bg-cover bg-center text-white hover:scale-105 hover:shadow-2xl"
+              style={{ backgroundImage: categoryImages[category] }}
+              onClick={() => handleCategoryClick(category)}
+            >
+              <div className="absolute inset-0 bg-black opacity-40 rounded-lg"></div>
+              <span className="relative z-10">{category}</span>
+            </button>
+          ))}
+        </div>
     </div>
     </div>
   );
