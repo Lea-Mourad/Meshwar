@@ -30,6 +30,7 @@ SECRET_KEY = "django-insecure-=nk2hm3sss=ky*j(p+_pw&_bm6y98+f0*!oja!-7_j2=ogrht^
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -224,7 +225,12 @@ SIMPLE_JWT = {
 
 
 #### CORS RELATED ALLOWED HOSTS ####
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Your frontend
+]
+CORS_ALLOW_CREDENTIALS = True  #
 
 #Configure later
 # CORS_ALLOWED_ORIGINS = [
