@@ -177,7 +177,7 @@ def list_favorite(request):
     favorites = Favorite.objects.filter(user=request.user).select_related('place')
 
     if city:
-        favorites = favorites.filter(place__city=city)
+        favorites = favorites.filter(place__city__iexact=city)
 
     favorite_places = [
         {

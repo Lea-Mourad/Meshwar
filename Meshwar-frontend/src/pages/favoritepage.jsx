@@ -10,30 +10,20 @@ export default function FavoritesPage() {
   const [selectedCity, setSelectedCity] = useState("Beirut");
   const [favorites, setFavorites] = useState([]);
 
-  // Optional: protect the page
-  // if (!isAuthenticated) {
-  //   return <Navigate to="/loginpage" />;
-  // }
+  const cities = ["Beirut", "Batroun", "Byblos", "Sidon", "Balbbek", "Jounieh"];
 
-  const cities = ["Beirut", "Batroun", "Byblos", "Sidon", "Tyre", "Jounieh"];
-
-  // 🔁 Fetch favorite places from backend
   const fetchFavorites = async () => {
-    const token = localStorage.getItem("token");
-    const API_BASE = "https://meshwar-backend.onrender.com";
+    const token = localStorage.getItem("authToken");
+    const API_BASE = "http://127.0.0.1:8000";
     const listURL = `${API_BASE}/auth/favorites/list/?city=${selectedCity}`;
-    try {
-      const response = await fetch(
-listURL
 
-,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+    try {
+      const response = await fetch(listURL, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const data = await response.json();
       setFavorites(data.favorites || []);
