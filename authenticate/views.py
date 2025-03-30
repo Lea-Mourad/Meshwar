@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from datetime import timedelta
 from django.utils import timezone
-from .serializers import UserRegistrationSerializer, EmailVerificationSerializer,LoginSerializer
+from .serializers import PasswordResetConfirmSerializer, PasswordResetRequestSerializer, UserRegistrationSerializer, EmailVerificationSerializer,LoginSerializer
 from authenticate.models import EmailVerification
 from .utils import send_email
 import logging
@@ -91,3 +91,21 @@ class ProtectedView(APIView):
 
     def get(self, request):
         return Response({"message": "This is a protected view!"})
+    
+class PasswordResetRequestView(generics.GenericAPIView):
+    serializer_class = PasswordResetRequestSerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response({"message": "Password reset email sent."}, status=status.HTTP_200_OK)
+
+
+class PasswordResetConfirmView(generics.GenericAPIView):
+    serializer_class = PasswordResetConfirmSerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"message": "Password has been reset successfully."}, status=status.HTTP_200_OK)

@@ -6,6 +6,8 @@ from datetime import timedelta
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import authenticate
+from .models import PasswordResetToken
+from django.core.mail import send_mail
 
 
 User = get_user_model()
@@ -58,3 +60,72 @@ class LoginSerializer(serializers.Serializer):
 
         data['user'] = user
         return data
+    
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate_email(self, value):
+        try:
+            user = User.objects.get(email=value)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("No user with this email found.")
+
+        # Create a password reset token
+        reset_token = PasswordResetToken.objects.create(user=user)
+
+        # Send email with reset link
+        reset_link = f"http://localhost:3000/reset-password/{reset_token.token}/"
+        send_mail(
+            subject="Password Reset Request",
+            message=f"Click the link below to reset your password:\n\n{reset_link}",
+            from_email="admin@yourwebsite.com",
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+
+        return value
+
+
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate_email(self, value):
+        try:
+            user = User.objects.get(email=value)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("No user with this email found.")
+
+        # Generate password reset token
+        reset_token = PasswordResetToken.objects.create(user=user)
+
+        # Send password reset email
+        reset_link = f"http://localhost:3000/reset-password/{reset_token.token}/"
+        send_mail(
+            subject="Password Reset Request",
+            message=f"Click the link below to reset your password:\n\n{reset_link}",
+            from_email="admin@yourwebsite.com",
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+
+        return value
+    
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    token = serializers.UUIDField()
+    new_password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        try:
+            reset_token = PasswordResetToken.objects.get(token=data["token"])
+            if reset_token.is_expired():
+                raise serializers.ValidationError("Reset token has expired.")
+        except PasswordResetToken.DoesNotExist:
+            raise serializers.ValidationError("Invalid reset token.")
+
+        self.user = reset_token.user
+        reset_token.delete()  # Delete token after successful validation
+        return data
+
+    def save(self):
+        self.user.set_password(self.validated_data["new_password"])
+        self.user.save()
