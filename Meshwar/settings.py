@@ -94,7 +94,7 @@ WSGI_APPLICATION = "Meshwar.wsgi.application"
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://meshwar_user:LIIOTK7o0bSLI02vUETrEmW05OZWWwei@dpg-cuhktkbtq21c73bbltj0-a.frankfurt-postgres.render.com/meshwar"
+    "postgresql://meshwar_db_user:HCGgFUKuiDrfWSGBJGlx0n0VEwP94e8h@dpg-cv6tok3qf0us73f6dhh0-a.frankfurt-postgres.render.com/meshwar_db"
 )
 
 db_info = urlparse(DATABASE_URL)
@@ -107,6 +107,10 @@ DATABASES = {
         'PASSWORD': db_info.password,
         'HOST': db_info.hostname,
         'PORT': db_info.port or 5432,  
+        'OPTIONS': {
+            'sslmode': 'require',  # Enforces SSL connection
+        },
+
     }
 }
 
@@ -165,14 +169,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = 'authenticate.User'
 
 
-# Verification email related settings, deprecated, we will be using postman API for now
-    # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    # EMAIL_HOST = "smtp.postmarkapp.com"
-    # EMAIL_PORT = 587
-    # EMAIL_USE_TLS = True
-    # EMAIL_HOST_USER = "810dd24e-bb2f-47de-b880-f7ef125bb525" 
-    # EMAIL_HOST_PASSWORD = "810dd24e-bb2f-47de-b880-f7ef125bb525" 
-    # DEFAULT_FROM_EMAIL = "ln_tebbal@esi.dz" 
+ #Verification email related settings, deprecated, we will be using postman API for now
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.postmarkapp.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "810dd24e-bb2f-47de-b880-f7ef125bb525" 
+EMAIL_HOST_PASSWORD = "810dd24e-bb2f-47de-b880-f7ef125bb525" 
+DEFAULT_FROM_EMAIL = "ln_tebbal@esi.dz" 
 
 # Postman API settings 
 POSTMARK_API_KEY = '810dd24e-bb2f-47de-b880-f7ef125bb525'
@@ -189,9 +193,3 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,               # Blacklist old refresh tokens
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@gmail.com'
-EMAIL_HOST_PASSWORD = 'your-email-password'
