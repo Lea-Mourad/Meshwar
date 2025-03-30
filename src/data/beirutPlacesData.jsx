@@ -1,3 +1,4 @@
+
 const beirutPlacesData = [
   {
     id: 1,
@@ -27,7 +28,7 @@ const beirutPlacesData = [
     priceRange: "$$$"
   },
   {
-    id: 3,
+    id: 4,
     name: "Raouché",
     category: "Beaches",
     description: "Famous coastal landmark, known for its rock formations.",
@@ -36,7 +37,7 @@ const beirutPlacesData = [
     priceRange: "Free"
   },
   {
-    id: 4,
+    id: 5,
     name: "Coffee Shop X",
     category: "Coffee Shops",
     description: "A trendy coffee spot with the best espresso.",

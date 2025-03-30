@@ -1,67 +1,104 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/header";  // Assuming Header is a separate component
+import Header from "../components/header";
+import axios from "axios";
 
 const Accountpage = () => {
-  const [email, setEmail] = useState("currentmail@example.com");  // Default to the old email
+  // State variables
+  const [email, setEmail] = useState("currentmail@example.com"); // This field will hold the new email address
   const [personalized, setPersonalized] = useState(false);
-  const [activeSection, setActiveSection] = useState("settings"); // Default section is settings
-  const [showDeletePopup, setShowDeletePopup] = useState(false); // State to show the delete confirmation popup
-  const history = [
-    "Trip to Byblos - Recommended on Jan 20, 2024",
-    "Best hiking spots - Searched on Feb 5, 2024",
-    "Top-rated restaurants - Recommended on Feb 15, 2024",
-  ];
-  
-  const navigate = useNavigate();
-  
-  const handleSave = (e) => {
-    e.preventDefault();
-    console.log("Saved", { email, personalized });
-  };
+  const [activeSection, setActiveSection] = useState("settings");
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
-  // Function to handle the sidebar selection click
+  const navigate = useNavigate();
+  const API_BASE_URL = "http://127.0.0.1:8000"; // Your local backend URL
+
+  // Basic Auth credentials (replace 'your_password_here' with the actual password)
+  const username = "hyd06@mail.aub.edu";
+  const password = "your_password_here"; // Ideally, do not hardcode sensitive data in production
+  const authHeader = "Basic " + btoa(`${username}:${password}`);
+
+  // Function to handle change email request
+  const handleSave = async (e) => {
+    e.preventDefault();
+    setMessage("");
+    setLoading(true);
+  
+    try {
+      const response = await axios.patch(
+        `${API_BASE_URL}/auth/change-email/`,
+        { new_email: email },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authHeader, // Check if this is correctly set
+          },
+        }
+      );
+  
+      console.log(response); // Log response for further debugging
+  
+      if (response.status === 200) {
+        setMessage("Verification code sent to your new email!");
+        setTimeout(() => {
+          navigate("/verify-email-change");
+        }, 2000);
+      } else {
+        setMessage("Failed to send verification email. Try again.");
+      }
+    } catch (error) {
+      console.error("Error updating email:", error);
+      setMessage(error.response?.data?.message || "Error updating email. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  // Sidebar click handler (if needed)
   const handleSidebarClick = (section) => {
     setActiveSection(section);
   };
 
-  // Function to handle delete account confirmation
-  const handleDeleteAccount = () => {
-    // Logic to delete the account goes here
-    console.log("Account deleted!");
-    setShowDeletePopup(false); // Close the popup after account deletion
-  };
-
   return (
     <div className="relative min-h-screen bg-[url('https://www.lebanontours.co/uploads/1/0/3/7/10373098/arches-pigeon-rocks-beirut_orig.jpg')] bg-cover bg-center">
-      {/* Header */}
       <Header />
-      {/* Main Content Area */}
-      <div className="flex flex-col md:flex-row min-h-screen z-10 pt-20"> {/* Flex container for full height */}
-        
+      <div className="flex flex-col md:flex-row min-h-screen z-10 pt-20">
         {/* Sidebar */}
         <div className="w-full md:w-1/4 bg-[#984949] p-6 text-white">
           <h2 className="text-3xl font-bold mb-6">Account</h2>
           <ul>
             <li
-              className={`mb-4 cursor-pointer p-2 rounded ${activeSection === "settings" ? 'bg-[#B24F4F]' : 'hover:bg-[#B24F4F]'} transition`}
+              className={`mb-4 cursor-pointer p-2 rounded ${
+                activeSection === "settings"
+                  ? "bg-[#B24F4F]"
+                  : "hover:bg-[#B24F4F]"
+              } transition`}
               onClick={() => handleSidebarClick("settings")}
             >
               Settings
             </li>
             <li
-              className={`mb-4 cursor-pointer p-2 rounded ${activeSection === "history" ? 'bg-[#B24F4F]' : 'hover:bg-[#B24F4F]'} transition`}
+              className={`mb-4 cursor-pointer p-2 rounded ${
+                activeSection === "history"
+                  ? "bg-[#B24F4F]"
+                  : "hover:bg-[#B24F4F]"
+              } transition`}
               onClick={() => handleSidebarClick("history")}
             >
               History
             </li>
             <li
-              className={`mb-4 cursor-pointer p-2 rounded ${activeSection === "recommendations" ? 'bg-[#B24F4F]' : 'hover:bg-[#B24F4F]'} transition`}
+              className={`mb-4 cursor-pointer p-2 rounded ${
+                activeSection === "recommendations"
+                  ? "bg-[#B24F4F]"
+                  : "hover:bg-[#B24F4F]"
+              } transition`}
               onClick={() => handleSidebarClick("recommendations")}
             >
               Recommendations
             </li>
-            {/* For Favorites, navigate to the Favorites page */}
             <li
               className="mb-4 cursor-pointer p-2 rounded hover:bg-[#B24F4F] transition"
               onClick={() => navigate("/favorites")}
@@ -71,19 +108,16 @@ const Accountpage = () => {
           </ul>
         </div>
 
-        {/* Main Content (Account Settings Form) */}
+        {/* Main Content */}
         <div className="w-full md:w-3/4 p-6 bg-white bg-opacity-90 shadow-md rounded-lg ml-auto flex flex-col flex-grow space-y-4">
-          {/* Conditional rendering based on active section */}
-          
           {activeSection === "settings" && (
             <>
               <h2 className="text-xl font-bold mb-4">Account Settings</h2>
-              
-              {/* Display Old Email */}
               <div className="mb-4">
-                <p><strong>Current Email:</strong> {email}</p>
+                <p>
+                  <strong>Current Email:</strong> {email}
+                </p>
               </div>
-              
               <form onSubmit={handleSave} className="flex flex-col space-y-4">
                 <label className="block mb-2">Change Email:</label>
                 <input
@@ -105,38 +139,31 @@ const Accountpage = () => {
                 <button
                   type="submit"
                   className="mt-4 p-2 w-full bg-[#984949] text-white rounded hover:bg-[#B24F4F] transition"
+                  disabled={loading}
                 >
-                  Save Changes
+                  {loading ? "Saving..." : "Save Changes"}
                 </button>
               </form>
-
-              {/* Add Delete Account button just below Save Changes */}
-              <div className="mt-8 ">
+              <div className="mt-8">
                 <button
                   className="py-4 px-8 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition text-sm"
-                  onClick={() => setShowDeletePopup(true)} // Show popup
+                  onClick={() => setShowDeletePopup(true)}
                 >
                   Delete Account
                 </button>
               </div>
             </>
           )}
-
-          {activeSection === "history" && (
-            <>
-              <h2 className="text-xl font-bold mb-4">History</h2>
-              <ul className="list-disc pl-5">
-                {history.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </>
-          )}
-          {activeSection === "recommendations" && (
-            <>
-              <h2 className="text-xl font-bold mb-4">Recommendations</h2>
-              <p className="mb-4">Personalized recommendations for you will be displayed here.</p>
-            </>
+          {message && (
+            <div
+              className={`mt-4 p-4 rounded ${
+                message.includes("sent")
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
+              {message}
+            </div>
           )}
         </div>
       </div>
@@ -154,13 +181,14 @@ const Accountpage = () => {
             <div className="flex justify-around">
               <button
                 className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
-                onClick={handleDeleteAccount} // Handle account deletion
+                // Implement handleDeleteAccount similarly with Basic auth if needed
+                onClick={() => alert("Delete account functionality here")}
               >
                 Yes
               </button>
               <button
                 className="px-4 py-2 bg-gray-300 text-white rounded-md hover:bg-gray-500"
-                onClick={() => setShowDeletePopup(false)} // Close the popup
+                onClick={() => setShowDeletePopup(false)}
               >
                 No
               </button>

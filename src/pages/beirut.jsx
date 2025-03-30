@@ -11,7 +11,7 @@ const Beirut = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const categories = ["Museums", "Restaurants", "Beaches", "Coffee Shops", "Hotels", "Arcades", "Night Life"];
+  const categories = ["Historical", "Restaurants", "Beaches", "Coffee Shops", "Hotels", "Arcades", "Night Life"];
 
   const categoryImages = {
     Museums: "url('https://www.wilmotte.com/wp-content/uploads/2023/03/hr_museebeyrouth_marwanharmouche_04-scaled.jpg')",

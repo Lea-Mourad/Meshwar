@@ -21,12 +21,13 @@ import { useAuth } from "./context/authContext";
 import AdminLogin from './pages/AdminLogin';
 import Accountpage from "./pages/accountpage";
 import EmailVerificationPage from "./components/EmailVerificationPage";
+import EmailChangeVerification from "./pages/changeEmailVerification";
 import AdminDashboard from "./pages/AdminDashboard";
 import AddEvent from "./components/AddEvent";
 import AddListing from "./components/AddListing";
 import CityCategory from "./components/CityCategory";  // Import your CityCategory component
 import AboutUs from "./pages/AboutUs";
-
+import ListingDetails from "./data/ListingDetails";
 function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   return (
@@ -52,7 +53,7 @@ function App() {
 
           {/* City Category Route */}
           <Route path="/:city/:category" element={<CityCategory />} />
-         
+          <Route path="/listing/:id" element={<ListingDetails />} />  {/* This renders ListingDetails */}
           <Route path="/account" element={<Accountpage />}/>
          
           <Route
