@@ -6,7 +6,8 @@ from datetime import timedelta
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import authenticate
-
+import logging
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -60,7 +61,7 @@ class LoginSerializer(serializers.Serializer):
         return data
     
 class ChangeEmailSerializer(serializers.ModelSerializer):
-    new_email = serializers.EmailField()
+    new_email = serializers.EmailField(required=True)
 
     class Meta:
         model = User
@@ -80,3 +81,19 @@ class ChangeEmailSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("This email is already taken.")
         
         return value
+    
+class VerifyEmailChangeSerializer(serializers.Serializer):
+    verification_code = serializers.UUIDField(required=True)
+
+    def validate_verification_code(self, value):
+        try:
+            verification = EmailVerification.objects.get(code=value)  # ✅ Correct field name
+            
+            if verification.expires_at < timezone.now():  # ✅ Expiration check
+                raise serializers.ValidationError("Verification code has expired.")
+
+            return verification  # ✅ Return the verification object
+
+        except EmailVerification.DoesNotExist:
+            raise serializers.ValidationError("Invalid verification code.")
+

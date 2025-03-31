@@ -8,6 +8,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('admin-login/', AdminLoginView.as_view(), name='admin-login'),
     path('change-email/', ChangeEmailView.as_view(), name='change-email'),   
-    path("verify-email-change/", VerifyEmailChangeView.as_view(),name='verify-email-change'),
+    path('verify-email-change/', VerifyEmailChangeView.as_view(),name='verify-email-change'),
     path('delete-account/', DeleteAccountView.as_view(), name='delete-account'),
+    
 ]

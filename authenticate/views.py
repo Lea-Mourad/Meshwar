@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth import authenticate
-from .serializers import UserRegistrationSerializer, EmailVerificationSerializer,LoginSerializer,ChangeEmailSerializer
+from .serializers import UserRegistrationSerializer, EmailVerificationSerializer,LoginSerializer,ChangeEmailSerializer,VerifyEmailChangeSerializer
 from authenticate.models import EmailVerification
 from .utils import send_email
 import logging
@@ -19,6 +19,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from uuid import uuid4
 from django.core.cache import cache
+
 
 
 logger = logging.getLogger(__name__)
@@ -115,36 +116,42 @@ class AdminLoginView(APIView):
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-class ChangeEmailView(APIView):
+class ChangeEmailView(generics.GenericAPIView):
+    serializer_class = ChangeEmailSerializer
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         user = request.user  # Get the logged-in user
-        serializer = ChangeEmailSerializer(data=request.data, context={'request': request})
+        # Serialize incoming data to validate the new email
+        serializer = self.get_serializer(data=request.data, context={'request': request})
         
         if serializer.is_valid():
             new_email = serializer.validated_data['new_email']
 
-            # Store the new email in the cache with an expiration time (e.g., 24 hours)
+            # Store the new email in the cache with an expiration time (24 hours)
             cache.set(f'new_email_{user.id}', new_email, timeout=86400)  # Cache for 24 hours
-            # Generate and send verification code logic here
+
+            # Generate and send a verification code to the new email
             expires_at = timezone.now() + timedelta(hours=24)
             verification = EmailVerification.objects.create(
                 user=user, 
                 code=uuid.uuid4(), 
                 expires_at=expires_at
             )
+            
+            # Send email with verification code
             subject = "Verify Your New Email for Meshwar"
             message = f"Your verification code is: {verification.code}"
             to_email = new_email
             send_email(subject, message, to_email)
-
+            logger.info(f"Stored verification code: {verification.code}")
+ 
             return Response({
                 "message": "A verification code has been sent to your new email address. Please verify it to complete the change."
             }, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+"""   
 class VerifyEmailChangeView(APIView):
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
@@ -185,7 +192,39 @@ class VerifyEmailChangeView(APIView):
 
         return Response({"message": "Email updated successfully", "email": user.email}, status=status.HTTP_200_OK)
 
+"""
+
+class VerifyEmailChangeView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [BasicAuthentication]
+    serializer_class = VerifyEmailChangeSerializer
+
+    def patch(self, request,*args, **kwargs):
+        serializer = VerifyEmailChangeSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            verification = serializer.validated_data["verification_code"]  
+            logger.info(f"Entered verification code: {verification}")
+            user = request.user
+            new_email = cache.get(f'new_email_{user.id}')
+            if not new_email:
+                return Response({"error": "No new email stored, or it has expired."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Update user email
+            user.email = new_email
+            user.is_verified = True
+            user.save()
+
+            # Delete verification record and cache
+            verification.delete()  # ✅ Use the object directly
+            cache.delete(f'new_email_{user.id}')
+
+            return Response({"message": "Email updated successfully.", "email": user.email}, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 #i want function for users to delete their Account
+
 class DeleteAccountView(APIView):
     permission_classes = [IsAuthenticated]
 
