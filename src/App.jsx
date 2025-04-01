@@ -21,7 +21,7 @@ import { useAuth } from "./context/authContext";
 import AdminLogin from './pages/AdminLogin';
 import Accountpage from "./pages/account";
 import EmailVerificationPage from "./components/EmailVerificationPage";
-import EmailChangeVerification from "./pages/changeEmailVerification";
+import ChangeEmailVerificationPage from "./components/verifyEmailChange";
 import AdminDashboard from "./pages/AdminDashboard";
 import AddEvent from "./components/AddEvent";
 import AddListing from "./components/AddListing";
@@ -55,6 +55,7 @@ function App() {
           <Route path="/:city/:category" element={<CityCategory />} />
           <Route path="/listing/:id" element={<ListingDetails />} />  */{/* This renders ListingDetails */}
           <Route path="/account" element={<Accountpage />}/>
+          <Route path="/verify-email-change" element={<ChangeEmailVerificationPage />}/>
          
           <Route
            path="/favorites"

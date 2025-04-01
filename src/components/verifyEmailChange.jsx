@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const EmailChangeVerification = () => {
+const ChangeEmailVerificationPage = () => {
     const [verificationCode, setVerificationCode] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const API_BASE_URL = "https://meshwar-backend.onrender.com";
+    const API_BASE_URL = "http://127.0.0.1:8000";  // Change this to your backend URL
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,18 +17,18 @@ const EmailChangeVerification = () => {
 
         try {
             const response = await axios.post(
-                `${API_BASE_URL}/auth/verify-new-email/`,  // Update this endpoint
+                `${API_BASE_URL}/auth/verify-email-change/`, // Endpoint for email change verification
                 { code: verificationCode }
             );
 
             if (response.status === 200) {
-                setMessage("Email change verified successfully!");
-                setVerificationCode(""); 
+                setMessage("Email Change Verification Successful!");
+                setVerificationCode(""); // Clear input field
                 setTimeout(() => {
-                    navigate("/profile"); // Redirect to profile page instead of account
-                }, 2000);
+                    navigate("/account"); // Redirect to the account page after success
+                }, 2000); // Delay to show the success message before redirecting
             } else {
-                setMessage("Invalid verification code. Please try again.");
+                setMessage("Invalid Verification Code. Please try again.");
             }
         } catch (error) {
             setMessage(
@@ -43,12 +43,12 @@ const EmailChangeVerification = () => {
     return (
         <div className="flex justify-center items-center min-h-screen bg-[#F5E3C1]">
             <form onSubmit={handleSubmit} className="p-8 bg-white shadow-md rounded-lg max-w-md w-full">
-                <h2 className="text-3xl font-bold mb-6 text-[#984949]">Verify Email Change</h2>
+                <h2 className="text-3xl font-bold mb-6 text-[#984949]">Change Email Verification</h2>
 
                 {message && (
                     <p
                         className={`mb-4 p-3 rounded ${
-                            message.includes("successfully")
+                            message.includes("Successful")
                                 ? "text-green-700 bg-green-100"
                                 : "text-red-700 bg-red-100"
                         }`}
@@ -80,4 +80,4 @@ const EmailChangeVerification = () => {
     );
 };
 
-export default EmailChangeVerification;
+export default ChangeEmailVerificationPage;
