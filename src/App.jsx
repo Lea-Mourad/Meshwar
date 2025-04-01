@@ -19,7 +19,7 @@ import { AuthProvider } from "./context/authContext";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./context/authContext";
 import AdminLogin from './pages/AdminLogin';
-import Accountpage from "./pages/accountpage";
+import Accountpage from "./pages/account";
 import EmailVerificationPage from "./components/EmailVerificationPage";
 import EmailChangeVerification from "./pages/changeEmailVerification";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -53,7 +53,7 @@ function App() {
 
           {/* City Category Route */}
           <Route path="/:city/:category" element={<CityCategory />} />
-          <Route path="/listing/:id" element={<ListingDetails />} />  {/* This renders ListingDetails */}
+          <Route path="/listing/:id" element={<ListingDetails />} />  */{/* This renders ListingDetails */}
           <Route path="/account" element={<Accountpage />}/>
          
           <Route

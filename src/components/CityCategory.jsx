@@ -7,8 +7,34 @@ import ListingDetails from "../data/ListingDetails";
 const CityCategory = () => {
   const { city, category } = useParams();
   const [cityPlacesData, setCityPlacesData] = useState([]);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const fetchListings = async () => {
+      try {
+        // Fetch all listings
+        const response = await fetch("http://127.0.0.1:8000/locations/"); // Adjust API URL if needed
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
+        const data = await response.json();
+
+        // Filter listings by city and category
+        const filteredData = data.filter(place => 
+          place.city.toLowerCase() === city.toLowerCase() &&
+          place.category.toLowerCase() === category.toLowerCase()
+        );
+
+        setCityPlacesData(filteredData);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setError("Failed to fetch listings.");
+      }
+    };
+
+    fetchListings();
+  }, [city, category]); // Re-run when city or category changes
   return (
     <div className="w-full min-h-screen bg-[#F5E3C1] bg-opacity-70"> 
       <Header />
