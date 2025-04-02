@@ -6,30 +6,34 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Header from "../components/header";
+import LocationsList from "../components/LocationsList";
 
 const Batroun = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const categories = ["Historical Sites", "Restaurants", "Beaches", "Coffee Shops", "Hotels", "Night Life"];
+  const categories = ["HISTORICAL", "RESTAURANTS", "BEACHES", "COFFEE_SHOPS", "HOTELS", "NIGHTLIFE"];
 
   const categoryImages = {
-    "Historical Sites": "url('https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/11/88/9b/60.jpg')",
-    Restaurants: "url('https://www.tasteandflavors.com/wp-content/uploads/2024/06/IAB-1-scaled.jpeg')",
-    Beaches: "url('https://ucarecdn.com/41a32e20-5957-4027-a666-3c7b4dd9e1df/-/crop/1000x525/0,138/-/resize/1200x630/-/resize/x400/')",
-    "Coffee Shops": "url('https://www.tasteandflavors.com/wp-content/uploads/2023/07/DSC_6773_00129-1024x1024.jpg')",
-    Hotels: "url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/568355222.webp?k=4d3c60931b03d0a97355e5669b243a0fe7f005e89916ab4956ffff3d0b8cdf25&o=')",
-
-    "Night Life": "url('https://www.lebanoninapicture.com/pages/batroun-%D8%A7%D9%84%D8%A8%D8%AA%D8%B1%D9%88%D9%86_%D8%B3%D9%81%D8%B1%D8%A9-oddrooftop-rooftop-nightlife-music/batroun-%D8%A7%D9%84%D8%A8%D8%AA%D8%B1%D9%88%D9%86_%D8%B3%D9%81%D8%B1%D8%A9-oddrooftop-rooftop-nightli-7-6-2018-9-23-59-pm-m.jpg')",
+    HISTORICAL: "url('https://www.lebanoninapicture.com/Prv/Images/Pages/Page_1/Batroun-Historical-Sites-Lebanon-1.jpg')",
+    RESTAURANTS: "url('https://www.lebanoninapicture.com/Prv/Images/Pages/Page_1/Batroun-Restaurants-Lebanon-1.jpg')",
+    BEACHES: "url('https://www.lebanoninapicture.com/Prv/Images/Pages/Page_1/Batroun-Beaches-Lebanon-1.jpg')",
+    COFFEE_SHOPS: "url('https://www.lebanoninapicture.com/Prv/Images/Pages/Page_1/Batroun-Coffee-Shops-Lebanon-1.jpg')",
+    HOTELS: "url('https://www.lebanoninapicture.com/Prv/Images/Pages/Page_1/Batroun-Hotels-Lebanon-1.jpg')",
+    NIGHTLIFE: "url('https://www.lebanoninapicture.com/Prv/Images/Pages/Page_1/Batroun-Nightlife-Lebanon-1.jpg')",
   };
 
   const images = [
-    "https://us.images.westend61.de/0001873362pw/aerial-view-of-batroun-batroun-lebanon-AAEF20916.jpg",
-    "https://www.felventura.com/wp-content/uploads/2024/04/Batroun-Phoenecian-wall-Felventura.webp",
-    "https://owlovertheworld.com/wp-content/uploads/2024/02/batroun-lebanon-attractions.jpg",
-    "https://www.travel-tramp.com/wp-content/uploads/2023/08/Things-to-do-in-Batroun-2.jpg.webp",
-
+    "https://www.lebanoninapicture.com/Prv/Images/Pages/Page_1/Batroun-Historical-Sites-Lebanon-1.jpg",
+    "https://www.lebanoninapicture.com/Prv/Images/Pages/Page_1/Batroun-Restaurants-Lebanon-1.jpg",
+    "https://www.lebanoninapicture.com/Prv/Images/Pages/Page_1/Batroun-Beaches-Lebanon-1.jpg",
+    "https://www.lebanoninapicture.com/Prv/Images/Pages/Page_1/Batroun-Coffee-Shops-Lebanon-1.jpg",
+    "https://www.lebanoninapicture.com/Prv/Images/Pages/Page_1/Batroun-Hotels-Lebanon-1.jpg",
   ];
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
 
   return (
     <div className="w-full overflow-auto bg-[#F5E3C1] bg-opacity-60">
@@ -46,45 +50,53 @@ const Batroun = () => {
       >
         {images.map((src, index) => (
           <SwiperSlide key={index} className="flex items-center justify-center">
-            <img src={src} alt={`Lebanon ${index + 1}`} className="w-full h-screen object-cover" />
+            <img src={src} alt={`Batroun ${index + 1}`} className="w-full h-screen object-cover" />
           </SwiperSlide>
         ))}
       </Swiper>
 
       {/* Scrollable Content */}
       <div className="flex flex-col items-center justify-start">
-          {/* Title */}
-          <h1 className="text-6xl font-extrabold text-[#B24F4F] mt-6 tracking-wide" style={{ fontFamily: "'Pathway', sans-serif" }}>
-            BATROUN
-          </h1>
+        {/* Title */}
+        <h1 className="text-6xl font-extrabold text-[#B24F4F] mt-6 tracking-wide" style={{ fontFamily: "'Pathway', sans-serif" }}>
+          BATROUN
+        </h1>
 
-      {/* Description */}
-      <div className="w-full bg-[#F5E3C1] bg-opacity-30 px-8 py-10 mt-6 text-center shadow-md ">
+        {/* Description */}
+        <div className="w-full bg-[#F5E3C1] bg-opacity-30 px-8 py-10 mt-6 text-center shadow-md">
           <p className="text-gray-800 font-semibold text-lg sm:text-xl md:text-2xl leading-relaxed max-w-4xl mx-auto" style={{ fontFamily: "'Abel', sans-serif" }}>
-          Batroun, a picturesque coastal town, is a hidden gem of Lebanon, where history, nature, and vibrant culture blend seamlessly. One of the oldest continuously inhabited cities in the world, Batroun boasts ancient Phoenician walls
-           that have withstood the test of time, charming stone-paved streets, and historic churches that whisper tales of the past. Known for its crystal-clear Mediterranean waters and lively beach scene, the town is also
-            famous for its fresh seafood and locally produced lemonade.
-            Whether exploring its historic souks, enjoying its bustling nightlife, or simply relaxing by the sea, Batroun offers a perfect mix of heritage, serenity, and adventure.
+            Batroun, a charming coastal city in northern Lebanon, is known for its pristine beaches, ancient Phoenician wall,
+            and vibrant nightlife. The city's historic old town, with its narrow streets and traditional architecture, offers
+            a glimpse into Lebanon's rich heritage. From the famous Mseilha Fort to the picturesque harbor, Batroun combines
+            historical significance with modern entertainment, making it a popular destination for both history buffs and
+            beach enthusiasts.
+          </p>
+        </div>
 
+        {/* Categories */}
+        <div className="w-full max-w-5xl mt-10 p-6 flex flex-wrap justify-center gap-8">
+          {categories.map((category) => (
+            <button
+              key={category}
+              className={`w-72 h-48 relative flex items-center justify-center rounded-lg text-2xl font-semibold transition-all shadow-lg bg-cover bg-center text-white hover:scale-105 hover:shadow-2xl ${
+                selectedCategory === category ? 'ring-4 ring-[#984949]' : ''
+              }`}
+              style={{ backgroundImage: categoryImages[category] }}
+              onClick={() => handleCategoryClick(category)}
+            >
+              <div className="absolute inset-0 bg-black opacity-40 rounded-lg"></div>
+              <span className="relative z-10">{category}</span>
+            </button>
+          ))}
+        </div>
 
-        </p>
+        {/* Locations List */}
+        {selectedCategory && (
+          <div className="w-full mt-8">
+            <LocationsList city="Batroun" category={selectedCategory} />
+          </div>
+        )}
       </div>
-
-      {/* Categories */}
-      <div className="w-full max-w-5xl mt-10 p-6 flex flex-wrap justify-center gap-8">
-                    {categories.map((category) => (
-                        <button
-                            key={category}
-                            className="w-72 h-48 relative flex items-center justify-center rounded-lg text-2xl font-semibold transition-all shadow-lg bg-cover bg-center text-white hover:scale-105 hover:shadow-2xl"
-                            style={{ backgroundImage: categoryImages[category] }}
-                            onClick={() => navigate(`/${category.toLowerCase().replace(/\s/g, "-")}`)}
-                        >
-                            <div className="absolute inset-0 bg-black opacity-40 rounded-lg"></div>
-                            <span className="relative z-10">{category}</span>
-                        </button>
-                    ))}
-                </div>
-    </div>
     </div>
   );
 };
