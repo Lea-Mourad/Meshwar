@@ -31,6 +31,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# CORS settings
+CORS_ALLOW_ALL_ORIGINS = True  # Only for development
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Vite default port
+    "http://127.0.0.1:5173",
+]
+
 # DEPRECATE LATER, REPLACE BY WHITENOISE MIDDLEWARE AND SECURITY
 #SECURE_SSL_REDIRECT = False
 # REMEMBER TO DEPRECATE

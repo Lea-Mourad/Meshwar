@@ -1,48 +1,129 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
-  const [eventName, setEventName] = useState("");
-  const [eventDate, setEventDate] = useState("");
-  const [eventLocation, setEventLocation] = useState("");
-  const [eventCategory, setEventCategory] = useState("");
-  const [eventImage, setEventImage] = useState("");
-  const [eventTicketLink, setEventTicketLink] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: "",
+    date: "",
+    location: "",
+    category: "",
+    image: "",
+    ticket_link: "",
+    description: "",
+  });
+  const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [validationErrors, setValidationErrors] = useState({});
 
-  const handleAddEvent = (e) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    // Clear validation error when user starts typing
+    if (validationErrors[name]) {
+      setValidationErrors(prev => ({
+        ...prev,
+        [name]: ""
+      }));
+    }
+  };
+
+  const validateForm = () => {
+    const errors = {};
+    
+    if (!formData.name.trim()) {
+      errors.name = "Event name is required";
+    }
+    
+    if (!formData.date) {
+      errors.date = "Event date is required";
+    }
+    
+    if (!formData.location.trim()) {
+      errors.location = "Location is required";
+    }
+    
+    if (!formData.category) {
+      errors.category = "Category is required";
+    }
+    
+    if (!formData.image.trim()) {
+      errors.image = "Image URL is required";
+    } else if (!isValidUrl(formData.image)) {
+      errors.image = "Please enter a valid URL";
+    }
+    
+    if (formData.ticket_link && !isValidUrl(formData.ticket_link)) {
+      errors.ticket_link = "Please enter a valid URL";
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const isValidUrl = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage("");
 
-    if (!eventName || !eventDate || !eventLocation || !eventCategory || !eventImage) {
-      alert("Please fill in all required fields.");
+    if (!validateForm()) {
       return;
     }
 
-    const newEvent = {
-      id: Date.now(),
-      name: eventName,
-      date: eventDate,
-      location: eventLocation,
-      category: eventCategory,
-      image: eventImage,
-      ticketLink: eventTicketLink,
-      description: eventDescription,
-    };
+    try {
+      setLoading(true);
+      const token = localStorage.getItem('access_token');
+      
+      if (!token) {
+        setErrorMessage("Please log in to add events");
+        navigate('/admin-login');
+        return;
+      }
 
-    // Retrieve existing events or create new storage
-    const storedEvents = JSON.parse(localStorage.getItem("events")) || [];
-    localStorage.setItem("events", JSON.stringify([...storedEvents, newEvent]));
+      const response = await axios.post(
+        'http://localhost:8000/events/',
+        formData,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          }
+        }
+      );
 
-    setSuccessMessage("Event added successfully!");
-
-    // Clear input fields
-    setEventName("");
-    setEventDate("");
-    setEventLocation("");
-    setEventCategory("");
-    setEventImage("");
-    setEventTicketLink("");
-    setEventDescription("");
+      setSuccessMessage("Event added successfully!");
+      setFormData({
+        name: "",
+        date: "",
+        location: "",
+        category: "",
+        image: "",
+        ticket_link: "",
+        description: "",
+      });
+    } catch (error) {
+      if (error.response?.data) {
+        setErrorMessage(error.response.data.message || "Failed to add event");
+      } else {
+        setErrorMessage("An error occurred while adding the event");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -53,70 +134,142 @@ const AdminDashboard = () => {
       {/* Admin Form */}
       <div className="relative z-10 p-10 bg-white bg-opacity-90 rounded-2xl shadow-xl max-w-lg w-full">
         <h2 className="text-3xl font-bold text-[#984949] mb-6 text-center">Add New Event</h2>
-        {successMessage && <p className="text-green-600 mb-4">{successMessage}</p>}
+        
+        {successMessage && (
+          <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
+            {successMessage}
+          </div>
+        )}
+        
+        {errorMessage && (
+          <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-lg">
+            {errorMessage}
+          </div>
+        )}
 
-        <form onSubmit={handleAddEvent} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Event Name"
-            value={eventName}
-            onChange={(e) => setEventName(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-            required
-          />
-          <input
-            type="date"
-            value={eventDate}
-            onChange={(e) => setEventDate(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Location"
-            value={eventLocation}
-            onChange={(e) => setEventLocation(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-            required
-          />
-          <select
-            value={eventCategory}
-            onChange={(e) => setEventCategory(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-            required
-          >
-            <option value="">Select Category</option>
-            <option value="Music">Music</option>
-            <option value="Food">Food</option>
-            <option value="Sports">Sports</option>
-            <option value="Culture">Culture</option>
-          </select>
-          <input
-            type="url"
-            placeholder="Event Image URL"
-            value={eventImage}
-            onChange={(e) => setEventImage(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-            required
-          />
-          <input
-            type="url"
-            placeholder="Ticket Link (optional)"
-            value={eventTicketLink}
-            onChange={(e) => setEventTicketLink(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-          />
-          <textarea
-            placeholder="Event Description (optional)"
-            value={eventDescription}
-            onChange={(e) => setEventDescription(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded"
-          ></textarea>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <input
+              type="text"
+              name="name"
+              placeholder="Event Name"
+              value={formData.name}
+              onChange={handleInputChange}
+              className={`w-full p-3 border rounded ${
+                validationErrors.name ? 'border-red-500' : 'border-gray-300'
+              }`}
+            />
+            {validationErrors.name && (
+              <p className="text-red-500 text-sm mt-1">{validationErrors.name}</p>
+            )}
+          </div>
+
+          <div>
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleInputChange}
+              className={`w-full p-3 border rounded ${
+                validationErrors.date ? 'border-red-500' : 'border-gray-300'
+              }`}
+            />
+            {validationErrors.date && (
+              <p className="text-red-500 text-sm mt-1">{validationErrors.date}</p>
+            )}
+          </div>
+
+          <div>
+            <input
+              type="text"
+              name="location"
+              placeholder="Location"
+              value={formData.location}
+              onChange={handleInputChange}
+              className={`w-full p-3 border rounded ${
+                validationErrors.location ? 'border-red-500' : 'border-gray-300'
+              }`}
+            />
+            {validationErrors.location && (
+              <p className="text-red-500 text-sm mt-1">{validationErrors.location}</p>
+            )}
+          </div>
+
+          <div>
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleInputChange}
+              className={`w-full p-3 border rounded ${
+                validationErrors.category ? 'border-red-500' : 'border-gray-300'
+              }`}
+            >
+              <option value="">Select Category</option>
+              <option value="Music">Music</option>
+              <option value="Food">Food</option>
+              <option value="Sports">Sports</option>
+              <option value="Culture">Culture</option>
+              <option value="Art">Art</option>
+              <option value="Business">Business</option>
+              <option value="Education">Education</option>
+              <option value="Other">Other</option>
+            </select>
+            {validationErrors.category && (
+              <p className="text-red-500 text-sm mt-1">{validationErrors.category}</p>
+            )}
+          </div>
+
+          <div>
+            <input
+              type="url"
+              name="image"
+              placeholder="Event Image URL"
+              value={formData.image}
+              onChange={handleInputChange}
+              className={`w-full p-3 border rounded ${
+                validationErrors.image ? 'border-red-500' : 'border-gray-300'
+              }`}
+            />
+            {validationErrors.image && (
+              <p className="text-red-500 text-sm mt-1">{validationErrors.image}</p>
+            )}
+          </div>
+
+          <div>
+            <input
+              type="url"
+              name="ticket_link"
+              placeholder="Ticket Link (optional)"
+              value={formData.ticket_link}
+              onChange={handleInputChange}
+              className={`w-full p-3 border rounded ${
+                validationErrors.ticket_link ? 'border-red-500' : 'border-gray-300'
+              }`}
+            />
+            {validationErrors.ticket_link && (
+              <p className="text-red-500 text-sm mt-1">{validationErrors.ticket_link}</p>
+            )}
+          </div>
+
+          <div>
+            <textarea
+              name="description"
+              placeholder="Event Description (optional)"
+              value={formData.description}
+              onChange={handleInputChange}
+              className="w-full p-3 border border-gray-300 rounded"
+              rows="4"
+            ></textarea>
+          </div>
+
           <button
             type="submit"
-            className="w-full bg-[#984949] text-white py-3 rounded-lg hover:bg-[#B24F4F] transition"
+            disabled={loading}
+            className={`w-full bg-[#984949] text-white py-3 rounded-lg transition ${
+              loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#B24F4F]'
+            }`}
           >
-            Add Event
+            {loading ? 'Adding Event...' : 'Add Event'}
           </button>
         </form>
       </div>
