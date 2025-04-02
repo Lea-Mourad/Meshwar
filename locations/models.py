@@ -4,14 +4,14 @@ from django.core.exceptions import ValidationError
 
 class Location(models.Model):
     CATEGORY_CHOICES = [
-        ('HISTORICAL', 'Historical'),
-        ('NATURAL', 'Natural'),
-        ('CULTURAL', 'Cultural'),
-        ('ADVENTURE', 'Adventure'),
-        ('FOOD', 'Food'),
-        ('SHOPPING', 'Shopping'),
-        ('NIGHTLIFE', 'Nightlife'),
-        ('OTHER', 'Other'),
+        ('HISTORICAL', 'Historical sites'),
+        ('RESTAURANTS', 'Restaurants'),
+        ('BEACHES', 'Beaches'),
+        ('COFFEE_SHOPS', 'Coffee shops'),
+        ('HOTELS', 'Hotels'),
+        ('NIGHTLIFE', 'Night life'),
+        ('MUSEUMS', 'Museums'),
+        ('ACTIVITIES', 'Activities'),
     ]
 
     name = models.CharField(max_length=200)
@@ -22,6 +22,7 @@ class Location(models.Model):
     description = models.TextField()
     picture = models.ImageField(upload_to='locations/', null=True, blank=True)
     picture_url = models.URLField(max_length=500, null=True, blank=True, validators=[URLValidator()])
+    url = models.URLField(max_length=500, null=True, blank=True, validators=[URLValidator()])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
