@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+//import { Navigate } from "react-router-dom";
 import Header from "../components/header";
 import { useAuth } from "../context/authContext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Accountpage = () => {
   const [email, setEmail] = useState("");
@@ -13,49 +14,17 @@ const Accountpage = () => {
   const API_BASE = "http://127.0.0.1:8000";
   const changeEmailURL = `${API_BASE}/auth/change-email/`; // Ensure trailing slash
   const navigate = useNavigate();
-  const PROTECTED_VIEW_ENDPOINT = `${API_BASE}/auth/protected-view/`; // Adjust if your endpoint is different
   const [loading, setIsLoading] = useState(true); 
-  useEffect(() => {
-    if (loading) return; // Wait until authentication status is checked
 
+  
+   useEffect(() => {
     if (!isAuthenticated) {
-      navigate("/loginpage"); // Redirect if the user is not authenticated
-      return;
-    }
-
-    const authToken = localStorage.getItem("authToken");
-
-    if (!authToken) {
-      console.warn("Authenticated but no token found.");
-      logout();
       navigate("/loginpage");
-      return;
-    }
+      console.log();
+    }else{
 
-    // Fetch user info from the protected endpoint
-    axios
-      .get(PROTECTED_VIEW_ENDPOINT, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      })
-      .then((response) => {
-        setEmail(response.data.email || ""); // Assuming email is in the response
-        setPersonalized(response.data.personalized || false); // Assuming personalized is in the response
-        // You can set other user data here as needed
-      })
-      .catch((error) => {
-        console.error("Error fetching user info", error);
-        if (error.response && error.response.status === 401) {
-          // Unauthorized - token might be invalid or expired
-          localStorage.removeItem("authToken");
-          logout();
-          navigate("/loginpage");
-        } else {
-          setMessage("Failed to load account information.");
-        }
-      });
-  }, [isAuthenticated, loading, navigate]);
+    }
+  }, [isAuthenticated, navigate])
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -76,6 +45,7 @@ const Accountpage = () => {
         },
       });
 
+     
       console.log("Email change initiated successfully:", response.data);
       // Display a success message to the user
       setError("Verification email sent to your new address."); // Using error state for success message for simplicity
@@ -107,7 +77,12 @@ const Accountpage = () => {
   };
 
   const handleDeleteAccount = () => {
-    // Logic to delete the account goes here
+    const response = await axios.delete(`/auth/delete`, { new_email: email }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
     console.log("Account deleted!");
     setShowDeletePopup(false);
   };

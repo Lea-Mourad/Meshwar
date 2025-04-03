@@ -15,26 +15,38 @@ const ChangeEmailVerificationPage = () => {
         setMessage("");
         setLoading(true);
 
+        const token = localStorage.getItem("authToken"); // Retrieve token
+
+        if (!token) {
+            setMessage("Authentication required. Please log in.");
+            setTimeout(() => navigate("/loginpage"), 2000);
+            return;
+        }
+
         try {
-            const response = await axios.post(
-                `${API_BASE_URL}/auth/verify-email-change/`, // Endpoint for email change verification
-                { code: verificationCode }
+            const response = await axios.patch(
+                `${API_BASE_URL}/auth/verify-email-change/`,
+                { verification_code: verificationCode }, 
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`, 
+                        "Content-Type": "application/json",
+                    },
+                }
             );
 
             if (response.status === 200) {
-                setMessage("Email Change Verification Successful!");
-                setVerificationCode(""); // Clear input field
-                setTimeout(() => {
-                    navigate("/account"); // Redirect to the account page after success
-                }, 2000); // Delay to show the success message before redirecting
-            } else {
-                setMessage("Invalid Verification Code. Please try again.");
+                setMessage(" Email Change Verification Successful!");
+                setVerificationCode("");
+                setTimeout(() => navigate("/account"), 2000);
             }
         } catch (error) {
-            setMessage(
-                error.response?.data?.message ||
-                "Verification failed. Please try again."
-            );
+            if (error.response?.status === 401) {
+                setMessage("Session expired. Please log in again.");
+                setTimeout(() => navigate("/login"), 2000);
+            } else {
+                setMessage(error.response?.data?.error || "Verification failed. Please try again.");
+            }
         } finally {
             setLoading(false);
         }
@@ -48,9 +60,7 @@ const ChangeEmailVerificationPage = () => {
                 {message && (
                     <p
                         className={`mb-4 p-3 rounded ${
-                            message.includes("Successful")
-                                ? "text-green-700 bg-green-100"
-                                : "text-red-700 bg-red-100"
+                            message.includes("Successful") ? "text-green-700 bg-green-100" : "text-red-700 bg-red-100"
                         }`}
                     >
                         {message}

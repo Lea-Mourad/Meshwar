@@ -14,7 +14,7 @@ const Sidon = () => {
     const categories = ["Historical Sites", "Restaurants", "Beaches", "Coffee Shops", "Hotels", "Activities"];
   
     const categoryImages = {
-      "Historical Sites": "url('https://johtt.com/uploads/filemanager/Lebanon/Sid%20Sea%20Castle.jpg')",
+      "Historical": "url('https://johtt.com/uploads/filemanager/Lebanon/Sid%20Sea%20Castle.jpg')",
       Restaurants: "url('https://media-cdn.tripadvisor.com/media/photo-s/18/c0/10/40/photo1jpg.jpg')",
       Beaches: "url('https://64.media.tumblr.com/7f13464ac6a489982b35a7152eec671f/tumblr_pw8elwZIS31rexkjko1_1280.jpg')",
       "Coffee Shops": "url('https://alkhabaragency.com/khbr-82148/130197771_1031711683969543_3261871058427221949_o')",

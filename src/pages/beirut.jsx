@@ -11,7 +11,7 @@ const Beirut = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const categories = ["Historical Sites", "Restaurants", "Beaches", "Coffee Shops", "Hotels", "Activities", "Night Life"];
+  const categories = ["Museums", "Restaurants", "Beaches", "Coffee Shops", "Hotels", "Activities", "Night Life"];
 
   const categoryImages = {
     Museums: "url('https://www.wilmotte.com/wp-content/uploads/2023/03/hr_museebeyrouth_marwanharmouche_04-scaled.jpg')",
@@ -19,7 +19,7 @@ const Beirut = () => {
     Beaches: "url('https://libshop.fr/wp-content/uploads/2020/04/beyrouth-beach-lebanon-scaled-1.jpg')",
     "Coffee Shops": "url('https://georgerishan.wordpress.com/wp-content/uploads/2021/04/img_4408.jpg?w=936')",
     Hotels: "url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/48/bb/91/kempinski-summerland.jpg?w=1200&h=-1&s=1')",
-    Arcades: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYcNyC7YD23auPAqFpEjtEKOrDmlFqg5ASLg&s')",
+    Activities: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYcNyC7YD23auPAqFpEjtEKOrDmlFqg5ASLg&s')",
     "Night Life": "url('https://248am.com/images/2015/04/grandfactory.jpg')",
   };const images = [
     "https://lp-cms-production.imgix.net/2020-12/shutterstockRF_756972694.jpg",

@@ -54,7 +54,7 @@ function App() {
           {/* City Category Route */}
           <Route path="/:city/:category" element={<CityCategory />} />
           <Route path="/listing/:id" element={<ListingDetails />} />  */{/* This renders ListingDetails */}
-          <Route path="/account" element={<Accountpage />}/>
+          <Route path="/account" element={<Accountpage/>} />
           <Route path="/verify-email-change" element={<ChangeEmailVerificationPage />}/>
          
           <Route
@@ -71,11 +71,17 @@ function App() {
     </AuthProvider>
   );
 }
-// const PrivateRoute = ({ children }) => {
-//   const { isAuthenticated } = useAuth();
-//   if (!isAuthenticated) {
-//   return children; }
-// };
+const PrivateRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  
+  // If the user is not authenticated, redirect them to the login page
+  if (!isAuthenticated) {
+    return <Navigate to="/loginpage" />;
+  }
+
+  // If authenticated, render the children (the protected component)
+  return children;
+};
 
 
 export default App;

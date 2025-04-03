@@ -34,17 +34,15 @@ const Header = () => {
           <Link to="/" className="text-[#B24F4F] hover:text-gray-500">Home</Link>
           <Link to="/events" className="text-[#B24F4F] hover:text-gray-500">Events</Link>
           <Link to="/account" className="text-[#B24F4F] hover:text-gray-500">Account Page</Link>
-          <Link to="/favorites" className="text-[#B24F4F] hover:text-gray-500">
+          {/* <Link to="/favorites" className="text-[#B24F4F] hover:text-gray-500">
             Favorites
-          </Link>
-
-          {/* Favorites Link (Now in Header) */}
-          {/* <Link 
+          </Link> */}
+          {<Link 
   to={isAuthenticated ? "/favorites" : "/loginpage"} 
   className="text-[#B24F4F] hover:text-gray-500"
 >
   Favorites
-</Link> */}
+</Link> }
           {/* Dropdown for Places */}
           <div className="relative">
             <button

@@ -29,7 +29,7 @@ const AddListing = () => {
     };
   
     try {
-      const response = await fetch("http://127.0.0.1:8000/locations/", {
+      const response = await fetch("http://127.0.0.1:8000/api/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -84,6 +84,7 @@ const AddListing = () => {
             className="w-full p-3 border rounded"
             required
           />
+
           
           <select
             value={city}

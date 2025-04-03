@@ -13,9 +13,9 @@ export default function FavoritesPage() {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || {};
     setFavorites(storedFavorites);
   }, []);
-  // if (!isAuthenticated) {
-  //   return <Navigate to="/loginpage" />;
-  // }
+  if (!isAuthenticated) {
+   return <Navigate to="/loginpage" />;
+  }
   const cities = ["Beirut", "Batroun", "Byblos", "Sidon", "Tyre", "Jounieh"];
   // Handle go back button click
   const handleGoBack = () => {
