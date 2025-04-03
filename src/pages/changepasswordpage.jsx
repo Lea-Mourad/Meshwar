@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 function ChangePasswordPage() {
-   const[oldPassword,setOldPassword]=useState("");
+   const { token } = useParams();
    const[newPassword,setNewPassword]=useState("");
    const[confirmPassword,setConfirmPassword]=useState("");
-   const handleSubmit=(e)=>{
+   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(newPassword!== confirmPassword){
-        alert("New Password and Confirm Password do not match");
+    if (newPassword !== confirmPassword) {
+        alert("Passwords do not match");
         return;
     }
-alert("Password changed successfully")
-   };
+
+    try {
+        await axios.post("http://127.0.0.1:8000/auth/password-reset-confirm/", {
+            token,
+            new_password: newPassword,
+        });
+
+        alert("Password changed successfully!");
+        // Optionally redirect user to login
+    } catch (error) {
+        console.error(error);
+        alert(error.response?.data?.message || "Something went wrong");
+    }
+};
 
 
 return(

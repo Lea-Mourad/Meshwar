@@ -41,6 +41,7 @@ function App() {
           <Route path="/verify-email" element={<EmailVerificationPage />} />
           <Route path="/aboutLebanon" element={<ExploreLebanon />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
+          <Route path="/reset-password/:token" element={<ChangePasswordPage />} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/about-us" element={<AboutUs />} />
           {/* City Routes */}
