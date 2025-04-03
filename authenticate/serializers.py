@@ -87,12 +87,12 @@ class VerifyEmailChangeSerializer(serializers.Serializer):
 
     def validate_verification_code(self, value):
         try:
-            verification = EmailVerification.objects.get(code=value)  # ✅ Correct field name
+            verification = EmailVerification.objects.get(code=value)  
             
-            if verification.expires_at < timezone.now():  # ✅ Expiration check
+            if verification.expires_at < timezone.now(): 
                 raise serializers.ValidationError("Verification code has expired.")
 
-            return verification  # ✅ Return the verification object
+            return verification 
 
         except EmailVerification.DoesNotExist:
             raise serializers.ValidationError("Invalid verification code.")
