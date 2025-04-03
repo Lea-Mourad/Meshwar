@@ -12,10 +12,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       setIsAuthenticated(true);
       console.log("User is authenticated.");
-    } else {
-      setIsAuthenticated(false);
-      console.log("User is NOT authenticated.");
-    }
+    } 
   }, []);
 
   return (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/authContext";
 
 const SignInBox = () => {
     const [text, setText] = useState("Ahla w Sahla!");
@@ -10,6 +11,7 @@ const SignInBox = () => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { setIsAuthenticated } = useAuth();
 
     const API_BASE_URL = "https://meshwar-backend.onrender.com";
 
@@ -65,6 +67,7 @@ const SignInBox = () => {
                 // Store tokens in localStorage
                 localStorage.setItem("authToken", access);
                 localStorage.setItem("refreshToken", refresh);
+                setIsAuthenticated(true);
 
                 console.log("Login successful:", message);
                 

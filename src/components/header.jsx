@@ -64,8 +64,6 @@ const Header = () => {
     {place}
   </Link>
 ))}
-
-
               </div>
             )}
           </div>

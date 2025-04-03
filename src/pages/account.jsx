@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-//import { Navigate } from "react-router-dom";
 import Header from "../components/header";
 import { useAuth } from "../context/authContext";
 import axios from "axios";
@@ -9,26 +8,25 @@ const Accountpage = () => {
   const [email, setEmail] = useState("");
   const [activeSection, setActiveSection] = useState("settings");
   const [showDeletePopup, setShowDeletePopup] = useState(false);
-  const [error, setError] = useState(""); // State for error messages
-  const { isAuthenticated } = useAuth();
+  const [showLogoutPopup, setShowLogoutPopup] = useState(false);  // For logout confirmation popup
+  const [error, setError] = useState(""); 
+  const { isAuthenticated, refreshToken } = useAuth();
   const API_BASE = "http://127.0.0.1:8000";
-  const changeEmailURL = `${API_BASE}/auth/change-email/`; // Ensure trailing slash
+  const changeEmailURL = `${API_BASE}/auth/change-email/`;
+  const logoutURL = `${API_BASE}/auth/logout/`;
+  const deleteAccountURL = `${API_BASE}/auth/delete-account/`;
+  const resetPasswordPage = "/forgot-password";  // Link to reset password page
   const navigate = useNavigate();
-  const [loading, setIsLoading] = useState(true); 
 
-  
-   useEffect(() => {
+  useEffect(() => {
     if (!isAuthenticated) {
       navigate("/loginpage");
-      console.log();
-    }else{
-
     }
-  }, [isAuthenticated, navigate])
+  }, [isAuthenticated, navigate]);
 
   const handleSave = async (e) => {
     e.preventDefault();
-    setError(""); // Clear any previous errors
+    setError("");
 
     const token = localStorage.getItem("authToken");
     if (!token) {
@@ -45,47 +43,80 @@ const Accountpage = () => {
         },
       });
 
-     
       console.log("Email change initiated successfully:", response.data);
-      // Display a success message to the user
-      setError("Verification email sent to your new address."); // Using error state for success message for simplicity
-      // Optionally, clear the input field:
+      setError("Verification email sent to your new address.");
       setEmail("");
       navigate("/verify-email-change");
     } catch (error) {
       console.error("Error during request:", error);
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error("Backend Error:", error.response.data);
-        console.error("Status Code:", error.response.status);
         setError(error.response.data.message || 'Failed to change email. Please try again.');
       } else if (error.request) {
-        // The request was made but no response was received
-        console.error("No response received from the server.");
         setError('Network error. Please check your connection and try again.');
       } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error("Error setting up the request:", error.message);
         setError('An unexpected error occurred.');
       }
     }
   };
 
-  const handleSidebarClick = (section) => {
-    setActiveSection(section);
+  const handleLogout = async () => {
+    const token = localStorage.getItem("authToken");
+    const refresh_token = localStorage.getItem("refreshToken");
+
+    if (!refresh_token) {
+      console.log("No refresh token found, logging out.");
+      navigate("/loginpage");
+      return;
+    }
+
+    try {
+      const response = await axios.post(logoutURL, { refresh: refresh_token }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Logged out successfully!");
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("refreshToken");
+      navigate("/loginpage");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
-  const handleDeleteAccount = () => {
-    const response = await axios.delete(`/auth/delete`, { new_email: email }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-    console.log("Account deleted!");
-    setShowDeletePopup(false);
+  const handleDeleteAccount = async () => {
+    const token = localStorage.getItem("authToken");
+  
+    if (!token) {
+      console.log("No authentication token found for account deletion.");
+      navigate("/loginpage");
+      return;
+    }
+  
+    try {
+      const response = await axios.delete(deleteAccountURL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Account deleted successfully!");
+      localStorage.removeItem("authToken");
+      navigate("/loginpage");
+    } catch (error) {
+      console.error("Account deletion error:", error);
+      if (error.response) {
+        // If the server responds with an error message
+        console.log("Server error response:", error.response.data);
+        setError(error.response.data.message || 'Failed to delete account. Please try again later.');
+      } else if (error.request) {
+        // If no response is received from the server
+        setError('Network error. Please check your connection and try again.');
+      } else {
+        setError('An unexpected error occurred during account deletion.');
+      }
+    }
   };
+  
 
   return (
     <div className="relative min-h-screen bg-[url('https://www.lebanontours.co/uploads/1/0/3/7/10373098/arches-pigeon-rocks-beirut_orig.jpg')] bg-cover bg-center">
@@ -96,15 +127,27 @@ const Accountpage = () => {
           <ul>
             <li
               className={`mb-4 cursor-pointer p-2 rounded ${activeSection === "settings" ? 'bg-[#B24F4F]' : 'hover:bg-[#B24F4F]'} transition`}
-              onClick={() => handleSidebarClick("settings")}
+              onClick={() => setActiveSection("settings")}
             >
-              Settings
+              Change Email
             </li>
             <li
               className="mb-4 cursor-pointer p-2 rounded hover:bg-[#B24F4F] transition"
               onClick={() => navigate("/favorites")}
             >
               Favorites
+            </li>
+            <li
+              className="mb-4 cursor-pointer p-2 rounded hover:bg-[#B24F4F] transition"
+              onClick={() => setShowLogoutPopup(true)}  // Show logout confirmation popup
+            >
+              Logout
+            </li>
+            <li
+              className="mb-4 cursor-pointer p-2 rounded hover:bg-[#B24F4F] transition"
+              onClick={() => navigate(resetPasswordPage)} // Navigate to reset password page
+            >
+              Reset Password
             </li>
           </ul>
         </div>
@@ -115,7 +158,6 @@ const Accountpage = () => {
 
               {error && <p className={`mb-4 ${error.startsWith("Verification") ? "text-green-500" : "text-red-500"}`}>{error}</p>}
 
-              {/* Display Old Email (You'll need to fetch this from your backend) */}
               <div className="mb-4">
                 <p><strong>Current Email:</strong> {/* Display current email here */}</p>
               </div>
@@ -148,6 +190,33 @@ const Accountpage = () => {
           )}
         </div>
       </div>
+
+      {/* Logout Confirmation Popup */}
+      {showLogoutPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h3 className="text-lg font-bold mb-4">
+              Are you sure you want to logout?
+            </h3>
+            <div className="flex justify-around">
+              <button
+                className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
+                onClick={handleLogout}
+              >
+                Yes
+              </button>
+              <button
+                className="px-4 py-2 bg-gray-300 text-white rounded-md hover:bg-gray-500"
+                onClick={() => setShowLogoutPopup(false)}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Account Popup */}
       {showDeletePopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
