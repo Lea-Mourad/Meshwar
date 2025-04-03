@@ -176,8 +176,18 @@ class VerifyEmailChangeView(generics.GenericAPIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+#api to fetch the old current email
+class CurrentUserView(APIView):
+    permission_classes = [IsAuthenticated]
 
-
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        data = {
+            'id': user.id,
+            'email': user.email,
+            # You can add more user fields here if needed.
+        }
+        return Response(data, status=200)
 class DeleteAccountView(APIView):
     permission_classes = [IsAuthenticated]
 
