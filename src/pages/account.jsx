@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const Accountpage = () => {
   const [email, setEmail] = useState("");
+  const [oldemail,oldEmail] = useState("");
   const [activeSection, setActiveSection] = useState("settings");
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);  // For logout confirmation popup
@@ -59,6 +60,28 @@ const Accountpage = () => {
     }
   };
 
+    // This function fetches the current user's data from the backend.
+    const fetchCurrentUser = async () => {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        console.error("No auth token found!");
+        return;
+      }
+  
+      try {
+        const response = await axios.get(`${API_BASE}/auth/me/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        oldEmail(response.data.email);
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+        setError("Failed to load user data.");
+      }
+    };
+  
+    useEffect(() => {
+      fetchCurrentUser();
+    }, []);
   const handleLogout = async () => {
     const token = localStorage.getItem("authToken");
     const refresh_token = localStorage.getItem("refreshToken");
@@ -159,7 +182,7 @@ const Accountpage = () => {
               {error && <p className={`mb-4 ${error.startsWith("Verification") ? "text-green-500" : "text-red-500"}`}>{error}</p>}
 
               <div className="mb-4">
-                <p><strong>Current Email:</strong> {/* Display current email here */}</p>
+                <p><strong>Current Email:</strong> {oldemail}</p>
               </div>
 
               <form onSubmit={handleSave} className="flex flex-col space-y-4">
