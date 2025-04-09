@@ -2,6 +2,7 @@ services:
   - type: web
     name: meshwar-backend
     env: python
+    rootDir: .  # This will use the root directory where manage.py is located
     buildCommand: |
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
