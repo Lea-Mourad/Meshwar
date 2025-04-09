@@ -1,0 +1,1 @@
+web: gunicorn Meshwar.wsgi:application --log-file - 
