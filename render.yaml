@@ -2,7 +2,10 @@ services:
   - type: web
     name: meshwar-backend
     env: python
-    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate
     startCommand: gunicorn Meshwar.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION
@@ -14,4 +17,8 @@ services:
       - key: POSTMARK_API_KEY
         value: 810dd24e-bb2f-47de-b880-f7ef125bb525
       - key: DEFAULT_FROM_EMAIL
-        value: nst11@mail.aub.edu 
+        value: nst11@mail.aub.edu
+      - key: ALLOWED_HOSTS
+        value: "*"
+      - key: DEBUG
+        value: "False" 
