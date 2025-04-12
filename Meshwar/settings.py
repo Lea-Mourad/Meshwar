@@ -112,7 +112,7 @@ WSGI_APPLICATION = "Meshwar.wsgi.application"
 # Recreated new database because free trial on old database expired
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://meshwar_db_user:HCGgFUKuiDrfWSGBJGlx0n0VEwP94e8h@dpg-cv6tok3qf0us73f6dhh0-a.frankfurt-postgres.render.com/meshwar_db"
+    "postgresql://meshwar_db_26jh_user:oQUxRwChFXqigdPwRmRadfEsb6iA6uK0@dpg-cvt1klq4d50c73dc0to0-a.frankfurt-postgres.render.com/meshwar_db_26jh"
 )
 
 db_info = urlparse(DATABASE_URL)
