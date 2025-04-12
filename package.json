@@ -2,7 +2,7 @@
   "name": "meshwar",
   "private": true,
   "version": "0.0.0",
-  "proxy": "http://localhost:8000",
+  "proxy": "https://meshwar-backend.onrender.com",
   "type": "module",
   "scripts": {
     "start": "vite",
