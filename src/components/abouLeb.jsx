@@ -9,7 +9,7 @@ const ExploreLebanon = () => {
     funfacts: [
       {
         image: "https://www.hadatheljebbeh.com/wp-beta/wp-content/uploads/2014/12/cedars-haddath-1050x700.jpg",
-        text: "The Lebanese cedar tree is a national symbol.",
+        text: "The Lebanese ceda tree is a national symbol.",
       },
       {
         image: "https://static1.thetravelimages.com/wordpress/wp-content/uploads/2022/09/Byblos-Lebanon.jpg",
