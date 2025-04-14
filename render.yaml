@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: meshwar-backend
+    env: python
+    rootDir: .  # This will use the root directory where manage.py is located
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate
+    startCommand: gunicorn Meshwar.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: DJANGO_SECRET_KEY
+        value: django-insecure-=nk2hm3sss=ky*j(p+_pw&_bm6y98+f0*!oja!-7_j2=ogrht^
+      - key: DATABASE_URL
+        value: postgresql://meshwar_db_user:HCGgFUKuiDrfWSGBJGlx0n0VEwP94e8h@dpg-cv6tok3qf0us73f6dhh0-a.frankfurt-postgres.render.com/meshwar_db
+      - key: POSTMARK_API_KEY
+        value: 810dd24e-bb2f-47de-b880-f7ef125bb525
+      - key: DEFAULT_FROM_EMAIL
+        value: nst11@mail.aub.edu
+      - key: ALLOWED_HOSTS
+        value: "*"
+      - key: DEBUG
+        value: "False" 
