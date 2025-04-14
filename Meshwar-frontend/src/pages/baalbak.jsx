@@ -1,89 +1,237 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { FaHeart } from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Header from "../components/header";
+import { useAuth } from "../context/AuthContext";
+import { addToFavorites, removeFromFavorites } from "../services/favoritesService";
 
 const Baalbak = () => {
-    const navigate = useNavigate();
-    const categories = ["Historical Sites", "Restaurants", "Coffee Shops", "Hotels"];
-  
-    const categoryImages = {
-      "Historical Sites": "url('https://crm.visit-lebanon.org/alternatedocroots/6a025965-2f91-400b-b617-45bfcaf736db-shutterstock_477215944.jpg')",
-      Restaurants: "url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/03/cc/e5/caption.jpg?w=500&h=-1&s=1')",
-      "Coffee Shops": "url(' https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/1b/bf/d9/aurelia.jpg?w=600&h=400&s=1')",
-      Hotels: "url('https://palmyrahotel.com.lb/__static/625cfed608f37f890b744a73c35b7c24/photo-2023-05-09-17-43-20.jpg')",
-      
-    };
-  
-    const images = [
-      "https://crm.visit-lebanon.org/alternatedocroots/7c8210d5-3917-40b3-b2d7-73a197a2f4ca-shutterstock_373233778.jpg",
-      "https://www.executive-magazine.com/wp-content/uploads/2014/04/festivalsBaalbeck.jpg",
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const [locations, setLocations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [favorites, setFavorites] = useState([]);
+  const [favoritesLoading, setFavoritesLoading] = useState(false);
 
-    ];
-    const handleCategoryClick = (category) => {
-      const cityName = "baalbek";  // Hardcoded city name for the Beirut page
-      navigate(`/${cityName}/${category}`);  // Navigate to the city/category path
+  const categories = [
+    { value: "HISTORICAL", label: "Historical Sites" },
+    { value: "RESTAURANT", label: "Restaurants" },
+    { value: "BEACH", label: "Beaches" },
+    { value: "COFFEE", label: "Coffee Shops" },
+    { value: "HOTEL", label: "Hotels" },
+    { value: "NIGHTLIFE", label: "Night Life" },
+    { value: "MUSEUM", label: "Museums" },
+    { value: "ACTIVITY", label: "Activities" }
+  ];
+
+  const categoryImages = {
+    HISTORICAL: "url('https://example.com/historical.jpg')",
+    RESTAURANT: "url('https://example.com/restaurant.jpg')",
+    // ... other category images ...
+  };
+
+  const cityImages = [
+    "https://example.com/baalbak1.jpg",
+    "https://example.com/baalbak2.jpg",
+    // ... other city images ...
+  ];
+
+  // Fetch favorites immediately if authenticated
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (!isAuthenticated) return;
+      setFavoritesLoading(true);
+      try {
+        const response = await fetch("https://meshwar-backend.onrender.com/favorites/", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setFavorites(data);
+        }
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+      } finally {
+        setFavoritesLoading(false);
+      }
     };
-  
-    return (
+
+    fetchFavorites();
+  }, [isAuthenticated]);
+
+  // Fetch locations separately
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await fetch(
+          `https://meshwar-backend.onrender.com/locations/?city=BAALBAK`
+        );
+        if (!response.ok) throw new Error('Failed to fetch locations');
+        const data = await response.json();
+        setLocations(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLocations();
+  }, []);
+
+  const handleCategoryClick = (categoryValue) => {
+    navigate(`/baalbak/${categoryValue.toLowerCase()}`);
+  };
+
+  const handleFavoriteClick = async (e, locationId) => {
+    e.stopPropagation();
     
-        <div className="w-full overflow-auto bg-[#F5E3C1] bg-opacity-60">
-        <Header />
-  
-        {/* Full-Screen Slideshow */}
-        <Swiper
-          modules={[Autoplay, Pagination, Navigation]}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
-          pagination={{ clickable: true }}
-          navigation
-          loop={true}
-          className="w-full h-screen"
-        >
-          {images.map((src, index) => (
-            <SwiperSlide key={index} className="flex items-center justify-center">
-              <img src={src} alt={`Sidon ${index + 1}`} className="w-full h-screen object-cover" />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-  
-        {/* Scrollable Content */}
-        <div className="flex flex-col items-center justify-start">
-          {/* Title */}
-          <h1 className="text-6xl font-extrabold text-[#B24F4F] mt-6 tracking-wide" style={{ fontFamily: "'Pathway', sans-serif" }}>
-            BAALBAK
-          </h1>
-  
-          {/* Description */}
-          <div className="w-full bg-[#F5E3C1] bg-opacity-30 px-8 py-10 mt-6 text-center shadow-md ">
-          <p className="text-gray-800 font-semibold text-lg sm:text-xl md:text-2xl leading-relaxed max-w-4xl mx-auto" style={{ fontFamily: "'Abel', sans-serif" }}>
-          Baalbek, the city of the sun, stands as one of the most awe-inspiring archaeological wonders of the ancient world.
-           Once a major religious center of the Phoenicians and later a grand Roman sanctuary, Baalbek is home to the colossal ruins of the Temple of Jupiter, the largest Roman temple ever built, 
-           alongside the magnificently preserved Temple of Bacchus. Its towering stone columns and intricate carvings speak of a glorious past where gods, emperors, and civilizations converged.
-            Nestled in the Bekaa Valley, Baalbek remains a symbol of Lebanon’s rich heritage, drawing visitors to marvel at its grandeur and timeless splendor.
-            </p>
-          </div>
-  
-          {/* Categories */}
-          <div className="w-full max-w-5xl mt-10 p-6 flex flex-wrap justify-center gap-8">
-          {categories.map((category) => (
-            <button
-              key={category}
-              className="w-72 h-48 relative flex items-center justify-center rounded-lg text-2xl font-semibold transition-all shadow-lg bg-cover bg-center text-white hover:scale-105 hover:shadow-2xl"
-              style={{ backgroundImage: categoryImages[category] }}
-              onClick={() => handleCategoryClick(category)}
-            >
-              <div className="absolute inset-0 bg-black opacity-40 rounded-lg"></div>
-              <span className="relative z-10">{category}</span>
-            </button>
-          ))}
-        </div>
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const isCurrentlyFavorite = favorites.some(fav => fav.location.id === locationId);
+      if (isCurrentlyFavorite) {
+        await removeFromFavorites(locationId);
+        setFavorites(favorites.filter(fav => fav.location.id !== locationId));
+      } else {
+        await addToFavorites(locationId);
+        // Fetch the updated favorites list to get complete location data
+        const response = await fetch("https://meshwar-backend.onrender.com/favorites/", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setFavorites(data);
+        }
+      }
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+    }
+  };
+
+  const getLocationsByCategory = (category) => {
+    return locations.filter(loc => loc.category === category);
+  };
+
+  if (loading) return <div className="text-center py-20">Loading...</div>;
+  if (error) return <div className="text-center py-20 text-red-500">Error: {error}</div>;
+
+  return (
+    <div className="w-full overflow-auto bg-[#F5E3C1] bg-opacity-60">
+      <Header />
+
+      {/* City Image Slideshow */}
+      <Swiper
+        modules={[Autoplay, Pagination, Navigation]}
+        autoplay={{ delay: 3000 }}
+        pagination={{ clickable: true }}
+        navigation
+        loop={true}
+        className="w-full h-screen"
+      >
+        {cityImages.map((src, index) => (
+          <SwiperSlide key={index}>
+            <img 
+              src={src} 
+              alt={`Baalbak ${index + 1}`} 
+              className="w-full h-full object-cover"
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      {/* City Title */}
+      <div className="text-center py-8">
+        <h1 className="text-6xl font-bold text-[#B24F4F]">
+          BAALBAK
+        </h1>
+        <p className="mt-4 text-lg max-w-2xl mx-auto">
+          Home to the magnificent Roman ruins
+        </p>
+      </div>
+
+      {/* Categories Grid */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {categories.map((category) => {
+            const categoryLocations = getLocationsByCategory(category.value);
+            if (categoryLocations.length === 0) return null;
+            
+            return (
+              <div key={category.value} className="bg-white rounded-xl shadow-lg overflow-hidden">
+                {/* Category Header */}
+                <div 
+                  className="h-48 bg-cover bg-center flex items-center justify-center relative"
+                  style={{ backgroundImage: categoryImages[category.value] }}
+                >
+                  <div className="absolute inset-0 bg-black bg-opacity-40" />
+                  <h2 className="text-2xl font-bold text-white relative z-10">
+                    {category.label}
+                  </h2>
+                </div>
+
+                {/* Locations List */}
+                <div className="p-4">
+                  {categoryLocations.map(location => {
+                    const isFavorite = favorites.some(fav => fav.location.id === location.id);
+                    return (
+                      <div 
+                        key={location.id} 
+                        className="mb-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer relative"
+                        onClick={() => navigate(`/location/${location.id}`)}
+                      >
+                        <button
+                          onClick={(e) => handleFavoriteClick(e, location.id)}
+                          className="absolute top-4 right-4 text-red-500 hover:text-red-700 z-10"
+                          disabled={favoritesLoading}
+                        >
+                          {favoritesLoading ? (
+                            <div className="w-5 h-5 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"></div>
+                          ) : (
+                            <FaHeart size={20} color={isFavorite ? "red" : "gray"} />
+                          )}
+                        </button>
+                        <h3 className="font-bold text-lg">{location.name}</h3>
+                        <p className="text-gray-600">{location.address}</p>
+                        {location.image_url && (
+                          <img 
+                            src={location.image_url} 
+                            alt={location.name}
+                            className="mt-2 w-full h-32 object-cover rounded"
+                          />
+                        )}
+                        <div className="mt-2 flex justify-between items-center">
+                          <span className="text-sm text-gray-500">
+                            {location.current_people}/{location.max_people} people
+                          </span>
+                          <span className="text-sm font-semibold">
+                            {Array(location.cost_range).fill('$').join('')}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
-    );
-  };
-  
-  export default Baalbak;
+    </div>
+  );
+};
+
+export default Baalbak;

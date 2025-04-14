@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authContext";
 import { Navigate } from "react-router-dom";
 import Header from "../components/header";
 import PlaceCard from "../components/placeCard";
@@ -13,7 +13,7 @@ export default function FavoritesPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const cities = ["Beirut", "Batroun", "Byblos", "Sidon", "Balbbek", "Jounieh"];
+  const cities = ["Beirut", "Batroun", "Byblos", "Sidon", "Baalbak", "Jounieh"];
 
   const fetchFavorites = async () => {
     if (!isAuthenticated) return;
@@ -41,7 +41,7 @@ export default function FavoritesPage() {
   };
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/loginpage" />;
   }
 
   return (

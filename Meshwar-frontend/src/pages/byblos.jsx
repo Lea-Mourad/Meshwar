@@ -2,16 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { FaHeart } from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Header from "../components/header";
+import { useAuth } from "../context/authContext";
+import { addToFavorites, removeFromFavorites } from "../services/favoritesService";
 
 const Byblos = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [favorites, setFavorites] = useState([]);
+  const [favoritesLoading, setFavoritesLoading] = useState(false);
 
   const categories = [
     { value: "HISTORICAL", label: "Historical Sites" },
@@ -36,6 +42,32 @@ const Byblos = () => {
     // ... other city images ...
   ];
 
+  // Fetch favorites immediately if authenticated
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (!isAuthenticated) return;
+      setFavoritesLoading(true);
+      try {
+        const response = await fetch("https://meshwar-backend.onrender.com/favorites/", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setFavorites(data);
+        }
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+      } finally {
+        setFavoritesLoading(false);
+      }
+    };
+
+    fetchFavorites();
+  }, [isAuthenticated]);
+
+  // Fetch locations separately
   useEffect(() => {
     const fetchLocations = async () => {
       try {
@@ -57,6 +89,32 @@ const Byblos = () => {
 
   const handleCategoryClick = (categoryValue) => {
     navigate(`/byblos/${categoryValue.toLowerCase()}`);
+  };
+
+  const handleFavoriteClick = async (e, locationId) => {
+    e.stopPropagation();
+    
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const isCurrentlyFavorite = favorites.some(fav => fav.location.id === locationId);
+      if (isCurrentlyFavorite) {
+        await removeFromFavorites(locationId);
+        setFavorites(favorites.filter(fav => fav.location.id !== locationId));
+      } else {
+        await addToFavorites(locationId);
+        // Immediately update the local state with the new favorite
+        const location = locations.find(loc => loc.id === locationId);
+        if (location) {
+          setFavorites([...favorites, { location }]);
+        }
+      }
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+    }
   };
 
   const getLocationsByCategory = (category) => {
@@ -122,31 +180,45 @@ const Byblos = () => {
 
                 {/* Locations List */}
                 <div className="p-4">
-                  {categoryLocations.map(location => (
-                    <div 
-                      key={location.id} 
-                      className="mb-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer"
-                      onClick={() => navigate(`/location/${location.id}`)}
-                    >
-                      <h3 className="font-bold text-lg">{location.name}</h3>
-                      <p className="text-gray-600">{location.address}</p>
-                      {location.image_url && (
-                        <img 
-                          src={location.image_url} 
-                          alt={location.name}
-                          className="mt-2 w-full h-32 object-cover rounded"
-                        />
-                      )}
-                      <div className="mt-2 flex justify-between items-center">
-                        <span className="text-sm text-gray-500">
-                          {location.current_people}/{location.max_people} people
-                        </span>
-                        <span className="text-sm font-semibold">
-                          {Array(location.cost_range).fill('$').join('')}
-                        </span>
+                  {categoryLocations.map(location => {
+                    const isFavorite = favorites.some(fav => fav.location.id === location.id);
+                    return (
+                      <div 
+                        key={location.id} 
+                        className="mb-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer relative"
+                        onClick={() => navigate(`/location/${location.id}`)}
+                      >
+                        <button
+                          onClick={(e) => handleFavoriteClick(e, location.id)}
+                          className="absolute top-4 right-4 text-red-500 hover:text-red-700 z-10"
+                          disabled={favoritesLoading}
+                        >
+                          {favoritesLoading ? (
+                            <div className="w-5 h-5 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"></div>
+                          ) : (
+                            <FaHeart size={20} color={isFavorite ? "red" : "gray"} />
+                          )}
+                        </button>
+                        <h3 className="font-bold text-lg">{location.name}</h3>
+                        <p className="text-gray-600">{location.address}</p>
+                        {location.image_url && (
+                          <img 
+                            src={location.image_url} 
+                            alt={location.name}
+                            className="mt-2 w-full h-32 object-cover rounded"
+                          />
+                        )}
+                        <div className="mt-2 flex justify-between items-center">
+                          <span className="text-sm text-gray-500">
+                            {location.current_people}/{location.max_people} people
+                          </span>
+                          <span className="text-sm font-semibold">
+                            {Array(location.cost_range).fill('$').join('')}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             );
