@@ -14,7 +14,7 @@ class Location(models.Model):
     
     CITY_CHOICES = [
         ('BEIRUT', 'Beirut'),
-        ('BAALBAK', 'Baalbak'),
+        ('BAALBAK', 'Baalbak'), 
         ('BATROUN', 'Batroun'),
         ('BYBLOS', 'Byblos'),
         ('SIDON', 'Sidon'),

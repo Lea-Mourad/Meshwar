@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "authenticate", #Authentication and user related api
     "locations", # Locations app for tourism spots
     "events", # Events app for managing events
+    "favorites", # Favorites app for managing user favorites
 ]
 
 REST_FRAMEWORK = {

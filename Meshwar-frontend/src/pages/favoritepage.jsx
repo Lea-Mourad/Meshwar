@@ -1,45 +1,48 @@
-
 import React, { useState, useEffect } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
 import Header from "../components/header";
 import PlaceCard from "../components/placeCard";
+import { getFavorites } from "../services/favoritesService";
 
 export default function FavoritesPage() {
   const { isAuthenticated } = useAuth();
   const [selectedCity, setSelectedCity] = useState("Beirut");
   const [favorites, setFavorites] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const cities = ["Beirut", "Batroun", "Byblos", "Sidon", "Balbbek", "Jounieh"];
 
   const fetchFavorites = async () => {
-    const token = localStorage.getItem("authToken");
-    const API_BASE = "http://127.0.0.1:8000";
-    const listURL = `${API_BASE}/auth/favorites/list/?city=${selectedCity}`;
-
+    if (!isAuthenticated) return;
+    
+    setIsLoading(true);
+    setError(null);
+    
     try {
-      const response = await fetch(listURL, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-      setFavorites(data.favorites || []);
+      const data = await getFavorites();
+      setFavorites(data);
     } catch (error) {
-      console.error("Failed to fetch favorites:", error);
+      setError("Failed to fetch favorites. Please try again later.");
+      console.error("Error fetching favorites:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchFavorites();
-  }, [selectedCity]);
+  }, [isAuthenticated]);
 
   const handleGoBack = () => {
-    window.location.href = "/";
+    window.history.back();
   };
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <div className="relative min-h-screen bg-gray-50 pb-10">
@@ -74,23 +77,34 @@ export default function FavoritesPage() {
           ))}
         </div>
 
-        {/* Favorite Places List */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {favorites.length > 0 ? (
-            favorites.map((place) => (
-              <PlaceCard
-                key={place.id}
-                place={place}
-                favorites={favorites}
-                refreshFavorites={fetchFavorites}
-              />
-            ))
-          ) : (
-            <p className="text-gray-400 text-sm sm:text-base col-span-full">
-              No favorite places added yet in {selectedCity}.
-            </p>
-          )}
-        </div>
+        {/* Loading and Error States */}
+        {isLoading ? (
+          <div className="text-center py-8">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#984942] mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading your favorites...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-8 text-red-600">{error}</div>
+        ) : (
+          /* Favorite Places List */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {favorites.length > 0 ? (
+              favorites
+                .filter((place) => place.location.city === selectedCity.toUpperCase())
+                .map((favorite) => (
+                  <PlaceCard
+                    key={favorite.id}
+                    place={favorite.location}
+                    refreshFavorites={fetchFavorites}
+                  />
+                ))
+            ) : (
+              <p className="text-gray-400 text-sm sm:text-base col-span-full">
+                No favorite places added yet in {selectedCity}.
+              </p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

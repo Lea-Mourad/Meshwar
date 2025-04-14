@@ -1,13 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaHeart, FaTimes } from "react-icons/fa"; // Import heart and close icons
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { addToFavorites, removeFromFavorites } from "../services/favoritesService";
 
-const PlaceCard = ({ place }) => {
+const PlaceCard = ({ place, refreshFavorites }) => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false); // State to track if the place is marked as favorite
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
-  const handleFavoriteClick = (e) => {
+  useEffect(() => {
+    // Check if the place is in favorites when component mounts
+    const checkFavoriteStatus = async () => {
+      if (isAuthenticated) {
+        try {
+          const response = await fetch("https://meshwar-backend.onrender.com/favorites/", {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          });
+          const data = await response.json();
+          setIsFavorite(data.some(fav => fav.location.id === place.id));
+        } catch (error) {
+          console.error("Error checking favorite status:", error);
+        }
+      }
+    };
+    checkFavoriteStatus();
+  }, [isAuthenticated, place.id]);
+
+  const handleFavoriteClick = async (e) => {
     e.stopPropagation(); // Prevent the favorite button click from triggering the card click
-    setIsFavorite(!isFavorite); // Toggle the favorite state
+    
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      if (isFavorite) {
+        await removeFromFavorites(place.id);
+      } else {
+        await addToFavorites(place.id);
+      }
+      setIsFavorite(!isFavorite);
+      if (refreshFavorites) {
+        refreshFavorites();
+      }
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+    }
   };
 
   const handleCardClick = () => {
