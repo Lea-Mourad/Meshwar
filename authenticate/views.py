@@ -117,7 +117,6 @@ class AdminLoginView(APIView):
 
 class ChangeEmailView(generics.GenericAPIView):
     serializer_class = ChangeEmailSerializer
-   # authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
     
     def post(self, request, *args, **kwargs):
@@ -150,7 +149,6 @@ class ChangeEmailView(generics.GenericAPIView):
 
 class VerifyEmailChangeView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
-   # authentication_classes = [BasicAuthentication]
     serializer_class = VerifyEmailChangeSerializer
     def patch(self, request,*args, **kwargs):
         serializer = VerifyEmailChangeSerializer(data=request.data)
@@ -188,6 +186,7 @@ class CurrentUserView(APIView):
             # You can add more user fields here if needed.
         }
         return Response(data, status=200)
+    
 class DeleteAccountView(APIView):
     permission_classes = [IsAuthenticated]
 
