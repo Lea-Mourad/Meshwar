@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Header from "../components/header";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authContext";
 import { addToFavorites, removeFromFavorites } from "../services/favoritesService";
 
 const Sidon = () => {
@@ -31,15 +31,20 @@ const Sidon = () => {
   ];
 
   const categoryImages = {
-    HISTORICAL: "url('https://example.com/historical.jpg')",
-    RESTAURANT: "url('https://example.com/restaurant.jpg')",
-    // ... other category images ...
+    HISTORICAL: "url('https://johtt.com/uploads/filemanager/Lebanon/Sid%20Sea%20Castle.jpg')",
+    RESTAURANT: "url('https://media-cdn.tripadvisor.com/media/photo-s/18/c0/10/40/photo1jpg.jpg')",
+    BEACH: "url('https://64.media.tumblr.com/7f13464ac6a489982b35a7152eec671f/tumblr_pw8elwZIS31rexkjko1_1280.jpg')",
+    COFFEE: "url('https://alkhabaragency.com/khbr-82148/130197771_1031711683969543_3261871058427221949_o')",
+    HOTEL: "url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/203321190.jpg?k=3dbde078b457769892ad43d75061b413610941b9c96caaf04d385b8d238f9e7c&o=&hp=1')",
+    ACTIVITY: "url('https://visitsaida.com/wp-content/uploads/2021/07/Diving.jpg')",
+    MUSEUM:"url('https://visitsaida.com/wp-content/uploads/2021/07/Beit-Awdeh.jpg')",
   };
 
   const cityImages = [
-    "https://example.com/sidon1.jpg",
-    "https://example.com/sidon2.jpg",
-    // ... other city images ...
+    "https://visitsaida.com/wp-content/uploads/2021/07/Old-Saida.jpg",
+    "https://medcities.org/wp-content/uploads/2021/05/capcalera-saida.jpg",
+    "https://visitsaida.com/wp-content/uploads/2021/07/shutterstock_1166766343-1170x780-2.jpg",
+    "https://visitsaida.com/wp-content/uploads/2021/07/SAIDA-PUBLIC-BEACH.jpg",
   ];
 
   // Fetch favorites immediately if authenticated
@@ -154,7 +159,12 @@ const Sidon = () => {
           SIDON
         </h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto">
-          A historic coastal city with ancient charm
+           Sidon, one of Lebanon’s oldest and most storied cities, is a coastal gem steeped in history and tradition. 
+              Known for its ancient Phoenician heritage, Sidon boasts landmarks such as the majestic Sea Castle, built by the Crusaders, 
+              and the bustling Khan el-Franj, a testament to its rich trading past. The city’s vibrant souks offer a glimpse into daily 
+              life, where the scent of spices and freshly baked sweets fills the air. Overlooking the Mediterranean, Sidon seamlessly
+              blends its historical significance with a lively, welcoming atmosphere, making it a must-visit destination for those 
+              seeking culture, history, and seaside charm.
         </p>
       </div>
 
