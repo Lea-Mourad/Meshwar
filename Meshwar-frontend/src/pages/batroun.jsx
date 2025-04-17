@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Header from "../components/header";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authContext";
 import { addToFavorites, removeFromFavorites } from "../services/favoritesService";
 
 const Batroun = () => {
@@ -30,17 +30,24 @@ const Batroun = () => {
     { value: "ACTIVITY", label: "Activities" }
   ];
 
-  const categoryImages = {
-    HISTORICAL: "url('https://example.com/historical.jpg')",
-    RESTAURANT: "url('https://example.com/restaurant.jpg')",
-    // ... other category images ...
+    const categoryImages = {
+    HISTORICAL: "url('https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/11/88/9b/60.jpg')",
+    RESTAURANT: "url('https://www.tasteandflavors.com/wp-content/uploads/2024/06/IAB-1-scaled.jpeg')",
+    BEACH: "url('https://ucarecdn.com/41a32e20-5957-4027-a666-3c7b4dd9e1df/-/crop/1000x525/0,138/-/resize/1200x630/-/resize/x400/')",
+    COFFEE: "url('https://www.tasteandflavors.com/wp-content/uploads/2023/07/DSC_6773_00129-1024x1024.jpg')",
+    HOTEL: "url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/568355222.webp?k=4d3c60931b03d0a97355e5669b243a0fe7f005e89916ab4956ffff3d0b8cdf25&o=')",
+    NIGHTLIFE: "url('https://www.lebanoninapicture.com/pages/batroun-%D8%A7%D9%84%D8%A8%D8%AA%D8%B1%D9%88%D9%86_%D8%B3%D9%81%D8%B1%D8%A9-oddrooftop-rooftop-nightlife-music/batroun-%D8%A7%D9%84%D8%A8%D8%AA%D8%B1%D9%88%D9%86_%D8%B3%D9%81%D8%B1%D8%A9-oddrooftop-rooftop-nightli-7-6-2018-9-23-59-pm-m.jpg')",
+
   };
 
   const cityImages = [
-    "https://example.com/batroun1.jpg",
-    "https://example.com/batroun2.jpg",
-    // ... other city images ...
+    "https://us.images.westend61.de/0001873362pw/aerial-view-of-batroun-batroun-lebanon-AAEF20916.jpg",
+    "https://www.felventura.com/wp-content/uploads/2024/04/Batroun-Phoenecian-wall-Felventura.webp",
+    "https://owlovertheworld.com/wp-content/uploads/2024/02/batroun-lebanon-attractions.jpg",
+    "https://www.travel-tramp.com/wp-content/uploads/2023/08/Things-to-do-in-Batroun-2.jpg.webp",
+
   ];
+
 
   // Fetch favorites immediately if authenticated
   useEffect(() => {
@@ -154,7 +161,10 @@ const Batroun = () => {
           BATROUN
         </h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto">
-          A charming coastal city with rich history
+           Batroun, a picturesque coastal town, is a hidden gem of Lebanon, where history, nature, and vibrant culture blend seamlessly. One of the oldest continuously inhabited cities in the world, Batroun boasts ancient Phoenician walls
+           that have withstood the test of time, charming stone-paved streets, and historic churches that whisper tales of the past. Known for its crystal-clear Mediterranean waters and lively beach scene, the town is also
+            famous for its fresh seafood and locally produced lemonade.
+            Whether exploring its historic souks, enjoying its bustling nightlife, or simply relaxing by the sea, Batroun offers a perfect mix of heritage, serenity, and adventure.
         </p>
       </div>
 
