@@ -31,16 +31,22 @@ const Byblos = () => {
   ];
 
   const categoryImages = {
-    HISTORICAL: "url('https://example.com/historical.jpg')",
-    RESTAURANT: "url('https://example.com/restaurant.jpg')",
-    // ... other category images ...
+    HISTORICAL: "url('https://live.staticflickr.com/65535/51111865973_758b50d3c0_b.jpg')",
+    RESTAURANT: "url('https://i.pinimg.com/736x/36/85/40/368540556d16c7be2f2771230cf95ee7.jpg')",
+    BEACH: "url('https://lh5.googleusercontent.com/proxy/nrtfMqLzhNcunUY2znuFaBs0HC4YZ5olfRE_friYQD0ssR0bbyR_SnmuiDCPW1FeAWGdmt92997VDsAiv6xZO9lmIx55vzQnP11UfAc7dvv9yN5xqbr1wsAq8I5xfikzuFsxHj3u8d8iSJDHdebqLYBbzlwPzcvPGvcVI1pdejam1J5EAA3pwd4mrRWK8j7963LkFpGissbRF58TP4Qb_ZoDUgCwpOR3sg')",
+    COFFEE: "url('https://bunny-wp-pullzone-eqa83h6t2a.b-cdn.net/wp-content/uploads/2023/10/74398641-51756703.jpg')",
+    HOTEL: "url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/150346751.webp?k=1363992a56d1130b40e1d80960ebfa0260ecb9e5b829467e92b9f0b1448b85b1&o=')",
+    NIGHTLIFE: "url('https://www.plus961.com/wp-content/uploads/2010/06/E-Cafe-Jbeil.jpg')",
+   
   };
 
   const cityImages = [
-    "https://example.com/byblos1.jpg",
-    "https://example.com/byblos2.jpg",
-    // ... other city images ...
+    "https://medcities.org/wp-content/uploads/2021/05/capcalera-jbeil.jpg",
+    "https://www.sophiesworld.net/wp-content/uploads/2018/07/IMG_E3094.jpg",
+    "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/09/4e/6d/44/caption.jpg?w=1200&h=1200&s=1",
+    "https://libshop.fr/wp-content/uploads/2020/01/byblosliban.jpg",
   ];
+
 
   // Fetch favorites immediately if authenticated
   useEffect(() => {
@@ -154,7 +160,12 @@ const Byblos = () => {
           BYBLOS
         </h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto">
-          One of the oldest continuously inhabited cities in the world
+          Byblos, one of the oldest continuously inhabited cities in the world, is the cradle of the Phoenician civilization and the 
+birthplace of the alphabet. Steeped in history, this coastal gem tells the story of ancient seafarers who shaped trade and 
+communication across the Mediterranean. Its charming harbor, medieval citadel, and well-preserved ruins offer a glimpse into
+ a glorious past, while its vibrant souks and seaside cafés showcase a lively present. From the grand temples of antiquity to 
+ the whispers of the Phoenician script, Byblos stands as a timeless bridge between history and modernity, inviting visitors to
+  explore its legendary heritage.
         </p>
       </div>
 
