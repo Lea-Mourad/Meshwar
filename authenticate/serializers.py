@@ -58,3 +58,36 @@ class LoginSerializer(serializers.Serializer):
 
         data['user'] = user
         return data
+
+  
+class ChangeEmailSerializer(serializers.ModelSerializer):
+    new_email = serializers.EmailField(required=True)
+    class Meta:
+        model = User
+        fields = ['new_email']
+    def validate_new_email(self, value):
+        # Get the current user from the request context
+        user = self.context['request'].user
+        current_email = user.email
+        # Check if the new email is different from the current email
+        if value == current_email:
+            raise serializers.ValidationError("You cannot update to your current email.")
+        
+        # Check if the new email is already in use by another user
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("This email is already taken.")
+        
+        return value
+    
+class VerifyEmailChangeSerializer(serializers.Serializer):
+    verification_code = serializers.UUIDField(required=True)
+    def validate_verification_code(self, value):
+        try:
+            verification = EmailVerification.objects.get(code=value)  
+            
+            if verification.expires_at < timezone.now(): 
+                raise serializers.ValidationError("Verification code has expired.")
+            return verification 
+        except EmailVerification.DoesNotExist:
+            raise serializers.ValidationError("Invalid verification code.")
+
