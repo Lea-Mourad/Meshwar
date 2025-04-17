@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Header from "../components/header";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authContext";
 import { addToFavorites, removeFromFavorites } from "../services/favoritesService";
 
 const Beirut = () => {
@@ -30,18 +30,22 @@ const Beirut = () => {
     { value: "ACTIVITY", label: "Activities" }
   ];
 
-  const categoryImages = {
-    HISTORICAL: "url('https://example.com/historical.jpg')",
-    RESTAURANT: "url('https://example.com/restaurant.jpg')",
-    // ... other category images ...
+ const categoryImages = {
+    MUSEUM: "url('https://www.wilmotte.com/wp-content/uploads/2023/03/hr_museebeyrouth_marwanharmouche_04-scaled.jpg')",
+    RESTAURANT: "url('https://i.pinimg.com/736x/a2/de/5d/a2de5d984e8cd466a119858cf407b622.jpg')",
+    BEACH: "url('https://libshop.fr/wp-content/uploads/2020/04/beyrouth-beach-lebanon-scaled-1.jpg')",
+    COFFEE: "url('https://georgerishan.wordpress.com/wp-content/uploads/2021/04/img_4408.jpg?w=936')",
+    HOTEL: "url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/48/bb/91/kempinski-summerland.jpg?w=1200&h=-1&s=1')",
+    ACTIVITY: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYcNyC7YD23auPAqFpEjtEKOrDmlFqg5ASLg&s')",
+    NIGHTLIFE: "url('https://248am.com/images/2015/04/grandfactory.jpg')",
   };
 
   const cityImages = [
-    "https://example.com/beirut1.jpg",
-    "https://example.com/beirut2.jpg",
-    // ... other city images ...
+    "https://lp-cms-production.imgix.net/2020-12/shutterstockRF_756972694.jpg",
+    "https://img.travelnaut.com/web/db/photose/location/as/lb/beirut/a8f769f130642d7a50f738c3dc965492.jpeg?format=webp&width=3840&quality=75",
+    "https://www.hospitalitynewsmag.com/wp-content/uploads/2020/01/Zaytouna-Bay-at-Sunset-Beirut-Downtown.jpg",
+    "https://images.ajar.casa/wp-content/uploads/2022/05/16015058/Ruins-in-Beirut-Downtown-near-Martyrs-Square.jpg",
   ];
-
   // Fetch favorites immediately if authenticated
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -159,7 +163,12 @@ const Beirut = () => {
           BEIRUT
         </h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto">
-          The vibrant capital of Lebanon
+           Beirut, the vibrant capital of Lebanon, is a city rich in history, culture, and breathtaking views. From its bustling
+              souks to the serene Mediterranean coastline, Beirut offers a unique blend of tradition and modernity. The city stands
+              as a testament to resilience, having withstood centuries of change and transformation. Whether exploring the lively
+              streets of Gemmayze, admiring the Roman ruins of downtown, or enjoying the coastal beauty of Raouché, Beirut captivates
+              visitors with its charm and diversity. It is a city where past and future intertwine, creating a unique and
+              unforgettable experience for all who walk its streets.
         </p>
       </div>
 
