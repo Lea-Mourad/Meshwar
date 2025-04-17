@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Header from "../components/header";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authContext";
 import { addToFavorites, removeFromFavorites } from "../services/favoritesService";
 
 const Sour = () => {
@@ -30,16 +30,23 @@ const Sour = () => {
     { value: "ACTIVITY", label: "Activities" }
   ];
 
+  
   const categoryImages = {
-    HISTORICAL: "url('https://example.com/historical.jpg')",
-    RESTAURANT: "url('https://example.com/restaurant.jpg')",
-    // ... other category images ...
+    HISTORICAL: "url('https://crm.visit-lebanon.org/alternatedocroots/6a025965-2f91-400b-b617-45bfcaf736db-shutterstock_477215944.jpg')",
+    RESTAURANT: "url('https://crm.visit-lebanon.org/alternatedocroots/876be108-0397-405c-8057-1ec24defbf37-shutterstock_660486538-1920.jpg')",
+    BEACH: "url('https://libshop.fr/wp-content/uploads/2022/05/tyr02.jpg')",
+    COFFEE: "url(' https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/1b/bf/d9/aurelia.jpg?w=600&h=400&s=1')",
+    HOTEL: "url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/188937132.webp?k=0cae207e60dafbf579f0f1cf775bca9a4be0afa2ce4e02760cd7c716b7e61f1e&o=')",
+    ACTIVITY: "url('https://www.ctm-lecce.it/prove2/wp-content/uploads/2022/05/Blue-Tyre_Aprile_22_News-1.jpeg')",
   };
 
   const cityImages = [
-    "https://example.com/sour1.jpg",
-    "https://example.com/sour2.jpg",
-    // ... other city images ...
+    "https://preview.redd.it/the-actual-tyre-sour-v0-4r0rfgkhu0md1.jpg?width=1080&crop=smart&auto=webp&s=b5bbad1c7ea2404b048d3fc3017de003eeb06b2c",
+    "https://hittheroadket.com/wp-content/uploads/2023/07/TYRE9431.jpg",
+    "https://crm.visit-lebanon.org/alternatedocroots/c42b8207-5027-4a8b-a063-1ffc7751e74a-shutterstock_660525961.jpg",
+    "https://cdn.britannica.com/02/178002-050-BFCB544B/ruins-Tyre-Lebanon.jpg",
+    "https://www.hotelibanais.com/wp-content/uploads/2018/07/hl-site-tyre-1.jpg",
+
   ];
 
   // Fetch favorites immediately if authenticated
@@ -154,7 +161,12 @@ const Sour = () => {
           SOUR
         </h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto">
-          A historic Phoenician city with beautiful beaches
+           <p className="mt-4 text-lg max-w-2xl mx-auto">
+        Sour, known as Tyre in ancient times, is a city of resilience, history, and coastal beauty. Once a powerful Phoenician stronghold, 
+          Sour played a crucial role in maritime trade and the spread of civilization. Today, its UNESCO-listed ruins, including the grand hippodrome and Roman streets,
+           stand as echoes of its glorious past. The city’s vibrant fishing harbor, golden beaches, and welcoming souks reflect the enduring spirit of its people. 
+           Through centuries of conquests and challenges, 
+           Sour remains a symbol of strength and heritage, inviting visitors to walk its historic paths and experience the timeless charm of this coastal treasure.
         </p>
       </div>
 
