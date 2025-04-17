@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth import authenticate
-from .serializers import UserRegistrationSerializer, EmailVerificationSerializer,LoginSerializer,ChangeEmailSerializer,VerifyEmailChangeSerializer
+from .serializers import UserRegistrationSerializer, EmailVerificationSerializer,LoginSerializer,ChangeEmailSerializer,VerifyEmailChangeSerializer, PasswordResetConfirmSerializer, PasswordResetRequestSerializer
 from authenticate.models import EmailVerification
 from .utils import send_email
 import logging
@@ -190,3 +190,22 @@ class DeleteAccountView(APIView):
         user.delete()
         
         return Response({"detail": "User account deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+
+
+class PasswordResetRequestView(generics.GenericAPIView):
+    serializer_class = PasswordResetRequestSerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response({"message": "Password reset email sent."}, status=status.HTTP_200_OK)
+
+
+class PasswordResetConfirmView(generics.GenericAPIView):
+    serializer_class = PasswordResetConfirmSerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"message": "Password has been reset successfully."}, status=status.HTTP_200_OK)
