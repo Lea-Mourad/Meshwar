@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Header from "../components/header";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authContext";
 import { addToFavorites, removeFromFavorites } from "../services/favoritesService";
 
 const Baalbak = () => {
@@ -30,16 +30,19 @@ const Baalbak = () => {
     { value: "ACTIVITY", label: "Activities" }
   ];
 
-  const categoryImages = {
-    HISTORICAL: "url('https://example.com/historical.jpg')",
-    RESTAURANT: "url('https://example.com/restaurant.jpg')",
-    // ... other category images ...
+const categoryImages = {
+    HISTORICAL: "url('https://crm.visit-lebanon.org/alternatedocroots/6a025965-2f91-400b-b617-45bfcaf736db-shutterstock_477215944.jpg')",
+    RESTAURANT: "url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/03/cc/e5/caption.jpg?w=500&h=-1&s=1')",
+    COFFEE: "url(' https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/1b/bf/d9/aurelia.jpg?w=600&h=400&s=1')",
+    HOTEL: "url('https://palmyrahotel.com.lb/__static/625cfed608f37f890b744a73c35b7c24/photo-2023-05-09-17-43-20.jpg')",
+    ACTIVITY: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8jlTzj4wx4ykx3M2pDxFSpqrMlnDGLJlpkg&s')",
+       
   };
 
   const cityImages = [
-    "https://example.com/baalbak1.jpg",
-    "https://example.com/baalbak2.jpg",
-    // ... other city images ...
+    "https://crm.visit-lebanon.org/alternatedocroots/7c8210d5-3917-40b3-b2d7-73a197a2f4ca-shutterstock_373233778.jpg",
+    "https://www.executive-magazine.com/wp-content/uploads/2014/04/festivalsBaalbeck.jpg",
+
   ];
 
   // Fetch favorites immediately if authenticated
@@ -159,7 +162,10 @@ const Baalbak = () => {
           BAALBAK
         </h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto">
-          Home to the magnificent Roman ruins
+ Baalbek, the city of the sun, stands as one of the most awe-inspiring archaeological wonders of the ancient world.
+           Once a major religious center of the Phoenicians and later a grand Roman sanctuary, Baalbek is home to the colossal ruins of the Temple of Jupiter, the largest Roman temple ever built, 
+           alongside the magnificently preserved Temple of Bacchus. Its towering stone columns and intricate carvings speak of a glorious past where gods, emperors, and civilizations converged.
+            Nestled in the Bekaa Valley, Baalbek remains a symbol of Lebanon’s rich heritage, drawing visitors to marvel at its grandeur and timeless splendor.
         </p>
       </div>
 
