@@ -187,6 +187,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = 'authenticate.User'
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
+
 # Verification email related settings, deprecated, we will be using postman API for now
     # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     # EMAIL_HOST = "smtp.postmarkapp.com"
