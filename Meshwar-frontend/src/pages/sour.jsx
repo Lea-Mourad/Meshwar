@@ -161,7 +161,7 @@ const Sour = () => {
           SOUR
         </h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto">
-           <p className="mt-4 text-lg max-w-2xl mx-auto">
+  
         Sour, known as Tyre in ancient times, is a city of resilience, history, and coastal beauty. Once a powerful Phoenician stronghold, 
           Sour played a crucial role in maritime trade and the spread of civilization. Today, its UNESCO-listed ruins, including the grand hippodrome and Roman streets,
            stand as echoes of its glorious past. The city’s vibrant fishing harbor, golden beaches, and welcoming souks reflect the enduring spirit of its people. 
