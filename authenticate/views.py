@@ -1,3 +1,4 @@
+import uuid
 from django.shortcuts import render
 
 # Create your views here.
@@ -14,6 +15,8 @@ from authenticate.models import EmailVerification
 from .utils import send_email
 import logging
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.core.cache import cache
+from uuid import uuid4
 
 
 
