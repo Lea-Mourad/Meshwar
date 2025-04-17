@@ -90,4 +90,49 @@ class VerifyEmailChangeSerializer(serializers.Serializer):
             return verification 
         except EmailVerification.DoesNotExist:
             raise serializers.ValidationError("Invalid verification code.")
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
 
+    def validate_email(self, value):
+        try:
+            user = User.objects.get(email=value)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("No user with this email found.")
+
+        # Check if the user's email is verified
+        if not user.is_verified:
+            raise serializers.ValidationError("Email is not verified. Please verify your email first.")
+
+        # Proceed with generating the reset token
+        reset_token = PasswordResetToken.objects.create(user=user)
+
+        reset_link = f"http://localhost:3000/reset-password/{reset_token.token}/"
+        send_mail(
+            subject="Password Reset Request",
+            message=f"Click the link below to reset your password:\n\n{reset_link}",
+            from_email="nst11@mail.aub.edu",
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+
+        return value
+    
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    token = serializers.UUIDField()
+    new_password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        try:
+            reset_token = PasswordResetToken.objects.get(token=data["token"])
+            if reset_token.is_expired():
+                raise serializers.ValidationError("Reset token has expired.")
+        except PasswordResetToken.DoesNotExist:
+            raise serializers.ValidationError("Invalid reset token.")
+
+        self.user = reset_token.user
+        reset_token.delete()  # Delete token after successful validation
+        return data
+
+    def save(self):
+        self.user.set_password(self.validated_data["new_password"])
+        self.user.save() 
