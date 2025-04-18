@@ -1,11 +1,12 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import EmailVerification, User
+from .models import EmailVerification, User, PasswordResetToken
 import uuid
 from datetime import timedelta
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import authenticate
+from django.core.mail import send_mail
 
 
 User = get_user_model()
