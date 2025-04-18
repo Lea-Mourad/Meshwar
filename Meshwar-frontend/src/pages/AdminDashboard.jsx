@@ -4,31 +4,57 @@ import AddEvent from "../components/AddEvent";
 import AddListing from "../components/AddListing";
 import Chart from "react-apexcharts";
 
-const AdminDashboard = () => {
-  // Dummy Data for Statistics
-  const [totalListings, setTotalListings] = useState(25);
-  const [totalEvents, setTotalEvents] = useState(10);
-  const [popularCategories, setPopularCategories] = useState([
-    { category: "Food", count: 8 },
-    { category: "Beaches", count: 6 },
-    { category: "Historical", count: 5 },
-    { category: "Nightlife", count: 4 },
-    { category: "Cultural", count: 2 },
-  ]);
-  const [listingsPerCity, setListingsPerCity] = useState([
-    { city: "Beirut", count: 12 },
-    { city: "Batroun", count: 5 },
-    { city: "Byblos", count: 3 },
-    { city: "Sidon", count: 2 },
-    { city: "Baalbek", count: 3 },
-  ]);
 
-  // Dummy Data for Recent Listings Table
-  const recentListings = [
-    { id: 1, name: "Zaitunay Bay", city: "Beirut", category: "Beaches", date: "2025-03-15" },
-    { id: 2, name: "Pierre & Friends", city: "Batroun", category: "Nightlife", date: "2025-03-10" },
-    { id: 3, name: "Byblos Citadel", city: "Byblos", category: "Historical", date: "2025-03-05" },
-  ];
+
+
+const AdminDashboard = () => {
+  const [totalListings, setTotalListings] = useState(0);
+  const [totalEvents, setTotalEvents] = useState(0);
+  const [popularCategories, setPopularCategories] = useState([]);
+  const [listingsPerCity, setListingsPerCity] = useState([]);
+  const [recentListings, setRecentListings] = useState([]);
+  useEffect(() => {
+    Promise.all([
+      fetch("http://localhost:8000/locations/").then(res => res.json()),
+      fetch("http://localhost:8000/events/").then(res => res.json())
+    ])
+    .then(([locationsData, eventsData]) => {
+      // Total listings
+      setTotalListings(locationsData.length);
+  
+      // Recent 5 Listings
+      setRecentListings(locationsData.slice(0, 5));
+  
+      // Popular Categories
+      const categoryCounts = {};
+      locationsData.forEach((item) => {
+        categoryCounts[item.category_display] = (categoryCounts[item.category_display] || 0) + 1;
+      });
+      const popular = Object.entries(categoryCounts).map(([category, count]) => ({
+        category,
+        count,
+      }));
+      setPopularCategories(popular);
+  
+      // Listings per City
+      const cityCounts = {};
+      locationsData.forEach((item) => {
+        cityCounts[item.city_display] = (cityCounts[item.city_display] || 0) + 1;
+      });
+      const perCity = Object.entries(cityCounts).map(([city, count]) => ({
+        city,
+        count,
+      }));
+      setListingsPerCity(perCity);
+  
+      // Total events
+      setTotalEvents(eventsData.length);
+    })
+    .catch((err) => {
+      console.error("Error fetching data:", err);
+    });
+  }, []);
+  
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -104,7 +130,6 @@ const AdminDashboard = () => {
                 <th className="p-3 border">Name</th>
                 <th className="p-3 border">City</th>
                 <th className="p-3 border">Category</th>
-                <th className="p-3 border">Date</th>
               </tr>
             </thead>
             <tbody>
@@ -131,3 +156,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
