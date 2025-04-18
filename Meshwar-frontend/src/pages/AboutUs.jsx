@@ -34,57 +34,7 @@ const FaqItem = ({ faq, isExpanded, onToggle }) => (
   </div>
 );
 
-// Reusable component for developer profiles
-const DeveloperProfile = ({ developer }) => (
-  <motion.div
-    whileHover={{ scale: 1.05 }}
-    transition={{ type: "spring", stiffness: 400, damping: 17 }}
-    className="w-64 text-center bg-white/80 backdrop-blur-md rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300"
-  >
-    <img
-      src={developer.image}
-      alt={developer.name}
-      className="w-32 h-32 rounded-full mx-auto mb-4 border-2 border-[#984949]"
-    />
-    <h4 className="text-lg font-semibold text-[#984949]">{developer.name}</h4>
-    <p className="text-gray-800">{developer.description}</p>
-  </motion.div>
-);
-
 const AboutUs = () => {
-  const developers = [
-    {
-      name: "Leen Hammoud",
-      description:
-        " description",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      name: "Lea Mourad",
-      description:
-        "description",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      name: "Ahmad Machmouchi",
-      description:
-        "description",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      name: "Nadjib Tebbal",
-      description:
-        "description",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      name: "Hala Daher",
-      description:
-        "description",
-      image: "https://via.placeholder.com/150",
-    },
-  ];
-
   const faqs = [
     {
       question: "Do I need an account to use Meshwar?",
@@ -109,10 +59,10 @@ const AboutUs = () => {
     setExpandedFaq(expandedFaq === index ? null : index);
   };
 
-    useEffect(() => {
-        // Scroll to the top of the page when the component mounts
-        window.scrollTo(0, 0);
-    }, []);
+  useEffect(() => {
+    // Scroll to the top of the page when the component mounts
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div
@@ -222,7 +172,7 @@ const AboutUs = () => {
           <h2 className="text-3xl font-bold text-[#984949] mb-4">
             Who Are We?
           </h2>
-          <p className="text-lg text-gray-800 mb-8">
+          <p className="text-lg text-gray-800">
             This is a project done for our CMPS 271 class supervised by our
             professor Dr. Moustafa Nourredine. We are a passionate team of
             students who are committed to bringing the best of Lebanon’s
@@ -231,18 +181,23 @@ const AboutUs = () => {
             With a focus on providing user-centric experiences and innovative
             solutions, we are dedicated to making every journey unforgettable.
             Our goal is to help travelers not only visit Lebanon, but to truly
-            experience its rich history, culture, and natural beauty through
-            immersive and personalized tours.
+            experience its rich history, culture, and natural beauty.
           </p>
+        </motion.section>
 
-          <h3 className="text-2xl font-bold text-[#984949] mb-4">
-            Meet Our Developers
-          </h3>
-          <div className="flex flex-wrap justify-center gap-8">
-            {developers.map((developer, index) => (
-              <DeveloperProfile key={index} developer={developer} />
-            ))}
-          </div>
+        <motion.section
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          id="developers"
+          className="w-full p-8 bg-white bg-opacity-90 shadow-lg rounded-xl mb-8 transition-opacity duration-300"
+        >
+          <h2 className="text-3xl font-bold text-[#984949] mb-4">Developers</h2>
+          <p className="text-lg text-gray-800">
+            Meshwar was developed by Lea Mourad, Lynn Hammoud, Hala Daher, Nadjib Tebbal,
+            Ahmad Machmouchi. We are proud to share our love for
+            Lebanese culture and tourism through this platform.
+          </p>
         </motion.section>
       </div>
 
@@ -254,4 +209,3 @@ const AboutUs = () => {
 };
 
 export default AboutUs;
-
