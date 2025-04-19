@@ -39,17 +39,12 @@ const AboutUs = () => {
     {
       question: "Do I need an account to use Meshwar?",
       answer:
-        "No, you do not need an account. However, it is recommended to sign up for an account to save favorite places and receive personalized recommendations.",
+        "No, you do not need an account. You can freely browse and explore destinations without signing up.",
     },
     {
       question: "How do I save places on Meshwar?",
       answer:
         "Sign in to your account, go to 'Where To Go', choose a category, and click the heart icon (Favorites).",
-    },
-    {
-      question: "Are the recommendations really personalized?",
-      answer:
-        "Yes! Meshwar uses your preferences and interests to tailor relevant recommendations.",
     },
   ];
 
@@ -92,8 +87,7 @@ const AboutUs = () => {
           <p className="text-lg text-gray-800">
             Meshwar is a revolutionary tourism platform designed to provide you
             with a unique travel experience. Whether you are looking for hidden
-            gems or popular attractions, Meshwar has got you covered with
-            personalized recommendations tailored just for you. We focus on
+            gems or popular attractions, Meshwar has got you covered. We focus on
             creating experiences that go beyond the typical tourist attractions
             to provide travelers with memorable and authentic journeys.
           </p>
@@ -120,8 +114,8 @@ const AboutUs = () => {
             <div className="flex items-center mb-4 md:mb-0">
               <FaRegStar className="text-3xl text-[#984949] mr-4" />
               <p className="text-lg text-gray-800">
-                We offer personalized recommendations tailored to your interests
-                and preferences.
+                We highlight top-rated and unique experiences to help you plan
+                your perfect trip.
               </p>
             </div>
             <div className="flex items-center">
@@ -134,9 +128,7 @@ const AboutUs = () => {
           </div>
           <p className="text-lg text-gray-800">
             Meshwar stands out because we offer more than just a list of sights;
-            we give you a tailored journey that suits your interests and
-            preferences, helping you to discover Lebanon in an unforgettable
-            way.
+            we guide you to discover Lebanon in an unforgettable way.
           </p>
         </motion.section>
 
