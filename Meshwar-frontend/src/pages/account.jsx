@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Accountpage = () => {
-  const [email, setEmail] = useState("");
+ /* const [email, setEmail] = useState("");
   const [oldEmail, setOldEmail] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -14,7 +14,8 @@ const Accountpage = () => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [success, setSuccess] = useState(""); */
+  const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const { isAuthenticated, logout } = useAuth();
   const API_BASE = "https://meshwar-backend.onrender.com";
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const Accountpage = () => {
     fetchCurrentUser();
   }, []);
 
-  const fetchCurrentUser = async () => {
+  /* const fetchCurrentUser = async () => {
     const token = localStorage.getItem("authToken");
     if (!token) {
       console.error("No auth token found!");
@@ -124,7 +125,7 @@ const Accountpage = () => {
         setError("Network error. Please check your connection and try again.");
       }
     }
-  };
+  }; */ 
 
   const handleLogout = async () => {
     const token = localStorage.getItem("authToken");
@@ -187,7 +188,7 @@ const Accountpage = () => {
         <div className="w-full md:w-1/4 bg-[#984949] p-6 text-white">
           <h2 className="text-3xl font-bold mb-6">Account</h2>
           <ul>
-            <li
+            {/* <li
               className={`mb-4 cursor-pointer p-2 rounded ${activeSection === "settings" ? 'bg-[#B24F4F]' : 'hover:bg-[#B24F4F]'} transition`}
               onClick={() => setActiveSection("settings")}
             >
@@ -198,7 +199,8 @@ const Accountpage = () => {
               onClick={() => setActiveSection("password")}
             >
               Change Password
-            </li>
+            </li> */} 
+            
             <li
               className="mb-4 cursor-pointer p-2 rounded hover:bg-[#B24F4F] transition"
               onClick={() => navigate("/favorites")}
@@ -218,7 +220,7 @@ const Accountpage = () => {
           {error && <div className="p-4 mb-4 text-red-700 bg-red-100 rounded">{error}</div>}
           {success && <div className="p-4 mb-4 text-green-700 bg-green-100 rounded">{success}</div>}
 
-          {activeSection === "settings" && (
+          {/* {activeSection === "settings" && (
             <>
               <h2 className="text-xl font-bold mb-4">Change Email</h2>
               <div className="mb-4">
@@ -280,7 +282,7 @@ const Accountpage = () => {
                 </button>
               </form>
             </>
-          )}
+          )} */} 
 {/*
           <div className="mt-8">
             <button
