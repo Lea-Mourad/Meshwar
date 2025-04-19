@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "preinstall": "chmod +x node_modules/.bin/vite || true",
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "vercel-build": "npm ci && npm run build",
     "preview": "vite preview"
   },
   "dependencies": {
