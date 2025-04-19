@@ -83,11 +83,19 @@ const SignInBox = () => {
                 <input
                     type="password"
                     placeholder="Password"
-                    className="w-full border-b-2 border-[#B24F4F] py-2 mb-10 text-xl font-abel bg-transparent"
+                    className="w-full border-b-2 border-[#B24F4F] py-2 mb-4 text-xl font-abel bg-transparent"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
+                <div className="text-right mb-6">
+                    <button
+                        onClick={() => navigate("/forgot-password")}
+                        className="text-[#B24F4F] hover:text-[#9e3d3d] transition duration-300 text-sm font-abel"
+                    >
+                        Forgot Password?
+                    </button>
+                </div>
                 <button
                     onClick={handleSignIn}
                     disabled={loading}

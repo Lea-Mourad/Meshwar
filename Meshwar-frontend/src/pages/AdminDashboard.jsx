@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaChartBar, FaCalendarAlt, FaMapMarkerAlt, FaPlus } from "react-icons/fa";
+import { FaChartBar, FaCalendarAlt, FaMapMarkerAlt, FaPlus, FaUsers } from "react-icons/fa";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -14,6 +14,7 @@ import {
 import ManageContent from "../components/ManageContent";
 import AddEvent from "../components/AddEvent";
 import AddListing from "../components/AddListing";
+import ManageUsers from "../components/ManageUsers";
 
 // Register Chart.js components
 ChartJS.register(
@@ -99,6 +100,8 @@ const AdminDashboard = () => {
         return <AddEvent />;
       case "add-listing":
         return <AddListing />;
+      case "users":
+        return <ManageUsers />;
       default:
         return (
           <div className="p-6">
@@ -172,6 +175,17 @@ const AdminDashboard = () => {
               >
                 <FaChartBar className="mr-2" />
                 Dashboard
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setActiveTab("users")}
+                className={`flex items-center w-full p-2 rounded ${
+                  activeTab === "users" ? "bg-white text-[#984949]" : "hover:bg-white/20"
+                }`}
+              >
+                <FaUsers className="mr-2" />
+                Manage Users
               </button>
             </li>
             <li>

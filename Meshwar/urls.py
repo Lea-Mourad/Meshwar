@@ -44,7 +44,7 @@ urlpatterns = [
 
 
     # API endpoints
-    path('auth/', include('authenticate.urls')),
+    path('api/', include('authenticate.urls')),
     path('', include('locations.urls')),  # Added locations URLs
     path('', include('events.urls')),  # Added events URLs
     path('favorites/', include('favorites.urls')),  # Added favorites URLs

@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser , BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
 import uuid
+from datetime import timedelta
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -61,5 +62,5 @@ class PasswordResetToken(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.expires_at:
-            self.expires_at = timezone.now() + timezone.timedelta(minutes=15)  # Token expires in 15 min
+            self.expires_at = timezone.now() + timedelta(minutes=15)  # Token expires in 15 min
         super().save(*args, **kwargs)

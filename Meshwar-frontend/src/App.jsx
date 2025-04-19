@@ -27,6 +27,8 @@ import AddListing from "./components/AddListing";
 import CityCategory from "./components/CityCategory";  // Import your CityCategory component
 import AboutUs from "./pages/AboutUs";
 import ListingDetails from "./data/ListingDetails";
+import ForgotPassword from "./components/ForgotPassword";
+
 function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   return (
@@ -35,7 +37,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/loginpage" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/signuppage" element={<SignUp />} />
           <Route path="/verify-email" element={<EmailVerificationPage />} />
           <Route path="/aboutLebanon" element={<ExploreLebanon />} />

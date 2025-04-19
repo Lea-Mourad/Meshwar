@@ -31,7 +31,7 @@ const AdminLogin = ({ setIsAdmin }) => {
             console.log("Response received:", data); 
 
             if (response.ok) {
-                localStorage.setItem("adminToken", data.token);  // Save auth token
+                localStorage.setItem("adminToken", data.access);  // Save auth token
                 localStorage.setItem("isAdmin", "true");         // Mark admin status
                 setIsAdmin(true);  // Update the state in the App component
                 navigate("/admin-dashboard");  // Redirect to the dashboard
