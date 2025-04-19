@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useState, useEffect } from "react";
 import Header from "../components/header";
 import { useAuth } from "../context/authContext";
@@ -158,7 +154,7 @@ const Accountpage = () => {
       navigate("/loginpage");
     }
   };
-
+/*
   const handleDeleteAccount = async () => {
     const token = localStorage.getItem("authToken");
 
@@ -183,7 +179,7 @@ const Accountpage = () => {
       }
     }
   };
-
+*/
   return (
     <div className="relative min-h-screen bg-[url('https://www.lebanontours.co/uploads/1/0/3/7/10373098/arches-pigeon-rocks-beirut_orig.jpg')] bg-cover bg-center">
       <Header />
@@ -285,7 +281,7 @@ const Accountpage = () => {
               </form>
             </>
           )}
-
+{/*
           <div className="mt-8">
             <button
               className="py-4 px-8 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition text-sm"
@@ -294,10 +290,12 @@ const Accountpage = () => {
               Delete Account
             </button>
           </div>
+          */}
+          
         </div>
       </div>
 
-      {/* Logout Confirmation Popup */}
+      { /*Logout Confirmation Popup */}
       {showLogoutPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -320,7 +318,7 @@ const Accountpage = () => {
         </div>
       )}
 
-      {/* Delete Account Popup */}
+      {/* Delete Account Popup }
       {showDeletePopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -345,9 +343,9 @@ const Accountpage = () => {
           </div>
         </div>
       )}
+      */}
     </div>
   );
 };
 
 export default Accountpage;
-
