@@ -192,14 +192,14 @@ class DeleteAccountView(APIView):
         return Response({"detail": "User account deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
 
 
-class PasswordResetRequestView(generics.GenericAPIView):
-    serializer_class = PasswordResetRequestSerializer
+class PasswordResetRequestView(APIView):
+    permission_classes = [AllowAny]
 
     def post(self, request):
         logger.debug(f"Received password reset request with data: {request.data}")
         try:
             logger.debug("Initializing serializer")
-            serializer = self.get_serializer(data=request.data)
+            serializer = PasswordResetRequestSerializer(data=request.data)
             
             logger.debug("Validating serializer data")
             serializer.is_valid(raise_exception=True)

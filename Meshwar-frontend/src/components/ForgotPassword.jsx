@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from '../services/api';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState("");
@@ -21,14 +21,14 @@ const ForgotPassword = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post("https://meshwar.onrender.com/api/password-reset/", {
+            const response = await api.post("/password-reset/", {
                 email: email
             });
 
             if (response.status === 200) {
                 setSuccess("Password reset instructions have been sent to your email. Please check your inbox.");
                 setTimeout(() => {
-                    navigate("/login");
+                    navigate("/loginpage");
                 }, 5000); // Give user more time to read the success message
             }
         } catch (error) {
@@ -94,7 +94,7 @@ const ForgotPassword = () => {
                         </button>
                         <button
                             type="button"
-                            onClick={() => navigate("/login")}
+                            onClick={() => navigate("/loginpage")}
                             className="w-full text-[#B24F4F] py-2 rounded-lg text-lg font-abel hover:text-[#9e3d3d] transition duration-300"
                         >
                             Back to Login

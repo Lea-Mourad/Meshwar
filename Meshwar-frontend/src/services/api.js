@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an axios instance with a base URL
 const api = axios.create({
-    baseURL: 'https://meshwar.onrender.com',
+    baseURL: 'https://meshwar.onrender.com/api',
     headers: {
         'Content-Type': 'application/json',
     },
