@@ -26,9 +26,9 @@ const Accountpage = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  useEffect(() => {
+ /* useEffect(() => {
     fetchCurrentUser();
-  }, []);
+  }, []); */
 
   /* const fetchCurrentUser = async () => {
     const token = localStorage.getItem("authToken");
