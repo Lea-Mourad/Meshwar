@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaHeart, FaTimes } from "react-icons/fa"; // Import heart and close icons
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
 import { addToFavorites, removeFromFavorites } from "../services/favoritesService";
 
