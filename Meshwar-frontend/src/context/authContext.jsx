@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
 
   const validateToken = async (token) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/auth/verify/`, {
+      const response = await axios.get(`${API_BASE_URL}/auth/me/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
     if (!refreshToken) return false;
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/refresh/`, {
+      const response = await axios.post(`${API_BASE_URL}/auth/token/refresh/`, {
         refresh: refreshToken,
       });
       
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       return {
         success: false,
-        error: error.response?.data?.message || "Login failed",
+        error: error.response?.data?.detail || "Login failed",
       };
     }
   };
