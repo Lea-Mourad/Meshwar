@@ -23,7 +23,7 @@ import EmailVerificationPage from "./components/EmailVerificationPage";
 import ChangeEmailVerificationPage from "./components/verifyEmailChange";
 import AdminDashboard from "./pages/AdminDashboard";
 import AddEvent from "./components/AddEvent";
-import AddListing from "./pages/AddListing";
+import AddListing from "./components/AddListing";
 import CityCategory from "./components/CityCategory";  // Import your CityCategory component
 import AboutUs from "./pages/AboutUs";
 import ListingDetails from "./data/ListingDetails";
@@ -65,7 +65,7 @@ function App() {
           <Route path="/admin-login" element={<AdminLogin setIsAdmin={setIsAdmin} />} />
           <Route path="/admin-dashboard/*" element={<AdminDashboard />} />
           <Route path="/admin/add-event" element={<AddEvent />} />
-          <Route path="/add-listing" element={<AddListing />} />
+          <Route path="/admin/add-listing" element={<AddListing />} />
         </Routes>
       </Router>
     </AuthProvider>

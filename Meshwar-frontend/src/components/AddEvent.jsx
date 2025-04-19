@@ -47,6 +47,8 @@ const AddEvent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage("");
     
     // Required field validation
     if (!formData.name || !formData.date || !formData.location || 
@@ -121,7 +123,7 @@ const AddEvent = () => {
             className="w-full p-3 border rounded"
             required
           />
-          
+
           <input
             type="date"
             name="date"
@@ -130,7 +132,7 @@ const AddEvent = () => {
             className="w-full p-3 border rounded"
             required
           />
-          
+
           <input
             type="text"
             name="location"
@@ -164,7 +166,7 @@ const AddEvent = () => {
             className="w-full p-3 border rounded"
             required
           />
-          
+
           {/* Optional Fields */}
           <input
             type="url"
@@ -183,7 +185,7 @@ const AddEvent = () => {
             className="w-full p-3 border rounded"
             rows="4"
           ></textarea>
-          
+
           <button
             type="submit"
             className="w-full bg-[#984949] text-white py-3 rounded-lg hover:bg-[#B24F4F] transition"

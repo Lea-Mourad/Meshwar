@@ -16,7 +16,9 @@ const EventsPage = () => {
       try {
         setLoading(true);
         const data = await getAllEvents();
-        setEvents(data);
+        // Sort events by date in ascending order (closest date first)
+        const sortedEvents = data.sort((a, b) => new Date(a.date) - new Date(b.date));
+        setEvents(sortedEvents);
         setError(null);
       } catch (err) {
         setError("Failed to load events. Please try again later.");

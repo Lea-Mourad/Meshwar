@@ -187,20 +187,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = 'authenticate.User'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
-
-# Verification email related settings, deprecated, we will be using postman API for now
-    # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    # EMAIL_HOST = "smtp.postmarkapp.com"
-    # EMAIL_PORT = 587
-    # EMAIL_USE_TLS = True
-    # EMAIL_HOST_USER = "810dd24e-bb2f-47de-b880-f7ef125bb525" 
-    # EMAIL_HOST_PASSWORD = "810dd24e-bb2f-47de-b880-f7ef125bb525" 
-    # DEFAULT_FROM_EMAIL = "ln_tebbal@esi.dz" 
-
-# Postman API settings 
-POSTMARK_API_KEY = '810dd24e-bb2f-47de-b880-f7ef125bb525'
-DEFAULT_FROM_EMAIL = 'nst11@mail.aub.edu'
+# Email Configuration
+EMAIL_BACKEND = 'postmarker.django.EmailBackend'
+POSTMARK = {
+    'TOKEN': os.getenv('POSTMARK_API_TOKEN', '810dd24e-bb2f-47de-b880-f7ef125bb525'),
+    'TEST_MODE': False,
+    'TRACK_OPENS': False,
+    'VERBOSITY': 1  # Increased verbosity for debugging
+}
+DEFAULT_FROM_EMAIL = os.getenv('POSTMARK_SENDER_EMAIL', 'nst11@mail.aub.edu')
 
 
 #Tokenization settings

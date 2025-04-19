@@ -13,7 +13,14 @@ export default function FavoritesPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const cities = ["Beirut", "Batroun", "Byblos", "Sidon", "Baalbak", "Jounieh"];
+  const cities = [
+    "Beirut",
+    "Sidon",
+    "Sour",
+    "Baalbak",
+    "Byblos",
+    "Batroun"
+  ];
 
   const fetchFavorites = async () => {
     if (!isAuthenticated) return;

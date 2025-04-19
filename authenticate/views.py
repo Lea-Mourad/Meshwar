@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from datetime import timedelta
 from django.utils import timezone
@@ -17,29 +17,28 @@ import logging
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.cache import cache
 from uuid import uuid4
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib.auth.models import User
 
 
 
 logger = logging.getLogger(__name__)
 
-class UserRegistrationView(generics.CreateAPIView):
-    serializer_class = UserRegistrationSerializer
-
-    def perform_create(self, serializer):
-        user = serializer.save()
+class UserRegistrationView(APIView):
+    permission_classes = [AllowAny]
     
-        expires_at = timezone.now() + timedelta(hours=24)
-        verification = EmailVerification.objects.create(user=user, expires_at=expires_at)
-        
-        try:
-            # Send email using Postmark
-            subject = "Verify Your Email for Meshwar"
-            message = f"Your verification code is: {verification.code}"
-            to_email = user.email
-            send_email(subject, message, to_email)
-            logger.info("Email sent successfully.")
-        except Exception as e:
-            logger.error(f"Email sending failed: {e}")
+    def post(self, request):
+        serializer = UserRegistrationSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({
+                'message': 'User registered successfully.',
+                'user': UserSerializer(user).data
+            }, status=status.HTTP_201_CREATED)
+            
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -49,7 +48,7 @@ class EmailVerificationView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
+
         # Access the verification object from the serializer context
         verification = serializer.verification
         user = verification.user
