@@ -20,7 +20,7 @@ const Footer = () => {
   return (
     <footer className="fixed bottom-0 w-full bg-gray-200 py-3 text-center text-black text-lg">
       <p>
-        <Link to="/about-us" className="text-black-500 hover:underline">About Us</Link> | Privacy Policy
+        <Link to="/about-us" className="text-black-500 hover:underline">About Us</Link> 
       </p>
     </footer>
   );
