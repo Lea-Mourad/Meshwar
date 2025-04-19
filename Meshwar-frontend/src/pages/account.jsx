@@ -217,9 +217,9 @@ const Accountpage = () => {
         </div>
 
         <div className="w-full md:w-3/4 p-6 bg-white bg-opacity-90 shadow-md rounded-lg ml-auto flex flex-col flex-grow space-y-4">
-          {error && <div className="p-4 mb-4 text-red-700 bg-red-100 rounded">{error}</div>}
+         {/*   {error && <div className="p-4 mb-4 text-red-700 bg-red-100 rounded">{error}</div>}
           {success && <div className="p-4 mb-4 text-green-700 bg-green-100 rounded">{success}</div>}
-
+*/}
           {/* {activeSection === "settings" && (
             <>
               <h2 className="text-xl font-bold mb-4">Change Email</h2>
