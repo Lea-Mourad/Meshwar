@@ -21,6 +21,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.models import User
+from rest_framework import serializers
 
 
 
@@ -195,9 +196,22 @@ class PasswordResetRequestView(generics.GenericAPIView):
     serializer_class = PasswordResetRequestSerializer
 
     def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return Response({"message": "Password reset email sent."}, status=status.HTTP_200_OK)
+        logger.debug(f"Received password reset request with data: {request.data}")
+        try:
+            logger.debug("Initializing serializer")
+            serializer = self.get_serializer(data=request.data)
+            
+            logger.debug("Validating serializer data")
+            serializer.is_valid(raise_exception=True)
+            
+            logger.info("Password reset email sent successfully")
+            return Response({"message": "Password reset email sent."}, status=status.HTTP_200_OK)
+        except serializers.ValidationError as e:
+            logger.error(f"Validation error in password reset request: {str(e)}")
+            raise
+        except Exception as e:
+            logger.error(f"Unexpected error in password reset request: {str(e)}", exc_info=True)
+            raise
 
 
 class PasswordResetConfirmView(generics.GenericAPIView):
@@ -208,3 +222,65 @@ class PasswordResetConfirmView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"message": "Password has been reset successfully."}, status=status.HTTP_200_OK)
+
+class UserListView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        if not request.user.is_staff:
+            return Response({"detail": "Only staff members can access this endpoint."}, 
+                          status=status.HTTP_403_FORBIDDEN)
+        
+        users = User.objects.all()
+        data = [{
+            'id': user.id,
+            'email': user.email,
+            'is_staff': user.is_staff,
+            'is_active': user.is_active,
+            'is_verified': user.is_verified,
+            'date_joined': user.date_joined
+        } for user in users]
+        return Response(data)
+
+class UserCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        if not request.user.is_staff:
+            return Response({"detail": "Only staff members can create users."}, 
+                          status=status.HTTP_403_FORBIDDEN)
+        
+        serializer = UserRegistrationSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({
+                'message': 'User created successfully.',
+                'user': {
+                    'id': user.id,
+                    'email': user.email,
+                    'is_staff': user.is_staff,
+                    'is_active': user.is_active,
+                    'is_verified': user.is_verified
+                }
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UserDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def delete(self, request, user_id):
+        if not request.user.is_staff:
+            return Response({"detail": "Only staff members can delete users."}, 
+                          status=status.HTTP_403_FORBIDDEN)
+        
+        try:
+            user = User.objects.get(id=user_id)
+            if user == request.user:
+                return Response({"detail": "You cannot delete your own account."}, 
+                              status=status.HTTP_400_BAD_REQUEST)
+            user.delete()
+            return Response({"detail": "User deleted successfully."}, 
+                          status=status.HTTP_204_NO_CONTENT)
+        except User.DoesNotExist:
+            return Response({"detail": "User not found."}, 
+                          status=status.HTTP_404_NOT_FOUND)
