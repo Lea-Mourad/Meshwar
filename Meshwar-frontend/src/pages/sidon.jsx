@@ -159,9 +159,9 @@ const Sidon = () => {
           SIDON
         </h1>
         <p className="mt-4 text-lg max-w-2xl mx-auto">
-           Sidon, one of Lebanon’s oldest and most storied cities, is a coastal gem steeped in history and tradition. 
+           Sidon, one of Lebanon's oldest and most storied cities, is a coastal gem steeped in history and tradition. 
               Known for its ancient Phoenician heritage, Sidon boasts landmarks such as the majestic Sea Castle, built by the Crusaders, 
-              and the bustling Khan el-Franj, a testament to its rich trading past. The city’s vibrant souks offer a glimpse into daily 
+              and the bustling Khan el-Franj, a testament to its rich trading past. The city's vibrant souks offer a glimpse into daily 
               life, where the scent of spices and freshly baked sweets fills the air. Overlooking the Mediterranean, Sidon seamlessly
               blends its historical significance with a lively, welcoming atmosphere, making it a must-visit destination for those 
               seeking culture, history, and seaside charm.
@@ -173,7 +173,6 @@ const Sidon = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category) => {
             const categoryLocations = getLocationsByCategory(category.value);
-            if (categoryLocations.length === 0) return null;
             
             return (
               <div key={category.value} className="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -190,45 +189,49 @@ const Sidon = () => {
 
                 {/* Locations List */}
                 <div className="p-4">
-                  {categoryLocations.map(location => {
-                    const isFavorite = favorites.some(fav => fav.location.id === location.id);
-                    return (
-                      <div 
-                        key={location.id} 
-                        className="mb-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer relative"
-                        onClick={() => navigate(`/location/${location.id}`)}
-                      >
-                        <button
-                          onClick={(e) => handleFavoriteClick(e, location.id)}
-                          className="absolute top-4 right-4 text-red-500 hover:text-red-700 z-10"
-                          disabled={favoritesLoading}
+                  {categoryLocations.length === 0 ? (
+                    <p className="text-gray-500 text-center py-4">No locations added yet</p>
+                  ) : (
+                    categoryLocations.map(location => {
+                      const isFavorite = favorites.some(fav => fav.location.id === location.id);
+                      return (
+                        <div 
+                          key={location.id} 
+                          className="mb-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer relative"
+                          onClick={() => navigate(`/location/${location.id}`)}
                         >
-                          {favoritesLoading ? (
-                            <div className="w-5 h-5 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"></div>
-                          ) : (
-                            <FaHeart size={20} color={isFavorite ? "red" : "gray"} />
+                          <button
+                            onClick={(e) => handleFavoriteClick(e, location.id)}
+                            className="absolute top-4 right-4 text-red-500 hover:text-red-700 z-10"
+                            disabled={favoritesLoading}
+                          >
+                            {favoritesLoading ? (
+                              <div className="w-5 h-5 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"></div>
+                            ) : (
+                              <FaHeart size={20} color={isFavorite ? "red" : "gray"} />
+                            )}
+                          </button>
+                          <h3 className="font-bold text-lg">{location.name}</h3>
+                          <p className="text-gray-600">{location.address}</p>
+                          {location.image_url && (
+                            <img 
+                              src={location.image_url} 
+                              alt={location.name}
+                              className="mt-2 w-full h-32 object-cover rounded"
+                            />
                           )}
-                        </button>
-                        <h3 className="font-bold text-lg">{location.name}</h3>
-                        <p className="text-gray-600">{location.address}</p>
-                        {location.image_url && (
-                          <img 
-                            src={location.image_url} 
-                            alt={location.name}
-                            className="mt-2 w-full h-32 object-cover rounded"
-                          />
-                        )}
-                        <div className="mt-2 flex justify-between items-center">
-                          <span className="text-sm text-gray-500">
-                            {location.current_people}/{location.max_people} people
-                          </span>
-                          <span className="text-sm font-semibold">
-                            {Array(location.cost_range).fill('$').join('')}
-                          </span>
+                          <div className="mt-2 flex justify-between items-center">
+                            <span className="text-sm text-gray-500">
+                              {location.current_people}/{location.max_people} people
+                            </span>
+                            <span className="text-sm font-semibold">
+                              {Array(location.cost_range).fill('$').join('')}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  )}
                 </div>
               </div>
             );

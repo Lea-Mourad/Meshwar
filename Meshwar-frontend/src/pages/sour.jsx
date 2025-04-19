@@ -35,9 +35,11 @@ const Sour = () => {
     HISTORICAL: "url('https://crm.visit-lebanon.org/alternatedocroots/6a025965-2f91-400b-b617-45bfcaf736db-shutterstock_477215944.jpg')",
     RESTAURANT: "url('https://crm.visit-lebanon.org/alternatedocroots/876be108-0397-405c-8057-1ec24defbf37-shutterstock_660486538-1920.jpg')",
     BEACH: "url('https://libshop.fr/wp-content/uploads/2022/05/tyr02.jpg')",
-    COFFEE: "url(' https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/1b/bf/d9/aurelia.jpg?w=600&h=400&s=1')",
+    COFFEE: "url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/1b/bf/d9/aurelia.jpg?w=600&h=400&s=1')",
     HOTEL: "url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/188937132.webp?k=0cae207e60dafbf579f0f1cf775bca9a4be0afa2ce4e02760cd7c716b7e61f1e&o=')",
-    ACTIVITY: "url('https://www.ctm-lecce.it/prove2/wp-content/uploads/2022/05/Blue-Tyre_Aprile_22_News-1.jpeg')",
+    NIGHTLIFE: "url('https://248am.com/images/2015/04/grandfactory.jpg')",
+    MUSEUM: "url('https://www.wilmotte.com/wp-content/uploads/2023/03/hr_museebeyrouth_marwanharmouche_04-scaled.jpg')",
+    ACTIVITY: "url('https://www.ctm-lecce.it/prove2/wp-content/uploads/2022/05/Blue-Tyre_Aprile_22_News-1.jpeg')"
   };
 
   const cityImages = [
@@ -164,7 +166,7 @@ const Sour = () => {
   
         Sour, known as Tyre in ancient times, is a city of resilience, history, and coastal beauty. Once a powerful Phoenician stronghold, 
           Sour played a crucial role in maritime trade and the spread of civilization. Today, its UNESCO-listed ruins, including the grand hippodrome and Roman streets,
-           stand as echoes of its glorious past. The city’s vibrant fishing harbor, golden beaches, and welcoming souks reflect the enduring spirit of its people. 
+           stand as echoes of its glorious past. The city's vibrant fishing harbor, golden beaches, and welcoming souks reflect the enduring spirit of its people. 
            Through centuries of conquests and challenges, 
            Sour remains a symbol of strength and heritage, inviting visitors to walk its historic paths and experience the timeless charm of this coastal treasure.
         </p>
@@ -175,7 +177,6 @@ const Sour = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category) => {
             const categoryLocations = getLocationsByCategory(category.value);
-            if (categoryLocations.length === 0) return null;
             
             return (
               <div key={category.value} className="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -192,45 +193,49 @@ const Sour = () => {
 
                 {/* Locations List */}
                 <div className="p-4">
-                  {categoryLocations.map(location => {
-                    const isFavorite = favorites.some(fav => fav.location.id === location.id);
-                    return (
-                      <div 
-                        key={location.id} 
-                        className="mb-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer relative"
-                        onClick={() => navigate(`/location/${location.id}`)}
-                      >
-                        <button
-                          onClick={(e) => handleFavoriteClick(e, location.id)}
-                          className="absolute top-4 right-4 text-red-500 hover:text-red-700 z-10"
-                          disabled={favoritesLoading}
+                  {categoryLocations.length === 0 ? (
+                    <p className="text-gray-500 text-center py-4">No locations added yet</p>
+                  ) : (
+                    categoryLocations.map(location => {
+                      const isFavorite = favorites.some(fav => fav.location.id === location.id);
+                      return (
+                        <div 
+                          key={location.id} 
+                          className="mb-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer relative"
+                          onClick={() => navigate(`/location/${location.id}`)}
                         >
-                          {favoritesLoading ? (
-                            <div className="w-5 h-5 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"></div>
-                          ) : (
-                            <FaHeart size={20} color={isFavorite ? "red" : "gray"} />
+                          <button
+                            onClick={(e) => handleFavoriteClick(e, location.id)}
+                            className="absolute top-4 right-4 text-red-500 hover:text-red-700 z-10"
+                            disabled={favoritesLoading}
+                          >
+                            {favoritesLoading ? (
+                              <div className="w-5 h-5 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"></div>
+                            ) : (
+                              <FaHeart size={20} color={isFavorite ? "red" : "gray"} />
+                            )}
+                          </button>
+                          <h3 className="font-bold text-lg">{location.name}</h3>
+                          <p className="text-gray-600">{location.address}</p>
+                          {location.image_url && (
+                            <img 
+                              src={location.image_url} 
+                              alt={location.name}
+                              className="mt-2 w-full h-32 object-cover rounded"
+                            />
                           )}
-                        </button>
-                        <h3 className="font-bold text-lg">{location.name}</h3>
-                        <p className="text-gray-600">{location.address}</p>
-                        {location.image_url && (
-                          <img 
-                            src={location.image_url} 
-                            alt={location.name}
-                            className="mt-2 w-full h-32 object-cover rounded"
-                          />
-                        )}
-                        <div className="mt-2 flex justify-between items-center">
-                          <span className="text-sm text-gray-500">
-                            {location.current_people}/{location.max_people} people
-                          </span>
-                          <span className="text-sm font-semibold">
-                            {Array(location.cost_range).fill('$').join('')}
-                          </span>
+                          <div className="mt-2 flex justify-between items-center">
+                            <span className="text-sm text-gray-500">
+                              {location.current_people}/{location.max_people} people
+                            </span>
+                            <span className="text-sm font-semibold">
+                              {Array(location.cost_range).fill('$').join('')}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  )}
                 </div>
               </div>
             );

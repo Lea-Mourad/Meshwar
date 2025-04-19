@@ -37,7 +37,8 @@ const Batroun = () => {
     COFFEE: "url('https://www.tasteandflavors.com/wp-content/uploads/2023/07/DSC_6773_00129-1024x1024.jpg')",
     HOTEL: "url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/568355222.webp?k=4d3c60931b03d0a97355e5669b243a0fe7f005e89916ab4956ffff3d0b8cdf25&o=')",
     NIGHTLIFE: "url('https://www.lebanoninapicture.com/pages/batroun-%D8%A7%D9%84%D8%A8%D8%AA%D8%B1%D9%88%D9%86_%D8%B3%D9%81%D8%B1%D8%A9-oddrooftop-rooftop-nightlife-music/batroun-%D8%A7%D9%84%D8%A8%D8%AA%D8%B1%D9%88%D9%86_%D8%B3%D9%81%D8%B1%D8%A9-oddrooftop-rooftop-nightli-7-6-2018-9-23-59-pm-m.jpg')",
-
+    MUSEUM: "url('https://www.wilmotte.com/wp-content/uploads/2023/03/hr_museebeyrouth_marwanharmouche_04-scaled.jpg')",
+    ACTIVITY: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYcNyC7YD23auPAqFpEjtEKOrDmlFqg5ASLg&s')"
   };
 
   const cityImages = [
@@ -173,7 +174,6 @@ const Batroun = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category) => {
             const categoryLocations = getLocationsByCategory(category.value);
-            if (categoryLocations.length === 0) return null;
             
             return (
               <div key={category.value} className="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -190,45 +190,49 @@ const Batroun = () => {
 
                 {/* Locations List */}
                 <div className="p-4">
-                  {categoryLocations.map(location => {
-                    const isFavorite = favorites.some(fav => fav.location.id === location.id);
-                    return (
-                      <div 
-                        key={location.id} 
-                        className="mb-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer relative"
-                        onClick={() => navigate(`/location/${location.id}`)}
-                      >
-                        <button
-                          onClick={(e) => handleFavoriteClick(e, location.id)}
-                          className="absolute top-4 right-4 text-red-500 hover:text-red-700 z-10"
-                          disabled={favoritesLoading}
+                  {categoryLocations.length === 0 ? (
+                    <p className="text-gray-500 text-center py-4">No locations added yet</p>
+                  ) : (
+                    categoryLocations.map(location => {
+                      const isFavorite = favorites.some(fav => fav.location.id === location.id);
+                      return (
+                        <div 
+                          key={location.id} 
+                          className="mb-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer relative"
+                          onClick={() => navigate(`/location/${location.id}`)}
                         >
-                          {favoritesLoading ? (
-                            <div className="w-5 h-5 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"></div>
-                          ) : (
-                            <FaHeart size={20} color={isFavorite ? "red" : "gray"} />
+                          <button
+                            onClick={(e) => handleFavoriteClick(e, location.id)}
+                            className="absolute top-4 right-4 text-red-500 hover:text-red-700 z-10"
+                            disabled={favoritesLoading}
+                          >
+                            {favoritesLoading ? (
+                              <div className="w-5 h-5 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"></div>
+                            ) : (
+                              <FaHeart size={20} color={isFavorite ? "red" : "gray"} />
+                            )}
+                          </button>
+                          <h3 className="font-bold text-lg">{location.name}</h3>
+                          <p className="text-gray-600">{location.address}</p>
+                          {location.image_url && (
+                            <img 
+                              src={location.image_url} 
+                              alt={location.name}
+                              className="mt-2 w-full h-32 object-cover rounded"
+                            />
                           )}
-                        </button>
-                        <h3 className="font-bold text-lg">{location.name}</h3>
-                        <p className="text-gray-600">{location.address}</p>
-                        {location.image_url && (
-                          <img 
-                            src={location.image_url} 
-                            alt={location.name}
-                            className="mt-2 w-full h-32 object-cover rounded"
-                          />
-                        )}
-                        <div className="mt-2 flex justify-between items-center">
-                          <span className="text-sm text-gray-500">
-                            {location.current_people}/{location.max_people} people
-                          </span>
-                          <span className="text-sm font-semibold">
-                            {Array(location.cost_range).fill('$').join('')}
-                          </span>
+                          <div className="mt-2 flex justify-between items-center">
+                            <span className="text-sm text-gray-500">
+                              {location.current_people}/{location.max_people} people
+                            </span>
+                            <span className="text-sm font-semibold">
+                              {Array(location.cost_range).fill('$').join('')}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  )}
                 </div>
               </div>
             );

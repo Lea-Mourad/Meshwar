@@ -33,11 +33,13 @@ const Baalbak = () => {
 const categoryImages = {
     HISTORICAL: "url('https://crm.visit-lebanon.org/alternatedocroots/6a025965-2f91-400b-b617-45bfcaf736db-shutterstock_477215944.jpg')",
     RESTAURANT: "url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/03/cc/e5/caption.jpg?w=500&h=-1&s=1')",
-    COFFEE: "url(' https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/1b/bf/d9/aurelia.jpg?w=600&h=400&s=1')",
+    BEACH: "url('https://libshop.fr/wp-content/uploads/2020/04/beyrouth-beach-lebanon-scaled-1.jpg')",
+    COFFEE: "url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/1b/bf/d9/aurelia.jpg?w=600&h=400&s=1')",
     HOTEL: "url('https://palmyrahotel.com.lb/__static/625cfed608f37f890b744a73c35b7c24/photo-2023-05-09-17-43-20.jpg')",
-    ACTIVITY: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8jlTzj4wx4ykx3M2pDxFSpqrMlnDGLJlpkg&s')",
-       
-  };
+    NIGHTLIFE: "url('https://248am.com/images/2015/04/grandfactory.jpg')",
+    MUSEUM: "url('https://www.wilmotte.com/wp-content/uploads/2023/03/hr_museebeyrouth_marwanharmouche_04-scaled.jpg')",
+    ACTIVITY: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8jlTzj4wx4ykx3M2pDxFSpqrMlnDGLJlpkg&s')"
+};
 
   const cityImages = [
     "https://crm.visit-lebanon.org/alternatedocroots/7c8210d5-3917-40b3-b2d7-73a197a2f4ca-shutterstock_373233778.jpg",
@@ -165,7 +167,7 @@ const categoryImages = {
  Baalbek, the city of the sun, stands as one of the most awe-inspiring archaeological wonders of the ancient world.
            Once a major religious center of the Phoenicians and later a grand Roman sanctuary, Baalbek is home to the colossal ruins of the Temple of Jupiter, the largest Roman temple ever built, 
            alongside the magnificently preserved Temple of Bacchus. Its towering stone columns and intricate carvings speak of a glorious past where gods, emperors, and civilizations converged.
-            Nestled in the Bekaa Valley, Baalbek remains a symbol of Lebanon’s rich heritage, drawing visitors to marvel at its grandeur and timeless splendor.
+            Nestled in the Bekaa Valley, Baalbek remains a symbol of Lebanon's rich heritage, drawing visitors to marvel at its grandeur and timeless splendor.
         </p>
       </div>
 
@@ -174,7 +176,6 @@ const categoryImages = {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category) => {
             const categoryLocations = getLocationsByCategory(category.value);
-            if (categoryLocations.length === 0) return null;
             
             return (
               <div key={category.value} className="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -191,45 +192,49 @@ const categoryImages = {
 
                 {/* Locations List */}
                 <div className="p-4">
-                  {categoryLocations.map(location => {
-                    const isFavorite = favorites.some(fav => fav.location.id === location.id);
-                    return (
-                      <div 
-                        key={location.id} 
-                        className="mb-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer relative"
-                        onClick={() => navigate(`/location/${location.id}`)}
-                      >
-                        <button
-                          onClick={(e) => handleFavoriteClick(e, location.id)}
-                          className="absolute top-4 right-4 text-red-500 hover:text-red-700 z-10"
-                          disabled={favoritesLoading}
+                  {categoryLocations.length === 0 ? (
+                    <p className="text-gray-500 text-center py-4">No locations added yet</p>
+                  ) : (
+                    categoryLocations.map(location => {
+                      const isFavorite = favorites.some(fav => fav.location.id === location.id);
+                      return (
+                        <div 
+                          key={location.id} 
+                          className="mb-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer relative"
+                          onClick={() => navigate(`/location/${location.id}`)}
                         >
-                          {favoritesLoading ? (
-                            <div className="w-5 h-5 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"></div>
-                          ) : (
-                            <FaHeart size={20} color={isFavorite ? "red" : "gray"} />
+                          <button
+                            onClick={(e) => handleFavoriteClick(e, location.id)}
+                            className="absolute top-4 right-4 text-red-500 hover:text-red-700 z-10"
+                            disabled={favoritesLoading}
+                          >
+                            {favoritesLoading ? (
+                              <div className="w-5 h-5 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"></div>
+                            ) : (
+                              <FaHeart size={20} color={isFavorite ? "red" : "gray"} />
+                            )}
+                          </button>
+                          <h3 className="font-bold text-lg">{location.name}</h3>
+                          <p className="text-gray-600">{location.address}</p>
+                          {location.image_url && (
+                            <img 
+                              src={location.image_url} 
+                              alt={location.name}
+                              className="mt-2 w-full h-32 object-cover rounded"
+                            />
                           )}
-                        </button>
-                        <h3 className="font-bold text-lg">{location.name}</h3>
-                        <p className="text-gray-600">{location.address}</p>
-                        {location.image_url && (
-                          <img 
-                            src={location.image_url} 
-                            alt={location.name}
-                            className="mt-2 w-full h-32 object-cover rounded"
-                          />
-                        )}
-                        <div className="mt-2 flex justify-between items-center">
-                          <span className="text-sm text-gray-500">
-                            {location.current_people}/{location.max_people} people
-                          </span>
-                          <span className="text-sm font-semibold">
-                            {Array(location.cost_range).fill('$').join('')}
-                          </span>
+                          <div className="mt-2 flex justify-between items-center">
+                            <span className="text-sm text-gray-500">
+                              {location.current_people}/{location.max_people} people
+                            </span>
+                            <span className="text-sm font-semibold">
+                              {Array(location.cost_range).fill('$').join('')}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  )}
                 </div>
               </div>
             );
