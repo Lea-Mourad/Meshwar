@@ -8,7 +8,7 @@ const ChangeEmailVerificationPage = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const API_BASE_URL = "http://127.0.0.1:8000";  // Change this to your backend URL
+    const API_BASE_URL = "https://meshwar.onrender.com";  // Deployed backend URL
 
     const handleSubmit = async (e) => {
         e.preventDefault();

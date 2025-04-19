@@ -21,7 +21,7 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8000/auth/password-reset-confirm/', {
+      const response = await axios.post('https://meshwar.onrender.com/auth/password-reset-confirm/', {
         token: token,
         new_password: newPassword
       });

@@ -14,7 +14,7 @@ function ChangePasswordPage() {
     }
 
     try {
-        await axios.post("http://127.0.0.1:8000/auth/password-reset-confirm/", {
+        await axios.post("https://meshwar.onrender.com/auth/password-reset-confirm/", {
             token,
             new_password: newPassword,
         });

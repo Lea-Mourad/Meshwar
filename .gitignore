@@ -49,4 +49,14 @@ yarn-error.log*
 .vite/
 dist/
 dist-ssr/
-*.local 
+*.local
+
+# Virtual environment
+venv/
+env/
+
+# Logs
+*.log
+
+# Local development settings
+*.sqlite3 

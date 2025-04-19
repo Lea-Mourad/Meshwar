@@ -11,7 +11,7 @@ const LocationsList = ({ city, category }) => {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get(`http://localhost:8000/locations/`, {
+        const response = await axios.get(`https://meshwar.onrender.com/locations/`, {
           params: {
             city: city,
             category: category

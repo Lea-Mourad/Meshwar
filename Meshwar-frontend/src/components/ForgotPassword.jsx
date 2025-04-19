@@ -21,7 +21,7 @@ const ForgotPassword = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post("http://localhost:8000/api/password-reset/", {
+            const response = await axios.post("https://meshwar.onrender.com/api/password-reset/", {
                 email: email
             });
 
