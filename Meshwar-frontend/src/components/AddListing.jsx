@@ -9,25 +9,33 @@ const AddListing = () => {
     city: "",
     category: "",
     max_people: "",
-    cost: "",
+    location: "",
+    cost_range: 0,
     description: "",
-    picture_url: "",
-    rating: 0,
-    price_range: "",
-    url: ""
+    image_url: "",
+    ticket_link: ""
   });
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const cities = ["BEIRUT", "BATROUN", "BYBLOS", "SIDON", "BAALBAK", "SOUR"];
-  const categories = ["HISTORICAL", "NATURAL", "CULTURAL", "ADVENTURE", "FOOD", "SHOPPING", "NIGHTLIFE", "OTHER"];
+  const categories = [
+    { value: "HISTORICAL", label: "Historical sites" },
+    { value: "RESTAURANT", label: "Restaurants" },
+    { value: "BEACH", label: "Beaches" },
+    { value: "COFFEE", label: "Coffee shops" },
+    { value: "HOTEL", label: "Hotels" },
+    { value: "NIGHTLIFE", label: "Night life" },
+    { value: "MUSEUM", label: "Museums" },
+    { value: "ACTIVITY", label: "Activities" }
+  ];
   const priceRanges = ["$", "$$", "$$$", "$$$$"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: name === 'cost_range' ? parseInt(value) || 0 : value
     }));
   };
 
@@ -60,8 +68,15 @@ const AddListing = () => {
 
     // Required field validation
     if (!formData.name || !formData.city || !formData.category || 
-        !formData.price_range || !formData.address) {
+        !formData.cost_range || !formData.address || !formData.location) {
       setErrorMessage("Please fill in all required fields.");
+      return;
+    }
+
+    // Validate category is one of the allowed values
+    const validCategories = categories.map(cat => cat.value);
+    if (!validCategories.includes(formData.category)) {
+      setErrorMessage("Please select a valid category.");
       return;
     }
 
@@ -73,10 +88,11 @@ const AddListing = () => {
         return;
       }
 
-      // Set default image if none provided
+      // Ensure cost_range is an integer
       const listingData = {
         ...formData,
-        picture_url: formData.picture_url || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+        cost_range: parseInt(formData.cost_range) || 0,
+        image_url: formData.image_url || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
       };
 
       await createListing(listingData, token);
@@ -89,12 +105,11 @@ const AddListing = () => {
         city: "",
         category: "",
         max_people: "",
-        cost: "",
+        location: "",
+        cost_range: 0,
         description: "",
-        picture_url: "",
-        rating: 0,
-        price_range: "",
-        url: ""
+        image_url: "",
+        ticket_link: ""
       });
 
       setTimeout(() => navigate("/locations"), 2000);
@@ -164,7 +179,9 @@ const AddListing = () => {
             required
           >
             <option value="">Select Category *</option>
-            {categories.map((cat) => <option key={cat} value={cat}>{cat}</option>)}
+            {categories.map((cat) => (
+              <option key={cat.value} value={cat.value}>{cat.label}</option>
+            ))}
           </select>
 
           <input
@@ -177,29 +194,33 @@ const AddListing = () => {
           />
 
           <input
-            type="number"
-            name="cost"
-            value={formData.cost}
+            type="text"
+            name="location"
+            value={formData.location}
             onChange={handleChange}
-            placeholder="Cost"
+            placeholder="Location (Google Maps link or coordinates) *"
             className="w-full p-3 border rounded"
+            required
           />
 
           <select
-            name="price_range"
-            value={formData.price_range}
+            name="cost_range"
+            value={formData.cost_range}
             onChange={handleChange}
             className="w-full p-3 border rounded"
             required
           >
-            <option value="">Select Price Range *</option>
-            {priceRanges.map((range) => <option key={range} value={range}>{range}</option>)}
+            <option value="">Select Cost Range *</option>
+            <option value="1">$</option>
+            <option value="2">$$</option>
+            <option value="3">$$$</option>
+            <option value="4">$$$$</option>
           </select>
 
           <input
             type="url"
-            name="picture_url"
-            value={formData.picture_url}
+            name="image_url"
+            value={formData.image_url}
             onChange={handleChange}
             placeholder="Image URL *"
             className="w-full p-3 border rounded"
@@ -208,10 +229,10 @@ const AddListing = () => {
 
           <input
             type="url"
-            name="url"
-            value={formData.url}
+            name="ticket_link"
+            value={formData.ticket_link}
             onChange={handleChange}
-            placeholder="Website URL (optional)"
+            placeholder="Ticket Link (optional)"
             className="w-full p-3 border rounded"
           />
           
