@@ -184,11 +184,7 @@ const Accountpage = () => {
   return (
     <div className="relative min-h-screen bg-[url('https://www.lebanontours.co/uploads/1/0/3/7/10373098/arches-pigeon-rocks-beirut_orig.jpg')] bg-cover bg-center">
       <Header />
-      <div className="absolute top-32 w-full flex justify-center z-10">
-        <h1 className="text-4xl md:text-5xl font-bold text-white drop-shadow-lg text-center bg-black bg-opacity-30 p-4 rounded-lg">
-          Welcome to Meshwar , Explore Lebanon with us
-        </h1>
-      </div>
+      
       <div className="flex flex-col md:flex-row min-h-screen z-10 pt-20">
         <div className="w-full md:w-1/4 bg-[#984949] p-6 text-white">
           <h2 className="text-3xl font-bold mb-6">Account</h2>
