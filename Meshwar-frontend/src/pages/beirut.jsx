@@ -99,7 +99,7 @@ const Beirut = () => {
     e.stopPropagation();
     
     if (!isAuthenticated) {
-      navigate("/login");
+      navigate("/loginpage");
       return;
     }
 
