@@ -222,13 +222,13 @@ communication across the Mediterranean. Its charming harbor, medieval citadel, a
                           rel="noopener noreferrer"
                           className="text-blue-500 hover:underline text-sm mt-1 inline-block"
                           >
-                          Check Their Website !
+                          Check Them Out  !
                           </a>
                           )}  
 
                           {location.location && (
                           <p className="text-gray-600 text-sm mt-1">
-                          {location.location}
+                          📍 {location.location}
                            </p>
                           )}
                           {location.image_url && (
