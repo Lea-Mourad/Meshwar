@@ -102,7 +102,7 @@ const Byblos = () => {
     e.stopPropagation();
     
     if (!isAuthenticated) {
-      navigate("/login");
+      navigate("/loginpage");
       return;
     }
 
