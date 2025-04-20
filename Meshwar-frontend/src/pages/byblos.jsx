@@ -215,6 +215,22 @@ communication across the Mediterranean. Its charming harbor, medieval citadel, a
                           </button>
                           <h3 className="font-bold text-lg">{location.name}</h3>
                           <p className="text-gray-600">{location.address}</p>
+                          {location.ticket_link && (
+                          <a 
+                          href={location.ticket_link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-500 hover:underline text-sm mt-1 inline-block"
+                          >
+                          Check Their Website !
+                          </a>
+                          )}  
+
+                          {location.location && (
+                          <p className="text-gray-600 text-sm mt-1">
+                          {location.location}
+                           </p>
+                          )}
                           {location.image_url && (
                             <img 
                               src={location.image_url} 
