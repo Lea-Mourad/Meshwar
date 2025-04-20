@@ -106,7 +106,7 @@ const CityCategory = () => {
                 <div 
                   key={location.id} 
                   className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
-                  onClick={() => navigate(`/location/${location.id}`)}
+                  onClick={() => navigate("/favorites")}
                 >
                   {location.image_url && (
                     <img 

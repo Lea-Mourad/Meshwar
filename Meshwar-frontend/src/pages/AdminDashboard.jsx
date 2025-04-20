@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaChartBar, FaCalendarAlt, FaMapMarkerAlt, FaPlus, FaUsers } from "react-icons/fa";
-import { Bar } from "react-chartjs-2";
+import { FaChartBar, FaCalendarAlt, FaMapMarkerAlt, FaPlus } from "react-icons/fa";
+import { Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,11 +10,11 @@ import {
   Title,
   Tooltip,
   Legend,
+  ArcElement,
 } from 'chart.js';
 import ManageContent from "../components/ManageContent";
 import AddEvent from "../components/AddEvent";
 import AddListing from "../components/AddListing";
-import ManageUsers from "../components/ManageUsers";
 
 // Register Chart.js components
 ChartJS.register(
@@ -23,7 +23,8 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement
 );
 
 const AdminDashboard = () => {
@@ -31,7 +32,6 @@ const AdminDashboard = () => {
   const [totalListings, setTotalListings] = useState(0);
   const [totalEvents, setTotalEvents] = useState(0);
   const [popularCategories, setPopularCategories] = useState([]);
-  const [recentListings, setRecentListings] = useState([]);
   const [activeTab, setActiveTab] = useState("dashboard");
 
   useEffect(() => {
@@ -76,9 +76,6 @@ const AdminDashboard = () => {
             .sort((a, b) => b[1] - a[1])
             .slice(0, 5)
         );
-
-        // Get recent listings
-        setRecentListings(listingsData.slice(-5));
       } catch (err) {
         console.error("Error fetching data:", err);
       }
@@ -100,8 +97,6 @@ const AdminDashboard = () => {
         return <AddEvent />;
       case "add-listing":
         return <AddListing />;
-      case "users":
-        return <ManageUsers />;
       default:
         return (
           <div className="p-6">
@@ -128,15 +123,17 @@ const AdminDashboard = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-semibold mb-4">Popular Categories</h3>
+                <h3 className="text-xl font-semibold mb-4">Content Overview</h3>
                 <Bar
                   data={{
-                    labels: popularCategories.map(([category]) => category),
+                    labels: ['Listings', 'Events'],
                     datasets: [
                       {
-                        label: "Number of Listings",
-                        data: popularCategories.map(([_, count]) => count),
-                        backgroundColor: "#984949",
+                        label: 'Total Count',
+                        data: [totalListings, totalEvents],
+                        backgroundColor: ['#984949', '#E6B3B3'],
+                        borderColor: ['#984949', '#E6B3B3'],
+                        borderWidth: 1,
                       },
                     ],
                   }}
@@ -148,6 +145,37 @@ const AdminDashboard = () => {
                         ticks: {
                           stepSize: 1,
                         },
+                      },
+                    },
+                  }}
+                />
+              </div>
+
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className="text-xl font-semibold mb-4">Popular Categories</h3>
+                <Pie
+                  data={{
+                    labels: popularCategories.map(([category]) => category),
+                    datasets: [
+                      {
+                        data: popularCategories.map(([_, count]) => count),
+                        backgroundColor: [
+                          '#984949',
+                          '#E6B3B3',
+                          '#D4A5A5',
+                          '#C28F8F',
+                          '#B07979',
+                        ],
+                        borderColor: '#fff',
+                        borderWidth: 2,
+                      },
+                    ],
+                  }}
+                  options={{
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        position: 'right',
                       },
                     },
                   }}
@@ -175,17 +203,6 @@ const AdminDashboard = () => {
               >
                 <FaChartBar className="mr-2" />
                 Dashboard
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setActiveTab("users")}
-                className={`flex items-center w-full p-2 rounded ${
-                  activeTab === "users" ? "bg-white text-[#984949]" : "hover:bg-white/20"
-                }`}
-              >
-                <FaUsers className="mr-2" />
-                Manage Users
               </button>
             </li>
             <li>

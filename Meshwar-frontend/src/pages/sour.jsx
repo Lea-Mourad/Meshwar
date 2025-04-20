@@ -202,7 +202,7 @@ const Sour = () => {
                         <div 
                           key={location.id} 
                           className="mb-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer relative"
-                          onClick={() => navigate(`/location/${location.id}`)}
+                          onClick={() => navigate("/favorites")}
                         >
                           <button
                             onClick={(e) => handleFavoriteClick(e, location.id)}
