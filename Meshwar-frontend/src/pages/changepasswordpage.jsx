@@ -14,7 +14,7 @@ function ChangePasswordPage() {
     }
 
     try {
-        await axios.post("https://meshwar.onrender.com/auth/password-reset-confirm/", {
+        await axios.post("https://meshwar-backend.onrender.com/auth/password-reset-confirm/", {
             token,
             new_password: newPassword,
         });
