@@ -23,7 +23,7 @@ function ForgotPasswordPage() {
             console.log('API base URL:', api.defaults.baseURL);
             console.log('Request payload:', { email });
             
-            const response = await api.post('/auth/password-reset-request/', {
+            const response = await api.post('/auth/password-reset/', {
                 email,
             });
 
