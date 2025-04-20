@@ -100,7 +100,7 @@ const Sidon = () => {
     e.stopPropagation();
     
     if (!isAuthenticated) {
-      navigate("/login");
+      navigate("/loginpage");
       return;
     }
 
