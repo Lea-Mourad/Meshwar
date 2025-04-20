@@ -136,7 +136,7 @@ class PasswordResetRequestSerializer(serializers.Serializer):
                 raise serializers.ValidationError(f"Failed to create reset token: {str(token_error)}")
             
             # Generate reset link
-            reset_link = f"http://localhost:5173/reset-password/{reset_token.token}/"
+            reset_link = f"https://meshwar67.vercel.app/reset-password/{reset_token.token}/"
             logger.info(f"Generated reset link: {reset_link}")
             
             # Prepare email content
