@@ -220,7 +220,7 @@ const Sidon = () => {
                           rel="noopener noreferrer"
                           className="text-blue-500 hover:underline text-sm mt-1 inline-block"
                           >
-                          Check Their Website !
+                          Check Them Out  !
                           </a>
                           )}
 
