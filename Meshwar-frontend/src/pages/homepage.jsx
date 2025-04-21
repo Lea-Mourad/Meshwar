@@ -6,8 +6,11 @@ import ExploreLebanon from "../components/abouLeb";
 import Slideshow from "../components/Slideshow";
 import PopularDestination from "../components/popularDestinations"
 import CurrencyConverter from "../components/CurrencyConverter";
+import { useAuth } from "../context/authContext";
 
 const HomePage = () => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -30,23 +33,22 @@ const HomePage = () => {
   </p>
 </div>
       {/* Login & Sign Up Section */}
-      <div className="flex flex-col items-center justify-center py-20 bg-white">
-        <h2 className="text-5xl font-bold mb-6">Explore Lebanon</h2>
-        
-        
-        <div className="flex space-x-6">
-          <Link to="/loginpage" className="px-10 py-5 text-white bg-[#984949] text-xl font-bold rounded-lg hover:bg-[#7c3b3b] transition duration-300">
-            Log In
-          </Link>
-          <Link to="/signuppage" className="px-10 py-5 text-white bg-[#984949] text-xl font-bold rounded-lg hover:bg-[#7c3b3b] transition duration-300">
-            Sign Up
-          </Link>
+      {!isAuthenticated && (
+        <div className="flex flex-col items-center justify-center py-20 bg-white">
+          <h2 className="text-5xl font-bold mb-6">Explore Lebanon</h2>
+          
+          <div className="flex space-x-6">
+            <Link to="/loginpage" className="px-10 py-5 text-white bg-[#984949] text-xl font-bold rounded-lg hover:bg-[#7c3b3b] transition duration-300">
+              Log In
+            </Link>
+            <Link to="/signuppage" className="px-10 py-5 text-white bg-[#984949] text-xl font-bold rounded-lg hover:bg-[#7c3b3b] transition duration-300">
+              Sign Up
+            </Link>
+          </div>
         </div>
-  
-      </div>
+      )}
        {/* Currency Converter */}
        <div className="flex flex-col items-center justify-center py-20 bg-white">
-       
         <CurrencyConverter />
       </div>
       <PopularDestination/>

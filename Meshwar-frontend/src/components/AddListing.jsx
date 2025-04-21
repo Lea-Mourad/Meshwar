@@ -112,7 +112,7 @@ const AddListing = () => {
         ticket_link: ""
       });
 
-      setTimeout(() => navigate("/locations"), 2000);
+      setTimeout(() => navigate("/admin-dashboard"), 2000);
     } catch (error) {
       console.error("Submission Error:", error);
       setErrorMessage(error.message.includes("token") 
