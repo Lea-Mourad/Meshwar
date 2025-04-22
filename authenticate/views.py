@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth import authenticate
-from .serializers import UserSerializer,UserRegistrationSerializer, EmailVerificationSerializer,LoginSerializer,ChangeEmailSerializer,VerifyEmailChangeSerializer, PasswordResetConfirmSerializer, PasswordResetRequestSerializer
+from .serializers import UserRegistrationSerializer, EmailVerificationSerializer,LoginSerializer,ChangeEmailSerializer,VerifyEmailChangeSerializer, PasswordResetConfirmSerializer, PasswordResetRequestSerializer
 from authenticate.models import EmailVerification
 from .utils import send_email
 import logging
