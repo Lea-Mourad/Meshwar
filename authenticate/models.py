@@ -21,18 +21,20 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
-        if not extra_fields.get('is_staff') or not extra_fields.get('is_superuser'):
-            raise ValueError('Superuser must have is_staff=True and is_superuser=True.')
-        
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
         return self.create_user(email, password, **extra_fields)
 
 class User(AbstractUser):
-    username = None
+    username = None  # Remove the username field
     email = models.EmailField(unique=True)
     is_verified = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'email'  # Use email as the username field
+    REQUIRED_FIELDS = []  # No additional required fields
 
     objects = UserManager()
 
