@@ -19,10 +19,6 @@ logger = logging.getLogger(__name__)
 # Initialize Postmark client
 postmark = PostmarkClient(server_token=settings.POSTMARK['TOKEN'])
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'email', 'is_verified', 'is_staff', 'is_active']
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -37,7 +33,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
-
 
 class EmailVerificationSerializer(serializers.Serializer):
     code = serializers.UUIDField()
