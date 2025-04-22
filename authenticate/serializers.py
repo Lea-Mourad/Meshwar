@@ -26,25 +26,18 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
-    is_staff = serializers.BooleanField(required=False, default=False)
-    is_active = serializers.BooleanField(required=False, default=True)
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'is_staff', 'is_active']
+        fields = ['email', 'password']
 
     def create(self, validated_data):
-        try:
-            user = User.objects.create_user(
-                email=validated_data['email'],
-                password=validated_data['password'],
-                is_staff=validated_data.get('is_staff', False),
-                is_active=validated_data.get('is_active', True)
-            )
-            return user
-        except Exception as e:
-            logger.error(f"Error creating user: {str(e)}")
-            raise serializers.ValidationError(f"Error creating user: {str(e)}")
+        user = User.objects.create_user(
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+        return user
+
 
 class EmailVerificationSerializer(serializers.Serializer):
     code = serializers.UUIDField()
