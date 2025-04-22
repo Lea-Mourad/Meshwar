@@ -27,18 +27,24 @@ from rest_framework import serializers
 
 logger = logging.getLogger(__name__)
 
-class UserRegistrationView(APIView):
-    permission_classes = [AllowAny]
+class UserRegistrationView(generics.CreateAPIView):
+    serializer_class = UserRegistrationSerializer
+
+    def perform_create(self, serializer):
+        user = serializer.save()
     
-    def post(self, request):
-        serializer = UserRegistrationSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            return Response({
-                'message': 'User registered successfully.',
-                'user': UserSerializer(user).data
-            }, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        expires_at = timezone.now() + timedelta(hours=24)
+        verification = EmailVerification.objects.create(user=user, expires_at=expires_at)
+        
+        try:
+            # Send email using Postmark
+            subject = "Verify Your Email for Meshwar"
+            message = f"Your verification code is: {verification.code}"
+            to_email = user.email
+            send_email(subject, message, to_email)
+            logger.info("Email sent successfully.")
+        except Exception as e:
+            logger.error(f"Email sending failed: {e}")
 
 
 
